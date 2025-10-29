@@ -1,0 +1,23 @@
+<mat-expansion-panel class="sga-panel" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel-header class="sga-header" [ngClass]="{ 'is-open': panelOpenState() }">
+        <mat-panel-title class="title-with-icon">
+            <mat-icon fontIcon="shopping_cart" aria-hidden="true"></mat-icon>
+            Name
+        </mat-panel-title>
+        <mat-panel-description>
+            Description
+        </mat-panel-description>
+        <span class="shopping-list-status">
+            Status
+        </span>
+    </mat-expansion-panel-header>
+
+    <div class="sga-body">
+        <div class="shopping-list-date">
+            <span class="shopping-list-create-date">Created Date</span>
+            <span class="shopping-list-update-date">Updated Date</span>
+        </div>
+        <app-shopping-item></app-shopping-item>
+
+    </div>
+</mat-expansion-panel>

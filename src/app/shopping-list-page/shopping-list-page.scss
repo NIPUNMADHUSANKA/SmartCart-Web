@@ -1,0 +1,18 @@
+.sga-container {
+    max-width: 960px;
+    margin: 1.25rem auto;
+    padding: 0 1rem;
+}
+
+.sga-title {
+    margin: 3rem 0 3rem 0;
+    font-size: 1.50rem;
+    font-weight: 550;
+    color: #14532d;
+    /* deep green */
+}
+
+.sga-accordion {
+    display: grid;
+    gap: 12px;
+}
