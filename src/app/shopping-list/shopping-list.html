@@ -13,11 +13,27 @@
     </mat-expansion-panel-header>
 
     <div class="sga-body">
+        <section>
+            <div class="add-shopping-item-button-row">
+                <button mat-raised-button class="add-shopping">
+                    Add Item
+                </button>
+            </div>
+        </section>
+        
+        <div class="shopping-item-row">
+            <app-shopping-item></app-shopping-item>
+            <app-shopping-item></app-shopping-item>
+            <app-shopping-item></app-shopping-item>
+            <app-shopping-item></app-shopping-item>
+            <app-shopping-item></app-shopping-item>
+            <app-shopping-item></app-shopping-item>
+        </div>
+        
         <div class="shopping-list-date">
             <span class="shopping-list-create-date">Created Date</span>
             <span class="shopping-list-update-date">Updated Date</span>
         </div>
-        <app-shopping-item></app-shopping-item>
 
     </div>
 </mat-expansion-panel>

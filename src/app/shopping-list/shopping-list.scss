@@ -66,3 +66,25 @@
     margin-left: 5rem;
 }
 
+.add-shopping-item-button-row{
+    display: flex;
+    margin-bottom: 2%;
+}
+
+.add-shopping{
+    background-color: #22c55e !important; /* green */
+    color: white !important;
+    border-radius: 8px !important;
+}
+
+
+.shopping-item-row {
+  display: flex;
+  flex-wrap: wrap;     /* wrap to next line if too many */
+  gap: 16px;           /* spacing between cards */
+}
+
+app-shopping-item {
+  flex: 1 1 300px;     /* min width 300px, auto grow */
+  max-width: 350px;    /* optional max */
+}

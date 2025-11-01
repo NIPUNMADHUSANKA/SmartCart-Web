@@ -1,19 +1,29 @@
-<mat-card class="example-card" appearance="outlined">
-  <mat-card-header>
-    <div mat-card-avatar class="example-header-image"></div>
-    <mat-card-title>Shiba Inu</mat-card-title>
-    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+<mat-card class="example-card" appearance="outlined" [ngClass]="status">
+  <mat-card-header class="card-header">
+    <div>
+      <mat-card-title>Item Name</mat-card-title>
+      <mat-card-subtitle>Quantity Unit</mat-card-subtitle>
+    
+    </div>
+
   </mat-card-header>
-  <img mat-card-image src="https://material.angular.dev/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+
   <mat-card-content>
-    <p>
-      The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-      A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-      bred for hunting.
-    </p>
+    <p>Note</p>
   </mat-card-content>
+
   <mat-card-actions>
-    <button matButton>LIKE</button>
-    <button matButton>SHARE</button>
+    <button mat-button class="buy-item">
+      <mat-icon>shopping_bag</mat-icon> Buy</button>
+    <button mat-button class="update-item">
+      <mat-icon>edit</mat-icon> Change
+    </button>
+    <button mat-button class="delete-item" color="warn">
+      <mat-icon>delete</mat-icon> Delete
+    </button>
   </mat-card-actions>
+  <div class="shopping-list-date">
+    <span class="shopping-list-create-date">Created Date</span>
+    <span class="shopping-list-update-date">Updated Date</span>
+  </div>
 </mat-card>

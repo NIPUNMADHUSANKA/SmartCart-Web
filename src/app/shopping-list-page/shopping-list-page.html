@@ -1,11 +1,28 @@
 <div class="sga-container">
     <h2 class="sga-title">{{pageName()}}</h2>
-    
+
+    <section>
+        <div class="add-shopping-button-row">
+            <button mat-raised-button class="add-shopping" (click)="openCreateListDialog()">
+                Create List
+            </button>
+        </div>
+    </section>
+
     <mat-accordion class="sga-accordion" multi>
 
-    <app-shopping-list />
+        <app-shopping-list />
 
     </mat-accordion>
 
+    @if (createShoppingList()) {
+    <div class="modal-overlay" (click)="openCreateListDialog()"></div>
+
+    <div class="modal-window">
+      
+        <app-shopping-list-form></app-shopping-list-form>
+      
+    </div>
+  }
 
 </div>

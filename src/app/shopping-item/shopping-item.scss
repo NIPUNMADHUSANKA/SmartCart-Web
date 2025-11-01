@@ -2,7 +2,21 @@
   max-width: 400px;
 }
 
-.example-header-image {
-  background-image: url('https://material.angular.dev/assets/img/examples/shiba1.jpg');
-  background-size: cover;
+.high-piority{
+  border: 1.5px solid #ef5350;
+}
+
+.shopping-list-date{
+  font-size: smaller;
+  display: flex;
+  justify-content: right;
+  margin-right: 5%;
+  margin-bottom: 2%;
+}
+
+.delete-item{
+  color: red;
+}
+.buy-item{
+  color: #15803d;
 }

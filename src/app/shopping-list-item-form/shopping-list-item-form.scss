@@ -1,0 +1,242 @@
+.smartcard-form-parent{
+    --mint-100: #e8f8ed;
+  --mint-200: #d3f1de;
+  --primary-600: #22c55e;
+  --primary-700: #16a34a;
+  --text-900: #0e1f10;
+  --text-700: #2c3c30;
+  --muted: #607269;
+  --border: #cde0d3;
+  --danger-600: #d14343;
+  --radius: 14px;
+  --pad: 20px;
+  --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+/* Page Background */
+.smartcard-surface {
+  background: #f3f4f6;
+  padding: 24px;
+}
+
+/* Form Container */
+.smartcard-form.single {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  max-width: 650px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Header */
+.smartcard-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--mint-200);
+  padding: 16px var(--pad);
+  border-bottom: 1px solid var(--border);
+}
+.material-icons{
+    color: var(--primary-700) !important;
+}
+.smartcard-header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: var(--primary-700);
+  font-weight: 1000;
+}
+.smartcard-header .material-icons {
+  color: var(--primary-600);
+  font-size: 26px;
+}
+.header-actions {
+  margin-left: auto;
+}
+
+/* Body */
+.form-body {
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* Fields */
+.field label {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-900);
+  margin-bottom: 8px;
+}
+.field input,
+.field select,
+.field textarea {
+  width: 95%;
+  background: #fafafa;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 15px;
+  color: var(--text-700);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--primary-600);
+  box-shadow: 0 0 0 3px rgba(47, 125, 50, 0.15);
+  background: #fff;
+}
+
+/* Placeholder */
+::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+/* Chips */
+.chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.chip {
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: #f6f8f7;
+  cursor: pointer;
+  color: var(--text-700);
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.chip:hover {
+  background: var(--mint-100);
+}
+.chip--on {
+  background: var(--primary-600);
+  color: #fff;
+  border-color: var(--primary-600);
+}
+
+.chip--on:hover{
+  color: #fff;
+  background-color: var(--primary-600);
+  border-color: var(--primary-600);
+}
+
+/* Meta and Hint */
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+.hint,
+.counter {
+  font-size: 13px;
+  color: var(--muted);
+}
+.error {
+  color: var(--danger-600);
+  font-size: 13px;
+  margin-top: 6px;
+}
+
+/* Collapsible System Fields */
+.collapsible {
+  border-top: 1px solid var(--border);
+  padding-top: 10px;
+}
+.collapsible summary {
+  list-style: none;
+  font-weight: 700;
+  color: var(--primary-700);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.collapsible summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px var(--pad);
+  background: #fff;
+  border-top: 1px solid var(--border);
+}
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 18px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.2s ease;
+}
+.btn-primary {
+  background-color: #22c55e !important; /* green */
+  color: white !important;
+  border-radius: 8px !important;
+}
+
+.btn-danger-outline {
+  color: #fff;
+  background: var(--danger-600);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--primary-600);
+}
+
+/* Input icon */
+.input-with-icon {
+  position: relative;
+}
+.input-with-icon .preview {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+.input-with-icon input {
+  padding-left: 42px;
+  width: 30% !important;
+}
+
+/* Sticky footer */
+.sticky-actions {
+  position: sticky;
+  bottom: 0;
+  backdrop-filter: blur(6px);
+  z-index: 5;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .smartcard-form.single {
+    max-width: 100%;
+    margin: 0 10px;
+  }
+  .smartcard-header h2 {
+    font-size: 20px;
+  }
+  .field label {
+    font-size: 15px;
+  }
+}
