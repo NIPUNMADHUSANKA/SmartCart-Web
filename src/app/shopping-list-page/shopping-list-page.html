@@ -16,13 +16,15 @@
     </mat-accordion>
 
     @if (createShoppingList()) {
-    <div class="modal-overlay" (click)="openCreateListDialog()"></div>
+    <ng-container>
+        <div class="modal-overlay" (click)="openCreateListDialog()"></div>
 
-    <div class="modal-window">
-      
-        <app-shopping-list-form></app-shopping-list-form>
-      
-    </div>
-  }
+        <div class="modal-layer">
+            <div class="modal-window">
+                <app-shopping-list-form></app-shopping-list-form>
+            </div>
+        </div>
+    </ng-container>
+    }
 
 </div>
