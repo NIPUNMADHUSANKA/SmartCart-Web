@@ -1,4 +1,4 @@
-import { Component,signal } from '@angular/core';
+import { Component,OnInit,signal } from '@angular/core';
 import { ShoppingList } from '../shopping-list/shopping-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonModule } from '@angular/material/button';
