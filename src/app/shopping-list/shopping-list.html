@@ -15,12 +15,12 @@
     <div class="sga-body">
         <section>
             <div class="add-shopping-item-button-row">
-                <button mat-raised-button class="add-shopping">
+                <button mat-raised-button class="add-shopping" (click)="openCreateItemDialog()">
                     Add Item
                 </button>
             </div>
         </section>
-        
+
         <div class="shopping-item-row">
             <app-shopping-item></app-shopping-item>
             <app-shopping-item></app-shopping-item>
@@ -29,7 +29,7 @@
             <app-shopping-item></app-shopping-item>
             <app-shopping-item></app-shopping-item>
         </div>
-        
+
         <div class="shopping-list-date">
             <span class="shopping-list-create-date">Created Date</span>
             <span class="shopping-list-update-date">Updated Date</span>
@@ -37,3 +37,17 @@
 
     </div>
 </mat-expansion-panel>
+
+
+@if (createShoppingItem()) {
+<ng-container>
+  <div class="modal-overlay" (click)="openCreateItemDialog()"></div>
+
+  <div class="modal-layer">
+    <div class="modal-window">
+      <app-shopping-list-item-form></app-shopping-list-item-form>
+    </div>
+  </div>
+</ng-container>
+
+}

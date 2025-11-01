@@ -12,11 +12,6 @@
   --pad: 20px;
   --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
-/* Page Background */
-.smartcard-surface {
-  background: #f3f4f6;
-  padding: 24px;
-}
 
 /* Form Container */
 .smartcard-form.single {
@@ -239,4 +234,20 @@
   .field label {
     font-size: 15px;
   }
+}
+
+
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #256428;
+  transition: transform 0.15s ease;
+  margin-left: auto;
+  
+}
+.close-btn:hover {
+  transform: scale(1.2);
 }
