@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { formatDateForInput } from '../utils/date-utils';
+import { CategoryService } from '../service/category-service';
+import { CategoryModel } from '../interfaces/shoppingList';
 
 @Component({
   selector: 'app-shopping-list-form',
@@ -12,34 +13,40 @@ import { formatDateForInput } from '../utils/date-utils';
 })
 export class ShoppingListForm {
 
+  constructor(private categoryService: CategoryService){}
+
   fb = inject(NonNullableFormBuilder);
+
+  @Output() toggleCategoryDialog = new EventEmitter<boolean>(true);
 
   // State signals
   isUpdate = signal(false);
   isSubmitted = false;
-
-  // --- Default constants (cleaner & reusable) ---
-  private DEFAULT_USER_ID = '1001';
-  private NEXT_LIST_ID = '1';
-
+  isValid = signal(false);
 
   shoppingCart = this.fb.group({
-    listId: [this.NEXT_LIST_ID, [Validators.required]],
-    name: ['', [Validators.required, Validators.maxLength(30)]],
+    categoryName: ['', [Validators.required, Validators.maxLength(30)]],
     description: ['', [Validators.maxLength(180)]],
     status: ['active'],
     icon: ['shopping_cart'],
     priority: ['normal'],
-    createDateTime: [formatDateForInput(new Date())],
-    updateDateTime: [formatDateForInput(new Date())],
-    userId: [this.DEFAULT_USER_ID, [Validators.required]]
   });
 
-  constructor() {}
-
   createList() {
-    console.log(this.shoppingCart.value);
     this.isSubmitted = true;
+    this.isValid.set(this.shoppingCart.valid);
+    if (this.isValid()) {
+      const payload = this.shoppingCart.getRawValue() as CategoryModel;
+      this.categoryService.saveCategory(payload).subscribe({
+        next: (res) => {
+          alert("Category saved successfully!");
+          this.clearList();
+        },
+        error: (err) => {
+          console.error('Failed to save category', err);
+        },
+      });
+    }
   }
 
   setStatus(status: string) {
@@ -55,16 +62,16 @@ export class ShoppingListForm {
   clearList() {
     this.isSubmitted =false
     this.shoppingCart.reset({
-      listId: this.NEXT_LIST_ID,
-      name: '',
+      categoryName: '',
       description: '',
       status: 'active',
-      icon: '',
+      icon: 'shopping_cart',
       priority: 'normal',
-      createDateTime: formatDateForInput(new Date()),
-      updateDateTime: formatDateForInput(new Date()),
-      userId: this.DEFAULT_USER_ID
     });
+  }
+
+  toggleCreateListDialog(){
+    this.toggleCategoryDialog.emit(false);
   }
 
 }

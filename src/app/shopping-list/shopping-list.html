@@ -1,14 +1,14 @@
 <mat-expansion-panel class="sga-panel" (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
     <mat-expansion-panel-header class="sga-header" [ngClass]="{ 'is-open': panelOpenState() }">
         <mat-panel-title class="title-with-icon">
-            <mat-icon fontIcon="shopping_cart" aria-hidden="true"></mat-icon>
-            Name
+            <mat-icon fontIcon="{{categoryDetails.icon}}" aria-hidden="true"></mat-icon>
+            {{ categoryDetails.categoryName | titlecase }}
         </mat-panel-title>
         <mat-panel-description>
-            Description
+            {{categoryDetails.description | titlecase}}
         </mat-panel-description>
         <span class="shopping-list-status">
-            Status
+            {{categoryDetails.status |titlecase}}
         </span>
     </mat-expansion-panel-header>
 
@@ -17,6 +17,12 @@
             <div class="add-shopping-item-button-row">
                 <button mat-raised-button class="add-shopping" (click)="openCreateItemDialog()">
                     Add Item
+                </button>
+                <button mat-raised-button class="update-category" (click)="openupdateCategoryDialog()">
+                    Update Category
+                </button>
+                <button mat-raised-button class="delete-category" (click)="openCreateItemDialog()">
+                    Delete Category
                 </button>
             </div>
         </section>
@@ -31,8 +37,8 @@
         </div>
 
         <div class="shopping-list-date">
-            <span class="shopping-list-create-date">Created Date</span>
-            <span class="shopping-list-update-date">Updated Date</span>
+            <span class="shopping-list-create-date">Created: {{ categoryDetails.createdAt | date: 'short'}}</span>
+            <span class="shopping-list-update-date">Updated: {{ categoryDetails.updatedAt | date: 'short'}}</span>
         </div>
 
     </div>
@@ -41,13 +47,13 @@
 
 @if (createShoppingItem()) {
 <ng-container>
-  <div class="modal-overlay" (click)="openCreateItemDialog()"></div>
+    <div class="modal-overlay" (click)="openCreateItemDialog()"></div>
 
-  <div class="modal-layer">
-    <div class="modal-window">
-      <app-shopping-list-item-form></app-shopping-list-item-form>
+    <div class="modal-layer">
+        <div class="modal-window">
+            <app-shopping-list-item-form></app-shopping-list-item-form>
+        </div>
     </div>
-  </div>
 </ng-container>
 
 }

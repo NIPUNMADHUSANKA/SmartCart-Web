@@ -1,20 +1,22 @@
 <div class="smartcard-form-parent">
     <section class="smartcard-surface">
+        <header class="smartcard-header">
+            <span class="material-icons">shopping_cart</span>
+            <h2>Create Category</h2>
+            <button class="close-btn" (click)="toggleCreateListDialog()">✕</button>
+        </header>
         <form class="smartcard-form single" novalidate [formGroup]="shoppingCart" (ngSubmit)="createList()">
-            <header class="smartcard-header">
-                <span class="material-icons">shopping_cart</span>
-                <h2>Create Category</h2>
-                <button class="close-btn">✕</button>
-            </header>
-
             <div class="form-body">
                 <!-- Category Name -->
                 <div class="field">
                     <label for="itemname">Category Name <span class="req">*</span></label>
-                    <input id="itemname" type="text" placeholder="e.g., Fresh Vegetables" formControlName="name" 
-                        [class.invalid]="shoppingCart.get('name')?.invalid && (shoppingCart.get('name')?.touched || shoppingCart.get('name')?.dirty || isSubmitted)"
-                    />
-                    <small class="error" *ngIf="shoppingCart.get('name')?.invalid && (shoppingCart.get('name')?.touched || shoppingCart.get('name')?.dirty || isSubmitted)">Name is required.</small>
+                    <input id="itemname" type="text" placeholder="e.g., Fresh Vegetables" formControlName="categoryName"
+                        maxlength="30"
+                        [class.invalid]="shoppingCart.get('categoryName')?.invalid && (shoppingCart.get('categoryName')?.touched || shoppingCart.get('categoryName')?.dirty || isSubmitted)" />
+                    <small class="error"
+                        *ngIf="shoppingCart.get('categoryName')?.invalid && (shoppingCart.get('categoryName')?.touched || shoppingCart.get('categoryName')?.dirty || isSubmitted)">Category
+                        Name
+                        is required.</small>
                 </div>
 
                 @if(isUpdate()){
@@ -34,10 +36,12 @@
                 <!-- Description -->
                 <div class="field">
                     <label for="description">Description</label>
-                    <textarea id="description" rows="3" maxlength="180" placeholder="Optional details..." formControlName="description"></textarea>
+                    <textarea id="description" rows="3" maxlength="180" placeholder="Optional details..."
+                        formControlName="description"></textarea>
                     <div class="meta-row">
                         <small class="hint">Write a short description for this category.</small>
-                        <small class="counter"><span id="descCount">{{shoppingCart.get('description')?.value?.length || 0}}</span>/180</small>
+                        <small class="counter"><span id="descCount">{{shoppingCart.get('description')?.value?.length ||
+                                0}}</span>/180</small>
                     </div>
                 </div>
 
@@ -47,49 +51,31 @@
                     <label for="icon">Icon</label>
                     <div class="input-with-icon">
                         <span class="preview material-icons" id="iconPreview">shopping_cart</span>
-                        <input id="icon" type="text" placeholder="e.g., shopping_cart or 🛒" formControlName="icon"/>
+                        <input id="icon" type="text" placeholder="e.g., shopping_cart or 🛒" formControlName="icon" />
                     </div>
                     <small class="hint">Use a Material icon name or emoji.</small>
                 </div>
-            }
+                }
 
                 <!-- Priority -->
                 <div class="field">
                     <label>Priority</label>
                     <div class="chip-group">
-                        <button type="button" class="chip" [class.chip--on]="shoppingCart.get('priority')?.value === 'normal'" (click)="setPriority('normal')">Normal</button>
-                        <button type="button" class="chip" [class.chip--on]="shoppingCart.get('priority')?.value === 'low'" (click)="setPriority('low')">Low</button>
-                        <button type="button" class="chip" [class.chip--on]="shoppingCart.get('priority')?.value === 'medium'" (click)="setPriority('medium')">Medium</button>
-                        <button type="button" class="chip" [class.chip--on]="shoppingCart.get('priority')?.value === 'high'" (click)="setPriority('high')">High</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingCart.get('priority')?.value === 'normal'"
+                            (click)="setPriority('normal')">Normal</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingCart.get('priority')?.value === 'low'"
+                            (click)="setPriority('low')">Low</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingCart.get('priority')?.value === 'medium'"
+                            (click)="setPriority('medium')">Medium</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingCart.get('priority')?.value === 'high'"
+                            (click)="setPriority('high')">High</button>
                     </div>
                 </div>
 
-
-                <!-- System Fields -->
-                <details class="section collapsible">
-                    <summary class="section-title with-icon">
-                        <span class="material-icons">tune</span>
-                        System Fields
-                    </summary>
-                    <div class="field">
-                        <label for="id">Id</label>
-                        <input id="id" type="text" placeholder="Auto-generated" readonly formControlName="listId"/>
-                    </div>
-                    <!-- User ID -->
-                    <div class="field">
-                        <label for="userId">User ID</label>
-                        <input id="userId" type="text" placeholder="Owner user ID" readonly formControlName="userId"/>
-                    </div>
-
-                    <div class="field">
-                        <label for="createTime">Create Date Time</label>
-                        <input id="createTime" type="datetime-local"  readonly formControlName="createDateTime" />
-                    </div>
-                    <div class="field">
-                        <label for="updateTime">Update Date Time</label>
-                        <input id="updateTime" type="datetime-local" readonly formControlName="updateDateTime"/>
-                    </div>
-                </details>
             </div>
 
             <footer class="actions sticky-actions">

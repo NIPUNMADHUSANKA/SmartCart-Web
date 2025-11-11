@@ -11,7 +11,9 @@
 
     <mat-accordion class="sga-accordion" multi>
 
-        <app-shopping-list />
+        @for (item of categories; track $index) {
+            <app-shopping-list [categoryDetails] = item (updateCategoryDialog)="openUpdateListDialog($event)"/>
+        }
 
     </mat-accordion>
 
@@ -21,7 +23,7 @@
 
         <div class="modal-layer">
             <div class="modal-window">
-                <app-shopping-list-form></app-shopping-list-form>
+                <app-shopping-list-form (toggleCategoryDialog) = openCreateListDialog()></app-shopping-list-form>
             </div>
         </div>
     </ng-container>

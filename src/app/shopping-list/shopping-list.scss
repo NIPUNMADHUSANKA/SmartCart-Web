@@ -56,15 +56,16 @@
 }
 
 .shopping-list-date {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end; /* keep right-aligned visually */
+  align-items: center;
+  gap: 12px; /* spacing between Created/Updated */
   margin-top: 0.75rem;
   font-size: 0.875rem;
   color: #065f46; /* dark green */
 }
 
-.shopping-list-update-date{
-    margin-left: 5rem;
-}
+/* no extra margin needed when using flex gap */
 
 .add-shopping-item-button-row{
     display: flex;
@@ -77,6 +78,19 @@
     border-radius: 8px !important;
 }
 
+.update-category{
+    background-color: #3b82f6 !important; /* green */
+    color: white !important;
+    border-radius: 8px !important;
+    margin-left: 5px;
+}
+
+.delete-category{
+  background-color: #ef4444 !important; /* green */
+    color: white !important;
+    border-radius: 8px !important;
+    margin-left: 5px;
+}
 
 .shopping-item-row {
   display: flex;
