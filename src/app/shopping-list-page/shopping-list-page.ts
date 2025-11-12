@@ -21,6 +21,7 @@ export class ShoppingListPage implements OnInit {
   protected createShoppingList = signal<boolean>(false);
 
   categories: CategoryModel[] = [];
+  category: CategoryModel | null = null;
 
   constructor(
     private readonly categoryService: CategoryService,
@@ -31,6 +32,42 @@ export class ShoppingListPage implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
+    this.category = null;
+    this.loadCategories();
+  }
+
+  openCreateListDialog() {
+    this.createShoppingList.set(!this.createShoppingList());
+    this.loadCategories();
+    this.category = null;
+  }
+
+  openUpdateListDialog(id: any) {
+    this.categoryService.getCategory(id).subscribe({
+      next: (res) => {
+        this.category = res;
+        this.createShoppingList.set(!this.createShoppingList());
+      },
+      error: () => {
+        console.error('Category is not found.');
+      }
+    })
+  }
+
+  deleteCategory(id: any) {
+    this.categoryService.deleteCategory(id).subscribe({
+      next: () => {
+        alert('Category deleted successfully!');
+        this.loadCategories();
+      },
+      error: (err) => {
+        console.error('Failed to delete category', err);
+        alert(err?.error?.message ?? 'Failed to delete category.');
+      }
+    });
+  }
+
+  loadCategories() {
     this.categoryService.getAllCategory().subscribe({
       next: (value) => {
         this.categories = value;
@@ -39,14 +76,6 @@ export class ShoppingListPage implements OnInit {
         console.error('Failed to get categories', err);
       },
     });
-  }
-
-  openCreateListDialog() {
-    this.createShoppingList.set(!this.createShoppingList());
-  }
-
-  openUpdateListDialog(data: any){
-    console.log(data);
   }
 
 }

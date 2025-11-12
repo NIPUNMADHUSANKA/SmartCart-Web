@@ -5,7 +5,7 @@
             <h2>Create Category</h2>
             <button class="close-btn" (click)="toggleCreateListDialog()">✕</button>
         </header>
-        <form class="smartcard-form single" novalidate [formGroup]="shoppingCart" (ngSubmit)="createList()">
+        <form class="smartcard-form single" novalidate [formGroup]="shoppingCart" (ngSubmit)="createUpdateList()">
             <div class="form-body">
                 <!-- Category Name -->
                 <div class="field">
@@ -80,7 +80,12 @@
 
             <footer class="actions sticky-actions">
                 <button type="submit" class="btn btn-primary">
-                    Save
+                    @if(isUpdate()){
+                        Update
+                    }@else{
+                        Save
+                    }
+                    
                 </button>
                 <button type="button" class="btn btn-danger-outline" (click)="clearList()">
                     Clear

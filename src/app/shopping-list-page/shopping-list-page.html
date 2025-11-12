@@ -12,7 +12,7 @@
     <mat-accordion class="sga-accordion" multi>
 
         @for (item of categories; track $index) {
-            <app-shopping-list [categoryDetails] = item (updateCategoryDialog)="openUpdateListDialog($event)"/>
+            <app-shopping-list [categoryDetails] = item (updateCategoryDialog)="openUpdateListDialog($event)" (deleteShoppingList)="deleteCategory($event)"/>
         }
 
     </mat-accordion>
@@ -23,7 +23,7 @@
 
         <div class="modal-layer">
             <div class="modal-window">
-                <app-shopping-list-form (toggleCategoryDialog) = openCreateListDialog()></app-shopping-list-form>
+                <app-shopping-list-form (toggleCategoryDialog) = openCreateListDialog() [categoryData] = category></app-shopping-list-form>
             </div>
         </div>
     </ng-container>

@@ -20,6 +20,7 @@ export class ShoppingList {
 
   @Input() categoryDetails!: CategoryModel;
   @Output() updateCategoryDialog = new EventEmitter<String>();
+  @Output() deleteShoppingList = new EventEmitter<String>();
 
 
   openCreateItemDialog() {
@@ -28,6 +29,10 @@ export class ShoppingList {
 
   openupdateCategoryDialog() {
     this.updateCategoryDialog.emit(this.categoryDetails.categoryId);
+  }
+
+  deleteCategory(){
+    this.deleteShoppingList.emit(this.categoryDetails.categoryId);
   }
 
 }
