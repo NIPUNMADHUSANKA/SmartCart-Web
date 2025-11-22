@@ -7,4 +7,9 @@ export const GET_CATEGORY = `${host}/api/smart-cart/category/:categoryId`;
 export const UPDATE_CATEGORY = `${host}/api/smart-cart/category/:categoryId`;
 
 
-
+export const SAVE_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item`;
+export const GET_ALL_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item`;
+export const DELETE_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemId`;
+export const GET_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemId`;
+export const UPDATE_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemId`;
+export const GET_ALL_SHOPPING_ITEM_BY_CATEGORY = `${host}/api/smart-cart/shopping-item/findByCategory/:categoryId`;

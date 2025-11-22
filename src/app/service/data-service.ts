@@ -5,7 +5,7 @@ import { Injectable, signal } from '@angular/core';
 })
 export class DataService {
 
-  public openShoppingList = signal<boolean>(false);
+  public openShoppingList = signal<string|undefined>("");
 
   
 }

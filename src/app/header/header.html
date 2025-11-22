@@ -5,8 +5,7 @@
   </div>
 
   <nav class="nav-links">
-    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home 🏠</a>
-    <a routerLink="/shopping-list" routerLinkActive="active">Shopping List 📋</a>
+    <a routerLink="/shopping-list" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Shopping List 📋</a>
     <a routerLink="/cart" routerLinkActive="active">AI Suggestions 🤖</a>
     <a routerLink="/history" routerLinkActive="active">History 📊</a>
     <a routerLink="/profile" routerLinkActive="active">Profile 👤</a>
@@ -14,6 +13,11 @@
 
   <div class="actions">
     <input type="text" placeholder="Search..." class="search-box" />
-    <button class="login-btn">Login</button>
+    <button class="login-btn" routerLink="/login">
+      Login
+    </button>
+    <button class="register-btn" routerLink="/register">
+      Register
+    </button>
   </div>
 </header>

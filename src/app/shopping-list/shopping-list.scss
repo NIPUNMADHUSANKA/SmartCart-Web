@@ -30,6 +30,7 @@
     gap: 8px;
     font-weight: 600;
     color: #166534;
+    flex-grow: 0.4;
 }
 
 .sga-body {
@@ -155,4 +156,9 @@ app-shopping-item {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+
+.category-archived{
+  text-decoration: line-through;
 }

@@ -2,14 +2,19 @@
     <mat-expansion-panel-header class="sga-header" [ngClass]="{ 'is-open': panelOpenState() }">
         <mat-panel-title class="title-with-icon">
             <mat-icon fontIcon="{{categoryDetails.icon}}" aria-hidden="true"></mat-icon>
-            {{ categoryDetails.categoryName | titlecase }}
+            <span [ngClass]="{
+                'category-archived': categoryDetails.status != 'active'
+            }">{{ categoryDetails.categoryName  }}
+            </span>
         </mat-panel-title>
-        <mat-panel-description>
-            {{categoryDetails.description | titlecase}}
+        <mat-panel-description [ngClass]="{
+                'category-archived': categoryDetails.status != 'active'
+            }">
+            {{categoryDetails.description|slice:0:100 | titlecase}}
+            @if((categoryDetails.description?.length ?? 0) > 100){
+            <span>...</span>
+            }
         </mat-panel-description>
-        <span class="shopping-list-status">
-            {{categoryDetails.status |titlecase}}
-        </span>
     </mat-expansion-panel-header>
 
     <div class="sga-body">
@@ -19,7 +24,7 @@
                     Add Item
                 </button>
                 <button mat-raised-button class="update-category" (click)="openupdateCategoryDialog()">
-                    Update Category
+                    Edit Category
                 </button>
                 <button mat-raised-button class="delete-category" (click)="deleteCategory()">
                     Delete Category
@@ -28,12 +33,12 @@
         </section>
 
         <div class="shopping-item-row">
-            <app-shopping-item></app-shopping-item>
-            <app-shopping-item></app-shopping-item>
-            <app-shopping-item></app-shopping-item>
-            <app-shopping-item></app-shopping-item>
-            <app-shopping-item></app-shopping-item>
-            <app-shopping-item></app-shopping-item>
+            @for (item of shoppingItemsDetails; track $index) {
+            <app-shopping-item [shoppingItemDetails]="item" (shoppingItemUpdated)="onShoppingItemUpdated($event)"
+                (loadshoppingItems)="onloadShoppingItems($event)"
+                (toggleOpenCardItemDialog)="toggleOpenCardItemDialog($event)">
+            </app-shopping-item>
+            }
         </div>
 
         <div class="shopping-list-date">
@@ -51,7 +56,9 @@
 
     <div class="modal-layer">
         <div class="modal-window">
-            <app-shopping-list-item-form></app-shopping-list-item-form>
+            <app-shopping-list-item-form [shoppingItemDetails]="shoppingItemDetails"
+                (toggleOpenCreateItemDialog)="toggleOpenCreateItemDialog($event)"
+                (loadShoppingItem)="onloadShoppingItems($event)"></app-shopping-list-item-form>
         </div>
     </div>
 </ng-container>

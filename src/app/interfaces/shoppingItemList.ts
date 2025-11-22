@@ -1,13 +1,14 @@
 export enum Unit {
-  Piece = 'pcs',
+  Kg = 'kg',
+  Gram = 'g',
+  Piece = 'piece',
   Pack = 'pack',
   Dozen = 'dozen',
   Box = 'box',
-  Kg = 'kg',
-  Gram = 'g',
-  Litre = 'L',
-  MilliLitre = 'mL',
+  Litre = 'l',
+  MilliLitre = 'ml',
   Bottle = 'bottle',
   Can = 'can',
-  Cup = 'cup'
+  Cup = 'cup',
+  Other = 'other'
 }

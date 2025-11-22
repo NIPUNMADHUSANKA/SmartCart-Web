@@ -1,53 +1,68 @@
 <div class="smartcard-form-parent">
     <section class="smartcard-surface">
-        <form class="smartcard-form single" novalidate>
-            <header class="smartcard-header">
-                <span class="material-icons">shopping_cart</span>
-                <h2>Add Shopping Item</h2>
-                <button class="close-btn">✕</button>
-            </header>
+        <header class="smartcard-header">
+            <span class="material-icons">shopping_cart</span>
+            <h2>Add Shopping Item</h2>
+            <button class="close-btn" (click)="toggleOpenItemDialog()">✕</button>
+        </header>
+        <form class="smartcard-form single" novalidate (ngSubmit)="createUpdateShoppingItem()"
+            [formGroup]="shoppingItem">
 
             <div class="form-body">
                 <!-- Item Name -->
                 <div class="field">
                     <label for="name">Item Name <span class="req">*</span></label>
-                    <input id="name" type="text" placeholder="e.g., Tomato" />
-                    <small class="error">Name is required.</small>
+                    <input id="name" type="text" placeholder="e.g., Tomato" formControlName="itemName" maxlength="30"
+                        [class.invalid]="shoppingItem.get('itemName')?.invalid && (shoppingItem.get('itemName')?.touched || shoppingItem.get('itemName')?.dirty || isSubmitted)" />
+                    <small class="error"
+                        *ngIf="shoppingItem.get('itemName')?.invalid && (shoppingItem.get('itemName')?.touched || shoppingItem.get('itemName')?.dirty || isSubmitted)">Shopping
+                        Item Name is required.</small>
                 </div>
 
 
                 <!-- Item Qty -->
                 <div class="field">
                     <label for="quantity">Quantity <span class="req">*</span></label>
-                    <input id="quantity" type="number" min="1"/>
-                    <small class="error">Quantity is required.</small>
+                    <input id="quantity" type="number" min="1" formControlName="quantity"
+                        [class.invalid]="shoppingItem.get('quantity')?.invalid && (shoppingItem.get('quantity')?.dirty || shoppingItem.get('quantity')?.touched || isSubmitted)" />
+                    <small class="error"
+                        *ngIf="shoppingItem.get('quantity')?.invalid && (shoppingItem.get('quantity')?.touched || shoppingItem.get('quantity')?.dirty || isSubmitted)">Quantity
+                        is required.</small>
                 </div>
 
                 <!-- Item Unit -->
                 <div class="field">
                     <label>Unit <span class="req">*</span></label>
                     <div class="chip-group">
-                        <button type="button" class="chip chip--on">Kg </button>
-                        <button type="button" class="chip">Pack</button>
+                        <button type="button" class="chip" [class.chip--on]="shoppingItem.get('unit')?.value == unit"
+                            (click)="setUnit(unit)" *ngFor="let unit of units">{{unit |titlecase}}</button>
                     </div>
                 </div>
 
+                @if (isUpdate()) {
                 <!-- Status -->
                 <div class="field">
                     <label>Status <span class="req">*</span></label>
                     <div class="chip-group">
-                        <button type="button" class="chip chip--on">Active</button>
-                        <button type="button" class="chip">Archived</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('status')?.value === 'active'"
+                            (click)="setStatus('active')">Active</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('status')?.value === 'archived'"
+                            (click)="setStatus('archived')">Archived</button>
                     </div>
                 </div>
+                }
 
                 <!-- Description -->
                 <div class="field">
                     <label for="description">Note</label>
-                    <textarea id="description" rows="3" maxlength="180" placeholder="Optional details..."></textarea>
+                    <textarea id="description" rows="3" maxlength="180" placeholder="Optional details..."
+                        formControlName="description"></textarea>
                     <div class="meta-row">
                         <small class="hint">Write a short description for this category.</small>
-                        <small class="counter"><span id="descCount">0</span>/180</small>
+                        <small class="counter"><span
+                                id="descCount">{{shoppingItem.get('description')?.value?.length}}</span>/180</small>
                     </div>
                 </div>
 
@@ -55,46 +70,34 @@
                 <div class="field">
                     <label>Priority</label>
                     <div class="chip-group">
-                        <button type="button" class="chip chip--on">Normal</button>
-                        <button type="button" class="chip">Low</button>
-                        <button type="button" class="chip">Medium</button>
-                        <button type="button" class="chip">High</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('priority')?.value === 'normal'"
+                            (click)="setPriority('normal')">Normal</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('priority')?.value === 'low'"
+                            (click)="setPriority('low')">Low</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('priority')?.value === 'medium'"
+                            (click)="setPriority('medium')">Medium</button>
+                        <button type="button" class="chip"
+                            [class.chip--on]="shoppingItem.get('priority')?.value === 'high'"
+                            (click)="setPriority('high')">High</button>
                     </div>
                 </div>
 
-
-                <!-- System Fields -->
-                <details class="section collapsible">
-                    <summary class="section-title with-icon">
-                        <span class="material-icons">tune</span>
-                        System Fields
-                    </summary>
-                    <div class="field">
-                        <label for="id">Id</label>
-                        <input id="id" type="text" placeholder="Auto-generated" readonly />
-                    </div>
-                    <!-- User ID -->
-                    <div class="field">
-                        <label for="userId">User ID</label>
-                        <input id="userId" type="text" placeholder="Owner user ID" readonly/>
-                    </div>
-
-                    <div class="field">
-                        <label for="createTime">Create Time</label>
-                        <input id="createTime" type="datetime-local" readonly />
-                    </div>
-                    <div class="field">
-                        <label for="updateTime">Update Time</label>
-                        <input id="updateTime" type="datetime-local" readonly />
-                    </div>
-                </details>
             </div>
 
             <footer class="actions sticky-actions">
                 <button type="submit" class="btn btn-primary">
+                    @if(isUpdate()){
+                    Update
+                    }
+                    @else{
                     Save
+                    }
+
                 </button>
-                <button type="button" class="btn btn-danger-outline">
+                <button type="button" class="btn btn-danger-outline" (click)="clearShoppingList()">
                     Clear
                 </button>
             </footer>

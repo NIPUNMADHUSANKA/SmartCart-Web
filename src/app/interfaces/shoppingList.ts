@@ -6,8 +6,22 @@ export interface CategoryModel {
   status: CategoryStatus;
   description?: string;
   icon?: string;
-  priority?: number | '';
+  priority?: string | '';
   userId?: string | '1';
   createdAt?: string | '';   // ISO string (bound to datetime-local)
   updatedAt?: string | '';  // ISO string (bound to datetime-local)
+}
+
+export interface ShoppingItemModel {
+  itemId?: string | '';
+  itemName?: string;
+  description?: string | null;
+  quantity?: number;
+  unit?: string;
+  status: CategoryStatus;
+  priority?: string | '';
+  categoryId?: string;
+  createdAt?: string | '';   // ISO string (bound to datetime-local)
+  updatedAt?: string | '';  // ISO string (bound to datetime-local)
+
 }

@@ -7,7 +7,7 @@
 }
 
 .shopping-list-date{
-  font-size: smaller;
+  font-size: 10px;
   display: flex;
   justify-content: right;
   margin-right: 5%;
@@ -20,3 +20,12 @@
 .buy-item{
   color: #15803d;
 }
+
+.item-buy{
+  text-decoration: line-through;
+}
+
+.shopping-list-create-date{
+  padding-right: 10px;
+}
+

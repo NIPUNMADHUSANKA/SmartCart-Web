@@ -1,11 +1,14 @@
-import { Component, Input, Output, signal, EventEmitter } from '@angular/core';
+import { Component, Input, Output, signal, EventEmitter, inject } from '@angular/core';
 import { ShoppingItem } from '../shopping-item/shopping-item';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule, NgClass } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { ShoppingListItemForm } from '../shopping-list-item-form/shopping-list-item-form';
-import { CategoryModel } from '../interfaces/shoppingList';
+import { CategoryModel, ShoppingItemModel } from '../interfaces/shoppingList';
+import { DataService } from '../service/data-service';
+import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
+
 
 @Component({
   selector: 'app-shopping-list',
@@ -17,13 +20,20 @@ export class ShoppingList {
   readonly panelOpenState = signal(true);
 
   protected createShoppingItem = signal<boolean>(false);
+  shoppingItemService = inject(shoppingItemService)
+  shoppingItemsDetails!: ShoppingItemModel[];
+  shoppingItemDetails!: ShoppingItemModel;
 
   @Input() categoryDetails!: CategoryModel;
-  @Output() updateCategoryDialog = new EventEmitter<String>();
-  @Output() deleteShoppingList = new EventEmitter<String>();
+  @Output() updateCategoryDialog = new EventEmitter<string>();
+  @Output() deleteShoppingList = new EventEmitter<string>();
 
+  constructor(private dataService: DataService){
+    this.loadShoppingItem();
+  }
 
   openCreateItemDialog() {
+    this.dataService.openShoppingList.set(this.categoryDetails.categoryId)
     this.createShoppingItem.set(!this.createShoppingItem());
   }
 
@@ -33,6 +43,42 @@ export class ShoppingList {
 
   deleteCategory(){
     this.deleteShoppingList.emit(this.categoryDetails.categoryId);
+  }
+
+  loadShoppingItem(){
+    this.shoppingItemService.getAllCategory().subscribe({
+      next: (res) =>{
+        this.shoppingItemsDetails = res;
+      },
+      error: (err) =>{
+        console.error('Failed to get Shopping Items', err);
+      }
+    })
+
+  }
+
+  onShoppingItemUpdated(updatedItem: ShoppingItemModel) {
+    const index = this.shoppingItemsDetails.findIndex(item => item.itemId === updatedItem.itemId);
+    if (index !== -1) {
+      this.shoppingItemsDetails[index] = updatedItem;
+      this.shoppingItemsDetails = [...this.shoppingItemsDetails];
+    }
+  }
+
+  onloadShoppingItems(load: boolean){
+    if(load){
+      this.loadShoppingItem();
+    }
+  }
+
+  toggleOpenCardItemDialog(itemId:string){
+    const index = this.shoppingItemsDetails.findIndex(item => item.itemId === itemId);
+    this.shoppingItemDetails = this.shoppingItemsDetails[index];
+    this.createShoppingItem.set(true);
+  }
+
+  toggleOpenCreateItemDialog(toggle:boolean){
+    this.createShoppingItem.set(toggle);
   }
 
 }
