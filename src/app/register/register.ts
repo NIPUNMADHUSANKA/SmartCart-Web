@@ -27,7 +27,7 @@ export class Register {
     confirmPassword: ['', [Validators.required, Validators.minLength(6)]]
   },
     {
-      validators: [this.passwordMatchValidator, ]
+      validators: [this.passwordMatchValidator,]
     }
   );
 
@@ -53,20 +53,31 @@ export class Register {
 
   createProfile() {
     this.isSubmitted = true;
-    if(this.userRegister.valid){
-      const { confirmPassword,  ...payload} = this.userRegister.getRawValue();
-      
+    if (this.userRegister.valid) {
+      const { confirmPassword, ...payload } = this.userRegister.getRawValue();
+
       this.authService.saveUser(payload).subscribe({
-        next: (res) =>{
+        next: (res) => {
           alert("User created successfully!");
+          this.clearForm();
         },
-        error: (e) =>{
+        error: (e) => {
           alert('Failed to create user');
           console.error(e);
         }
       })
     }
-    
+  }
+
+  clearForm() {
+    this.isSubmitted = false;
+    this.userRegister.reset({
+      fullName: '',
+      email: '',
+      userName: '',
+      password: '',
+      confirmPassword: ''
+    })
   }
 
 }
