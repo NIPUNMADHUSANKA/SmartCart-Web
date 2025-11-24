@@ -13,3 +13,6 @@ export const DELETE_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemI
 export const GET_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemId`;
 export const UPDATE_SHOPPING_ITEM = `${host}/api/smart-cart/shopping-item/:itemId`;
 export const GET_ALL_SHOPPING_ITEM_BY_CATEGORY = `${host}/api/smart-cart/shopping-item/findByCategory/:categoryId`;
+
+
+export const CREATE_USER = `${host}/api/smart-cart/auth/register`;

@@ -1,6 +1,6 @@
 /* Full-page auth layout */
 .auth-page {
-  min-height: 80vh;
+  min-height: 90vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -236,4 +236,14 @@
   .auth-page {
     padding: 16px;
   }
+}
+
+.invalid {
+  border: 1px solid #e74c3c !important;
+}
+
+.error {
+  color: #d14343;
+  font-size: 13px;
+  margin-top: 6px;
 }

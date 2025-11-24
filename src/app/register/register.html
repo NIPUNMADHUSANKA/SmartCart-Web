@@ -25,33 +25,88 @@
             <h1 class="auth-title">Create account 📝</h1>
             <p class="auth-subtitle">Fill in your details to get started with SmartCart.</p>
 
-            <form class="auth-form">
+            <form class="auth-form" [formGroup]="userRegister" (ngSubmit)="createProfile()">
                 <div class="auth-field">
                     <label class="auth-label" for="name">Full name</label>
-                    <input id="name" type="text" class="auth-input" placeholder="John Doe" required />
+                    <input id="name" type="text" class="auth-input" placeholder="John Doe" formControlName="fullName"
+                        [class.invalid]="userRegister.get('fullName')?.invalid && (userRegister.get('fullName')?.touched || userRegister.get('fullName')?.dirty || isSubmitted)" />
+
+                    <small class="error"
+                        *ngIf="userRegister.get('fullName')?.invalid && (userRegister.get('fullName')?.touched || userRegister.get('fullName')?.dirty || isSubmitted)">Full
+                        Name
+                        is required.</small>
                 </div>
 
                 <div class="auth-field">
                     <label class="auth-label" for="reg-email">Email</label>
-                    <input id="reg-email" type="email" class="auth-input" placeholder="you@example.com" required />
+                    <input id="reg-email" type="email" class="auth-input" placeholder="you@example.com"
+                        formControlName="email"
+                        [class.invalid]="userRegister.get('email')?.invalid && (userRegister.get('email')?.touched || userRegister.get('email')?.dirty || isSubmitted)" />
+
+                    @if ((userRegister.get('email')?.touched ||
+                    userRegister.get('email')?.dirty || isSubmitted)) {
+                    @if (userRegister.get('email')?.hasError('required')) {
+                    <small class="error">Email is required.</small>
+                    }
+                    @else if (userRegister.get('email')?.hasError('email')) {
+                    <small class="error">Invalid email address.</small>
+                    }
+                    }
+
                 </div>
 
                 <div class="auth-field">
                     <label class="auth-label" for="reg-username">Username</label>
                     <input id="reg-username" type="text" class="auth-input" placeholder="Enter your Username"
-                        required />
+                        formControlName="userName"
+                        [class.invalid]="userRegister.get('userName')?.invalid && (userRegister.get('userName')?.touched || userRegister.get('userName')?.dirty || isSubmitted)" />
+
+                    <small class="error"
+                        *ngIf="userRegister.get('userName')?.invalid && (userRegister.get('userName')?.touched || userRegister.get('userName')?.dirty || isSubmitted)">User
+                        Name
+                        is required.</small>
                 </div>
 
                 <div class="auth-field">
                     <label class="auth-label" for="reg-password">Password</label>
                     <input id="reg-password" type="password" class="auth-input" placeholder="Create a password"
-                        required />
+                        formControlName="password"
+                        [class.invalid]="userRegister.get('password')?.invalid && (userRegister.get('password')?.touched || userRegister.get('password')?.dirty || isSubmitted)" />
+
+                    @if (userRegister.get('password')?.touched ||
+                    userRegister.get('password')?.dirty || isSubmitted) {
+
+                    @if (userRegister.get('password')?.hasError('required')) {
+                    <small class="error">Password is required.</small>
+                    }
+                    @else if (userRegister.get('password')?.hasError('minlength')) {
+                    <small class="error">Your password must be at least 6 characters long.</small>
+                    }
+
+                    }
+
                 </div>
 
                 <div class="auth-field">
                     <label class="auth-label" for="reg-confirm">Confirm password</label>
                     <input id="reg-confirm" type="password" class="auth-input" placeholder="Repeat your password"
-                        required />
+                        formControlName="confirmPassword"
+                        [class.invalid]="userRegister.get('confirmPassword')?.invalid && (userRegister.get('confirmPassword')?.touched || userRegister.get('confirmPassword')?.dirty || isSubmitted)" />
+
+                    @if (userRegister.get('confirmPassword')?.touched
+                    || userRegister.get('confirmPassword')?.dirty
+                    || isSubmitted) {
+
+                    @if (userRegister.get('confirmPassword')?.hasError('required')) {
+                    <small class="error">Confirm Password is required.</small>
+                    }
+
+                    @else if (userRegister.get('confirmPassword')?.hasError('mismatch')) {
+                    <small class="error">Passwords do not match.</small>
+                    }
+                    }
+
+
                 </div>
 
                 <button type="submit" class="auth-btn auth-btn-primary">

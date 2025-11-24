@@ -25,3 +25,13 @@ export interface ShoppingItemModel {
   updatedAt?: string | '';  // ISO string (bound to datetime-local)
 
 }
+
+export interface UserProfileModel {
+  userId?: String | '';
+  fullName?: String;
+  userName?: String;
+  email?: String;
+  password?: String;
+   createdAt?: string | '';   // ISO string (bound to datetime-local)
+  updatedAt?: string | '';  // ISO string (bound to datetime-local)
+}
