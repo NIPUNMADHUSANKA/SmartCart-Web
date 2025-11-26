@@ -35,3 +35,14 @@ export interface UserProfileModel {
    createdAt?: string | '';   // ISO string (bound to datetime-local)
   updatedAt?: string | '';  // ISO string (bound to datetime-local)
 }
+
+export interface UserLoginModel {
+  userName?: String;
+  password?: String;
+}
+
+export interface UserTokenModel{
+  accessToken?: String;
+  userName?: String;
+  userId?: String;
+}

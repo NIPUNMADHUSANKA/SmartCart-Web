@@ -237,3 +237,13 @@
     padding: 16px;
   }
 }
+
+.invalid {
+  border: 1px solid #e74c3c !important;
+}
+
+.error {
+  color: #d14343;
+  font-size: 13px;
+  margin-top: 6px;
+}

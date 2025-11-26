@@ -4,7 +4,7 @@ export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => import('./shopping-list-page/shopping-list-page').then((m) => m.ShoppingListPage)
+        loadComponent: () => import('./home/home').then((m) => m.Home)
     },
     {
         path: 'shopping-list',
@@ -20,6 +20,6 @@ export const routes: Routes = [
     },
     {
         path: "**",
-        loadComponent: () => import('./shopping-list-page/shopping-list-page').then((m) => m.ShoppingListPage)
+        loadComponent: () => import('./home/home').then((m) => m.Home)
     }
 ];

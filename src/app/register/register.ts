@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth-service';
-import { UserProfileModel } from '../interfaces/shoppingList';
 
 @Component({
   selector: 'app-register',
@@ -62,8 +61,8 @@ export class Register {
           this.clearForm();
         },
         error: (e) => {
-          alert('Failed to create user');
-          console.error(e);
+          alert(e.error.message);
+          console.error(e.error.message);
         }
       })
     }
