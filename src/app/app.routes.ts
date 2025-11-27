@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './auth/auth-guard';
+import { NoAuthGuard } from './auth/no-auth-guard';
 
 export const routes: Routes = [
     {
@@ -8,15 +10,18 @@ export const routes: Routes = [
     },
     {
         path: 'shopping-list',
-        loadComponent: () => import('./shopping-list-page/shopping-list-page').then((m) => m.ShoppingListPage)
+        loadComponent: () => import('./shopping-list-page/shopping-list-page').then((m) => m.ShoppingListPage),
+        canActivate: [AuthGuard]
     },
     {
         path: 'login',
-        loadComponent: () => import('./login/login').then((m) => m.Login)
+        loadComponent: () => import('./login/login').then((m) => m.Login),
+        canActivate: [NoAuthGuard]
     },
     {
         path: 'register',
-        loadComponent: () => import('./register/register').then((m)=> m.Register)
+        loadComponent: () => import('./register/register').then((m)=> m.Register),
+        canActivate: [NoAuthGuard]
     },
     {
         path: "**",

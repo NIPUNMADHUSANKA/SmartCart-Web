@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -10,6 +11,7 @@ import { AuthService } from '../service/auth-service';
   styleUrl: './login.scss',
 })
 export class Login {
+  constructor(private router: Router) { }
 
   fb = inject(NonNullableFormBuilder);
   authService = inject(AuthService);
@@ -31,17 +33,24 @@ export class Login {
         next: (res) => {
           if (res?.accessToken) {
             localStorage.setItem('token', res.accessToken.toString());
+            this.router.navigate(['/home']);
+            this.authService.isUserLoggedIn.set(true);
+
           } else {
             localStorage.setItem('token', "");
           }
         },
         error: (err) => {
-          alert(err.error.message);
+          alert(err?.error?.message || 'Login failed');
         }
       })
       this.clearLogin();
 
     }
+  }
+  
+  CreateAccount(){
+    this.router.navigate(['/register']);
   }
 
   clearLogin() {

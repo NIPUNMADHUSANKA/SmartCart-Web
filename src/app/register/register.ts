@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth-service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,6 +12,7 @@ import { AuthService } from '../service/auth-service';
 })
 export class Register {
 
+  constructor(private router: Router){}
   fb = inject(NonNullableFormBuilder);
   authService = inject(AuthService);
 
@@ -59,6 +61,7 @@ export class Register {
         next: (res) => {
           alert("User created successfully!");
           this.clearForm();
+          this.router.navigate(['/login']);
         },
         error: (e) => {
           alert(e.error.message);
@@ -66,6 +69,10 @@ export class Register {
         }
       })
     }
+  }
+
+  LoginAccount(){
+    this.router.navigate(['/login']);
   }
 
   clearForm() {

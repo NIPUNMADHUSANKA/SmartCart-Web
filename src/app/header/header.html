@@ -14,11 +14,21 @@
 
   <div class="actions">
     <input type="text" placeholder="Search..." class="search-box" />
+
+   @if (!authService.isUserLoggedIn()) {
     <button class="login-btn" routerLink="/login">
       Login
     </button>
     <button class="register-btn" routerLink="/register">
       Register
     </button>
+    }
+
+    @if (authService.isUserLoggedIn()) {
+    <button class="register-btn" (click)="logout()">
+      Logout
+    </button>
+    }
+
   </div>
 </header>
