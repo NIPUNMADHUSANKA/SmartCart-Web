@@ -3,6 +3,8 @@ import { Component, inject, signal } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth-service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { login } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +16,7 @@ export class Login {
   constructor(private router: Router) { }
 
   fb = inject(NonNullableFormBuilder);
+  store = inject(Store);
   authService = inject(AuthService);
 
   //State Signals
@@ -27,29 +30,23 @@ export class Login {
 
   loginUser() {
     this.isSubmitted = true;
+    if (this.loginForm.invalid) return;
     if (this.loginForm.valid) {
       const payload = this.loginForm.getRawValue();
-      this.authService.loginUser(payload).subscribe({
-        next: (res) => {
-          if (res?.accessToken) {
-            localStorage.setItem('token', res.accessToken.toString());
-            this.router.navigate(['/home']);
-            this.authService.isUserLoggedIn.set(true);
-
-          } else {
-            localStorage.setItem('token', "");
-          }
-        },
-        error: (err) => {
-          alert(err?.error?.message || 'Login failed');
-        }
-      })
+      this.store.dispatch(
+        login({
+          payload: {
+            userName: payload.userName ?? '',
+            password: payload.password ?? ''
+          },
+        })
+      );
       this.clearLogin();
-
+      this.router.navigate(['']);
     }
   }
-  
-  CreateAccount(){
+
+  CreateAccount() {
     this.router.navigate(['/register']);
   }
 

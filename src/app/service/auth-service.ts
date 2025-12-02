@@ -1,8 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable, PLATFORM_ID, signal } from "@angular/core";
-import { UserLoginModel, UserProfileModel, UserTokenModel } from "../interfaces/shoppingList";
+import { LoginPayload, RegisterPayload, AuthTokenResponse } from "../interfaces/userProfile";
 import { Observable } from "rxjs";
-import { CREATE_USER, LOGIN_USER } from "./path";
+import { CREATE_USER, LOGIN_USER, ME } from "./path";
 import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({
@@ -18,6 +18,13 @@ export class AuthService {
             && !!localStorage.getItem('token'));
     }
 
+    private getAuthHeaders(): HttpHeaders {
+        let token: string | null = this.getToken();
+        if (token) {
+            return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
+        }
+        return new HttpHeaders();
+    }
 
     getToken(): string | null {
         let token: string | null = null;
@@ -31,12 +38,16 @@ export class AuthService {
         return !!this.getToken();
     }
 
-    saveUser(input: UserProfileModel): Observable<UserProfileModel> {
-        return this.http.post<UserProfileModel>(CREATE_USER, input);
+    me() {
+        return this.http.get(ME, {headers: this.getAuthHeaders()});
     }
 
-    loginUser(input: UserLoginModel): Observable<UserTokenModel> {
-        return this.http.post<UserTokenModel>(LOGIN_USER, input);
+    saveUser(input: RegisterPayload): Observable<RegisterPayload> {
+        return this.http.post<RegisterPayload>(CREATE_USER, input);
+    }
+
+    loginUser(input: LoginPayload): Observable<AuthTokenResponse> {
+        return this.http.post<AuthTokenResponse>(LOGIN_USER, input);
     }
 
     logout(): void {

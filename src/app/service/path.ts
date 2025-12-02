@@ -17,3 +17,4 @@ export const GET_ALL_SHOPPING_ITEM_BY_CATEGORY = `${host}/api/smart-cart/shoppin
 
 export const CREATE_USER = `${host}/api/smart-cart/auth/register`;
 export const LOGIN_USER = `${host}/api/smart-cart/auth/login`;
+export const ME = `${host}/api/smart-cart/auth/me`;

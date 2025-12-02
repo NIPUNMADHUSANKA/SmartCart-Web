@@ -1,7 +1,9 @@
-import { Component, OnChanges, OnInit, signal } from '@angular/core';
+import { Component, inject, OnChanges, OnInit, signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../service/auth-service';
 import { CommonModule } from '@angular/common';
+import { Store } from '@ngrx/store';
+import { initAuthFromStorage } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -9,9 +11,15 @@ import { CommonModule } from '@angular/common';
   templateUrl: './header.html',
   styleUrl: './header.scss',
 })
-export class Header {
+export class Header implements OnInit{
+
+  store = inject(Store);
+
   constructor(public  authService: AuthService) {
-    console.log(this.authService.isUserLoggedIn());
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(initAuthFromStorage());
   }
 
   logout() {

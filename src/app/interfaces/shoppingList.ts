@@ -26,23 +26,3 @@ export interface ShoppingItemModel {
 
 }
 
-export interface UserProfileModel {
-  userId?: String | '';
-  fullName?: String;
-  userName?: String;
-  email?: String;
-  password?: String;
-   createdAt?: string | '';   // ISO string (bound to datetime-local)
-  updatedAt?: string | '';  // ISO string (bound to datetime-local)
-}
-
-export interface UserLoginModel {
-  userName?: String;
-  password?: String;
-}
-
-export interface UserTokenModel{
-  accessToken?: String;
-  userName?: String;
-  userId?: String;
-}
