@@ -35,12 +35,12 @@ export class Login {
       const payload = this.loginForm.getRawValue();
       this.store.dispatch(
         login({
-          payload: {
-            userName: payload.userName ?? '',
-            password: payload.password ?? ''
-          },
+          payload:{
+            userName: payload.userName,
+            password: payload.password,
+          }
         })
-      );
+      )
       this.clearLogin();
       this.router.navigate(['']);
     }

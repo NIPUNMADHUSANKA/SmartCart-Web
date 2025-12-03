@@ -4,10 +4,10 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideState, provideStore } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { authFeature } from './auth/store/auth.reducer';
+import { AuthReducer} from './auth/store/auth.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
 
 export const appConfig: ApplicationConfig = {
@@ -17,8 +17,7 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
-    provideStore(),
-    provideState(authFeature),
+    provideStore({auth:AuthReducer}),
     provideEffects([AuthEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states

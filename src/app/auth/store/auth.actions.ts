@@ -1,9 +1,8 @@
 import { createAction, props } from "@ngrx/store";
 import { AuthTokenResponse, LoginPayload } from "../../interfaces/userProfile";
 
-
 export const login = createAction(
-    '[Auth] Login',
+    '[Auth] login',
     props<{ payload: LoginPayload }>()
 );
 
@@ -26,11 +25,11 @@ export const initAuthFromStorage = createAction(
 );
 
 export const initAuthFromStorageSuccess = createAction(
-  '[Auth] Init From Storage Success',
-  props<{ response: AuthTokenResponse }>()
+    '[Auth] Init From Storage Success',
+    props<{ response: AuthTokenResponse }>()
 );
 
 export const initAuthFromStorageFailure = createAction(
     '[Auth] Init From Storage Failure',
-    props<{error: string}>()
+    props<{ error: string }>()
 );
