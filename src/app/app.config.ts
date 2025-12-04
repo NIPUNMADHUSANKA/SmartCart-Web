@@ -8,7 +8,9 @@ import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AuthReducer} from './auth/store/auth.reducer';
+import { CategoryReducer } from './shopping-list/store/category.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
+import { CategoryEffects } from './shopping-list/store/category.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,8 +19,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
-    provideStore({auth:AuthReducer}),
-    provideEffects([AuthEffects]),
+    provideStore({auth:AuthReducer, categories: CategoryReducer}),
+    provideEffects([AuthEffects, CategoryEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

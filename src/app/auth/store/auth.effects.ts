@@ -25,6 +25,7 @@ export class AuthEffects {
                         if (token && isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
                             localStorage.setItem('token', token.toString());
                         }
+                        this.router.navigate(['']);
                         return loginSuccess({ response, message: 'Login Successful'});
                     }),
                     catchError((error) =>

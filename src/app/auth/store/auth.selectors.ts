@@ -28,3 +28,7 @@ export const selectAuthError = createSelector(
     state=> state.error
 )
 
+export const selectAuthMessage = createSelector(
+    selectAuthState,
+    state=> state.message
+)

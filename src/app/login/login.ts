@@ -42,7 +42,6 @@ export class Login {
         })
       )
       this.clearLogin();
-      this.router.navigate(['']);
     }
   }
 
