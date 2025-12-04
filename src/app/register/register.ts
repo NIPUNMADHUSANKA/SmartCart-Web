@@ -3,6 +3,8 @@ import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { AuthService } from '../service/auth-service';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { register } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-register',
@@ -12,6 +14,7 @@ import { Router } from '@angular/router';
 })
 export class Register {
 
+  store = inject(Store);
   constructor(private router: Router){}
   fb = inject(NonNullableFormBuilder);
   authService = inject(AuthService);
@@ -57,17 +60,8 @@ export class Register {
     if (this.userRegister.valid) {
       const { confirmPassword, ...payload } = this.userRegister.getRawValue();
 
-      this.authService.saveUser(payload).subscribe({
-        next: (res) => {
-          alert("User created successfully!");
-          this.clearForm();
-          this.router.navigate(['/login']);
-        },
-        error: (e) => {
-          alert(e.error.message);
-          console.error(e.error.message);
-        }
-      })
+      this.store.dispatch(register({payload}));
+      this.clearForm();
     }
   }
 

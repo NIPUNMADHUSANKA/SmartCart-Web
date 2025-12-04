@@ -15,7 +15,7 @@
   <div class="actions">
     <input type="text" placeholder="Search..." class="search-box" />
 
-   @if (!authService.isUserLoggedIn()) {
+   @if (!(isLogin$ | async)) {
     <button class="login-btn" routerLink="/login">
       Login
     </button>
@@ -24,7 +24,7 @@
     </button>
     }
 
-    @if (authService.isUserLoggedIn()) {
+    @if (isLogin$ | async) {
     <button class="register-btn" (click)="logout()">
       Logout
     </button>

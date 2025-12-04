@@ -1,8 +1,9 @@
-import { Component, inject, OnChanges, OnInit, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../service/auth-service';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { selectIsAuthenticated } from '../auth/store/auth.selectors';
+import { logout } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
@@ -13,12 +14,10 @@ import { Store } from '@ngrx/store';
 export class Header {
 
   store = inject(Store);
-
-  constructor(public authService: AuthService) {
-  }
+  isLogin$ = this.store.select(selectIsAuthenticated);
 
   logout() {
-    this.authService.logout();
+    this.store.dispatch(logout());
   }
 
 }

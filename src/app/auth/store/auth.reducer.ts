@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { AuthUser } from "../../interfaces/userProfile";
-import { initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, login, loginFailure, loginSuccess, logout } from "./auth.actions";
+import { initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
 
 export interface AuthState {
     user: AuthUser | null;
@@ -8,6 +8,7 @@ export interface AuthState {
     isAuthenticated: boolean;
     loading: boolean;
     error: string | null;
+    message: string | null;
 }
 
 export const initialState: AuthState = {
@@ -16,6 +17,7 @@ export const initialState: AuthState = {
     isAuthenticated: false,
     loading: false,
     error: null,
+    message: null
 }
 
 export const AuthReducer = createReducer(
@@ -25,14 +27,16 @@ export const AuthReducer = createReducer(
         ...state,
         loading: true,
         error: null,
+        message: null
     })),
 
-    on(loginSuccess, (state, {response}) =>({
+    on(loginSuccess, (state, {response, message}) =>({
         ...state,
         user: {userName: response.userName, userId: response.userId},
         token: response.accessToken ?? null,
         isAuthenticated: true,
         loading: false,
+        message
     })),
 
     on(loginFailure, (state, {error}) => ({
@@ -48,18 +52,38 @@ export const AuthReducer = createReducer(
     on(initAuthFromStorage, (state)=>({
         ...state,
         loading: true,
-        error: null
+        error: null,
     })),
     
-    on(initAuthFromStorageSuccess, (state, {response})=>({
+    on(initAuthFromStorageSuccess, (state, {response, message})=>({
         ...state,
         user: {userName: response.userName, userId: response.userId},
         token: response.accessToken ?? null,
         isAuthenticated: true,
-        loading: false
+        loading: false,
+        message
     })),
 
     on(initAuthFromStorageFailure, (state, {error})=>({
+        ...state,
+        loading: false,
+        error
+    })),
+
+    on(register, (state)=>({
+        ...state,
+        loading: true,
+        error: null,
+        message: null
+    })),
+
+    on(registerSuccess, (state, {message})=>({
+        ...state,
+        loading: false,
+        message
+    })),
+
+    on(registerFailure, (state, {error})=>({
         ...state,
         loading: false,
         error

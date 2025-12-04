@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { AuthTokenResponse, LoginPayload } from "../../interfaces/userProfile";
+import { AuthTokenResponse, LoginPayload, RegisterPayload } from "../../interfaces/userProfile";
 
 export const login = createAction(
     '[Auth] login',
@@ -8,7 +8,7 @@ export const login = createAction(
 
 export const loginSuccess = createAction(
     '[Auth] Login Success',
-    props<{ response: AuthTokenResponse }>()
+    props<{ response: AuthTokenResponse, message: string }>()
 );
 
 export const loginFailure = createAction(
@@ -26,10 +26,25 @@ export const initAuthFromStorage = createAction(
 
 export const initAuthFromStorageSuccess = createAction(
     '[Auth] Init From Storage Success',
-    props<{ response: AuthTokenResponse }>()
+    props<{ response: AuthTokenResponse , message:string}>()
 );
 
 export const initAuthFromStorageFailure = createAction(
     '[Auth] Init From Storage Failure',
+    props<{ error: string }>()
+);
+
+export const register = createAction(
+    '[Auth] Register',
+    props<{payload: RegisterPayload}>()
+)
+
+export const registerSuccess = createAction(
+     '[Auth] Register Success',
+     props<{message: string}>()
+)
+
+export const registerFailure = createAction(
+    '[Auth] Register Failure',
     props<{ error: string }>()
 );
