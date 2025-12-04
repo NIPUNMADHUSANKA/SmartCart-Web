@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { ShoppingItemModel } from "../interfaces/shoppingList";
 import { Observable } from 'rxjs';
-import { DELETE_SHOPPING_ITEM, GET_ALL_SHOPPING_ITEM, SAVE_SHOPPING_ITEM, UPDATE_SHOPPING_ITEM } from './path';
+import { DELETE_SHOPPING_ITEM, GET_ALL_SHOPPING_ITEM, GET_ALL_SHOPPING_ITEM_BY_CATEGORY, SAVE_SHOPPING_ITEM, UPDATE_SHOPPING_ITEM } from './path';
 
 
 @Injectable({
@@ -33,10 +33,14 @@ export class ShoppingItem {
     return this.http.get<ShoppingItemModel[]>(GET_ALL_SHOPPING_ITEM, { headers: this.getAuthHeader() });
   }
 
+  getAllShoppingItem(categoryId: string): Observable<ShoppingItemModel[]> {
+    const url = GET_ALL_SHOPPING_ITEM_BY_CATEGORY.replace(':categoryId', categoryId);
+    return this.http.get<ShoppingItemModel[]>(url, { headers: this.getAuthHeader() });
+  }
 
   updateShoppingItem(itemId: string, input: ShoppingItemModel): Observable<ShoppingItemModel> {
     const url = UPDATE_SHOPPING_ITEM.replace(':itemId', itemId);
-    return this.http.patch<ShoppingItemModel>(url, input , { headers: this.getAuthHeader() });
+    return this.http.patch<ShoppingItemModel>(url, input, { headers: this.getAuthHeader() });
   }
 
   updateStatusofShoppingItemService(itemId: string, status: string): Observable<ShoppingItemModel> {

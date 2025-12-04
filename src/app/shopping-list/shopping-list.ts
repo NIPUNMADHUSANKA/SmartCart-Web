@@ -1,4 +1,4 @@
-import { Component, Input, Output, signal, EventEmitter, inject } from '@angular/core';
+import { Component, Input, Output, signal, EventEmitter, inject, OnChanges, SimpleChanges } from '@angular/core';
 import { ShoppingItem } from '../shopping-item/shopping-item';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,20 +16,24 @@ import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
   templateUrl: './shopping-list.html',
   styleUrl: './shopping-list.scss',
 })
-export class ShoppingList {
+export class ShoppingList implements OnChanges {
   readonly panelOpenState = signal(true);
 
   protected createShoppingItem = signal<boolean>(false);
   shoppingItemService = inject(shoppingItemService)
-  shoppingItemsDetails!: ShoppingItemModel[];
+  shoppingItemsDetails: ShoppingItemModel[] = [];
   shoppingItemDetails!: ShoppingItemModel;
 
   @Input() categoryDetails!: CategoryModel;
   @Output() updateCategoryDialog = new EventEmitter<string>();
   @Output() deleteShoppingList = new EventEmitter<string>();
 
-  constructor(private dataService: DataService){
-    this.loadShoppingItem();
+  constructor(private dataService: DataService){}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['categoryDetails']?.currentValue) {
+      this.loadShoppingItem();
+    }
   }
 
   openCreateItemDialog() {
@@ -46,9 +50,10 @@ export class ShoppingList {
   }
 
   loadShoppingItem(){
-    this.shoppingItemService.getAllCategory().subscribe({
+    this.shoppingItemService.getAllShoppingItem(this.categoryDetails.categoryId??'').subscribe({
       next: (res) =>{
         this.shoppingItemsDetails = res;
+        console.log(res);
       },
       error: (err) =>{
         console.error('Failed to get Shopping Items', err);

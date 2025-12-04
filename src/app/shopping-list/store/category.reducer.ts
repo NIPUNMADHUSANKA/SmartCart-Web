@@ -4,7 +4,7 @@ import { loadCategories, loadCategoriesSuccess, loadCategoryFailure } from "./ca
 
 
 export interface CategoryState {
-    categories: CategoryModel[] | [];
+    categories: CategoryModel[]
     loading: boolean;
     error: string | null;
     message: string | null;

@@ -11,7 +11,7 @@
 
     <mat-accordion class="sga-accordion" multi>
 
-        @for (item of categories; track $index) {
+        @for (item of categories$ | async; track $index) {
             <app-shopping-list [categoryDetails] = item (updateCategoryDialog)="openUpdateListDialog($event)" (deleteShoppingList)="deleteCategory($event)"/>
         }
 

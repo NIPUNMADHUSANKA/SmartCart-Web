@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ShoppingList } from '../shopping-list/shopping-list';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,6 +7,10 @@ import { ShoppingListForm } from '../shopping-list-form/shopping-list-form';
 import { CommonModule } from '@angular/common';
 import { CategoryService } from '../service/category-service';
 import { CategoryModel } from '../interfaces/shoppingList';
+import { Store } from '@ngrx/store';
+import { selectCategories } from '../shopping-list/store/category.selectors';
+import { loadCategories } from '../shopping-list/store/category.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-list-page',
@@ -16,11 +20,13 @@ import { CategoryModel } from '../interfaces/shoppingList';
 })
 export class ShoppingListPage implements OnInit {
 
+  store = inject(Store);
+
   readonly pageName = signal('Shopping Lists')
 
   protected createShoppingList = signal<boolean>(false);
 
-  categories: CategoryModel[] = [];
+  categories$: Observable<CategoryModel[]> = this.store.select(selectCategories);
   category: CategoryModel | null = null;
 
   constructor(
@@ -68,14 +74,7 @@ export class ShoppingListPage implements OnInit {
   }
 
   loadCategories() {
-    this.categoryService.getAllCategory().subscribe({
-      next: (value) => {
-        this.categories = value;
-      },
-      error: (err) => {
-        console.error('Failed to get categories', err);
-      },
-    });
+    this.store.dispatch(loadCategories());
   }
 
 }
