@@ -87,9 +87,11 @@
                     }
                     
                 </button>
+                @if (!isUpdate()) {
                 <button type="button" class="btn btn-danger-outline" (click)="clearList()">
                     Clear
                 </button>
+            }
             </footer>
         </form>
     </section>

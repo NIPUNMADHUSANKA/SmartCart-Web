@@ -23,7 +23,7 @@
 
         <div class="modal-layer">
             <div class="modal-window">
-                <app-shopping-list-form (toggleCategoryDialog) = openCreateListDialog() [categoryData] = category></app-shopping-list-form>
+                <app-shopping-list-form (toggleCategoryDialog) = openCreateListDialog() [categoryData] = "category$ |async"></app-shopping-list-form>
             </div>
         </div>
     </ng-container>

@@ -9,8 +9,8 @@ import { CategoryService } from '../service/category-service';
 import { CategoryModel } from '../interfaces/shoppingList';
 import { Store } from '@ngrx/store';
 import { selectCategories } from '../shopping-list/store/category.selectors';
-import { loadCategories } from '../shopping-list/store/category.actions';
-import { Observable } from 'rxjs';
+import { deleteCategory, loadCategories } from '../shopping-list/store/category.actions';
+import { map, Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-list-page',
@@ -27,7 +27,7 @@ export class ShoppingListPage implements OnInit {
   protected createShoppingList = signal<boolean>(false);
 
   categories$: Observable<CategoryModel[]> = this.store.select(selectCategories);
-  category: CategoryModel | null = null;
+  category$: Observable<CategoryModel | null> = of(null);
 
   constructor(
     private readonly categoryService: CategoryService,
@@ -38,18 +38,22 @@ export class ShoppingListPage implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.category = null;
     this.loadCategories();
   }
 
   openCreateListDialog() {
     this.createShoppingList.set(!this.createShoppingList());
-    this.loadCategories();
-    this.category = null;
+    //this.loadCategories();
+    this.category$ = of(null);
   }
 
   openUpdateListDialog(id: any) {
-    this.categoryService.getCategory(id).subscribe({
+    this.category$ = this.store.select(selectCategories).pipe(
+      take(1),
+      map(categories => categories.find(cat => cat.categoryId === id) || null)
+    );
+    this.createShoppingList.set(!this.createShoppingList());
+    /*this.categoryService.getCategory(id).subscribe({
       next: (res) => {
         this.category = res;
         this.createShoppingList.set(!this.createShoppingList());
@@ -57,11 +61,12 @@ export class ShoppingListPage implements OnInit {
       error: () => {
         console.error('Category is not found.');
       }
-    })
+    })*/
   }
 
   deleteCategory(id: any) {
-    this.categoryService.deleteCategory(id).subscribe({
+    this.store.dispatch(deleteCategory({ categoryId: id }));
+    /*this.categoryService.deleteCategory(id).subscribe({
       next: () => {
         alert('Category deleted successfully!');
         this.loadCategories();
@@ -70,7 +75,7 @@ export class ShoppingListPage implements OnInit {
         console.error('Failed to delete category', err);
         alert(err?.error?.message ?? 'Failed to delete category.');
       }
-    });
+    });*/
   }
 
   loadCategories() {

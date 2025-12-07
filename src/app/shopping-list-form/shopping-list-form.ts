@@ -3,6 +3,8 @@ import { Component, EventEmitter, inject, Input, Output, signal, OnInit, OnChang
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoryService } from '../service/category-service';
 import { CategoryModel } from '../interfaces/shoppingList';
+import { Store } from '@ngrx/store';
+import { createCategory, updateCategory } from '../shopping-list/store/category.actions';
 
 @Component({
   selector: 'app-shopping-list-form',
@@ -15,6 +17,7 @@ export class ShoppingListForm implements OnInit, OnChanges {
 
   constructor(private categoryService: CategoryService) { }
 
+  store = inject(Store);
   fb = inject(NonNullableFormBuilder);
 
   @Input() categoryData!: CategoryModel | null;
@@ -63,7 +66,10 @@ export class ShoppingListForm implements OnInit, OnChanges {
       const payload = this.shoppingCart.getRawValue() as CategoryModel;
       if (this.isUpdate()) {
         const categoryId = this.categoryData?.categoryId ?? '';
-        this.categoryService.updateCategory(categoryId, payload).subscribe({
+        this.store.dispatch(updateCategory({ categoryId, category: payload}));
+        //this.toggleCreateListDialog();
+        //this.clearList();
+        /*this.categoryService.updateCategory(categoryId, payload).subscribe({
           next: (res) => {
             alert("Category updated successfully!");
             this.clearList();
@@ -71,9 +77,11 @@ export class ShoppingListForm implements OnInit, OnChanges {
           error: (err) => {
             console.error('Failed to update category', err);
           },
-        });
+        });*/
       } else {
-        this.categoryService.saveCategory(payload).subscribe({
+        this.store.dispatch(createCategory({ category: payload }));
+        this.clearList();
+        /*this.categoryService.saveCategory(payload).subscribe({
           next: (res) => {
             alert("Category saved successfully!");
             this.clearList();
@@ -81,7 +89,7 @@ export class ShoppingListForm implements OnInit, OnChanges {
           error: (err) => {
             console.error('Failed to save category', err);
           },
-        });
+        });*/
       }
     }
   }

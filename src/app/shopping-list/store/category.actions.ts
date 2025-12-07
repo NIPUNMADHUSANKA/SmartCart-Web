@@ -1,15 +1,14 @@
 import { createAction, props } from "@ngrx/store";
-import { RegisterPayload } from "../../interfaces/userProfile";
 import { CategoryModel } from "../../interfaces/shoppingList";
 
 export const createCategory = createAction(
     '[Category] Create Category',
-    props<{payload: RegisterPayload}>()
+    props<{category: CategoryModel}>()
 );
 
 export const createCategorySuccess = createAction(
     '[Category] Create Category Success',
-    props<{message: string}>()
+    props<{category: CategoryModel, message: string}>()
 );
 
 export const createCategoryFailure = createAction(
@@ -33,12 +32,12 @@ export const loadCategoryFailure = createAction(
 
 export const updateCategory = createAction(
     '[Category] Update Category',
-    props<{payload: RegisterPayload}>()
+    props<{categoryId: string, category: CategoryModel}>()
 );
 
 export const updateCategorySuccess = createAction(
     '[Category] Update Category Success',
-    props<{message: string}>()
+    props<{category: CategoryModel, message: string}>()
 );
 
 export const updateCategoryFailure = createAction(
@@ -53,7 +52,7 @@ export const deleteCategory = createAction(
 
 export const deleteCategorySuccess = createAction(
     '[Category] Delete Category Success',
-    props<{message: string}>()
+    props<{categoryId: string, message: string}>()
 );
 
 export const deleteCategoryFailure = createAction(
