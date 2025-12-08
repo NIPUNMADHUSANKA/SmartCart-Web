@@ -1,7 +1,7 @@
 import { Inject, inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { CategoryService } from "../../service/category-service";
-import { createCategory, createCategoryFailure, createCategorySuccess, deleteCategory, deleteCategorySuccess, loadCategories, loadCategoriesSuccess, loadCategoryFailure, updateCategory, updateCategorySuccess } from "./category.actions";
+import { createCategory, createCategoryFailure, createCategorySuccess, deleteCategory, deleteCategoryFailure, deleteCategorySuccess, loadCategories, loadCategoriesFailure, loadCategoriesSuccess, updateCategory, updateCategoryFailure, updateCategorySuccess } from "./category.actions";
 import { catchError, map, mergeMap, of } from "rxjs";
 import { CategoryModel } from "../../interfaces/shoppingList";
 
@@ -11,7 +11,6 @@ export class CategoryEffects {
     private actions$ = inject(Actions);
     private categoryService = inject(CategoryService);
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) { }
 
     loadCategories$ = createEffect(() =>
         this.actions$.pipe(
@@ -21,7 +20,7 @@ export class CategoryEffects {
                     map((res: CategoryModel[]) => loadCategoriesSuccess({ categories: res, message: 'Categories Loaded Successfully' })),
                     catchError((error) =>
                         of(
-                            loadCategoryFailure({ error: error?.error?.message || 'Failed to Load Categories' })
+                            loadCategoriesFailure({ error: error?.error?.message || 'Failed to Load Categories' })
                         )
                     )
                 )
@@ -53,7 +52,7 @@ export class CategoryEffects {
                     map((res: CategoryModel) => updateCategorySuccess({ category: res, message: 'Category Updated Successfully' })),
                     catchError((error) =>
                         of(
-                            createCategoryFailure({ error: error?.error?.message || 'Failed to Update Category' })
+                            updateCategoryFailure({ error: error?.error?.message || 'Failed to Update Category' })
                         )
                     )
                 )))
@@ -67,7 +66,7 @@ export class CategoryEffects {
                     map(() => deleteCategorySuccess({ categoryId, message: 'Category Deleted Successfully' })),
                     catchError((error) =>
                         of(
-                            createCategoryFailure({ error: error?.error?.message || 'Failed to Delete Category' })
+                            deleteCategoryFailure({ error: error?.error?.message || 'Failed to Delete Category' })
                         )
                     )
                 )))

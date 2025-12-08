@@ -53,7 +53,6 @@ export class ShoppingList implements OnChanges {
     this.shoppingItemService.getAllShoppingItem(this.categoryDetails.categoryId??'').subscribe({
       next: (res) =>{
         this.shoppingItemsDetails = res;
-        console.log(res);
       },
       error: (err) =>{
         console.error('Failed to get Shopping Items', err);

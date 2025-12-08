@@ -21,12 +21,12 @@ export const loadCategories = createAction(
 );
 
 export const loadCategoriesSuccess = createAction(
-    '[Category] Load Category Success',
+    '[Category] Load Categories Success',
     props<{categories: CategoryModel[], message: string}>()
 );
 
-export const loadCategoryFailure = createAction(
-    '[Category] Load Category Failure',
+export const loadCategoriesFailure = createAction(
+    '[Category] Load Categories Failure',
     props<{error: string}>()
 );
 

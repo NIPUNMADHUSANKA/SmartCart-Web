@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { CategoryModel } from "../../interfaces/shoppingList";
-import { createCategory, createCategoryFailure, createCategorySuccess, deleteCategory, deleteCategoryFailure, deleteCategorySuccess, loadCategories, loadCategoriesSuccess, loadCategoryFailure, updateCategory, updateCategoryFailure, updateCategorySuccess } from "./category.actions";
+import { createCategory, createCategoryFailure, createCategorySuccess, deleteCategory, deleteCategoryFailure, deleteCategorySuccess, loadCategories, loadCategoriesFailure, loadCategoriesSuccess, updateCategory, updateCategoryFailure, updateCategorySuccess } from "./category.actions";
 
 export interface CategoryState {
     categories: CategoryModel[]
@@ -33,7 +33,7 @@ export const CategoryReducer = createReducer(
         message
     })),
 
-    on(loadCategoryFailure, (state, {error}) => ({
+    on(loadCategoriesFailure, (state, {error}) => ({
         ...state,
         loading: false,
         error
