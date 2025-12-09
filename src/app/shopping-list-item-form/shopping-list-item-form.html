@@ -46,10 +46,10 @@
                     <div class="chip-group">
                         <button type="button" class="chip"
                             [class.chip--on]="shoppingItem.get('status')?.value === 'active'"
-                            (click)="setStatus('active')">Active</button>
+                            (click)="setStatus('active')">Pending</button>
                         <button type="button" class="chip"
                             [class.chip--on]="shoppingItem.get('status')?.value === 'archived'"
-                            (click)="setStatus('archived')">Archived</button>
+                            (click)="setStatus('archived')">Bought</button>
                     </div>
                 </div>
                 }
@@ -97,9 +97,11 @@
                     }
 
                 </button>
-                <button type="button" class="btn btn-danger-outline" (click)="clearShoppingList()">
-                    Clear
-                </button>
+                @if (!isUpdate()) {
+                    <button type="button" class="btn btn-danger-outline" (click)="clearShoppingList()">
+                        Clear
+                    </button>
+                }
             </footer>
         </form>
     </section>

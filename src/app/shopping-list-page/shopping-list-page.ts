@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 import { selectCategories } from '../shopping-list/store/category.selectors';
 import { deleteCategory, loadCategories } from '../shopping-list/store/category.actions';
 import { map, Observable, of, take } from 'rxjs';
+import { loadShoppingItems } from '../shopping-item/store/shopping-item.actions';
 
 @Component({
   selector: 'app-shopping-list-page',
@@ -80,6 +81,7 @@ export class ShoppingListPage implements OnInit {
 
   loadCategories() {
     this.store.dispatch(loadCategories());
+    this.store.dispatch(loadShoppingItems());
   }
 
 }

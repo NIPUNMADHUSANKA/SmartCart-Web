@@ -5,6 +5,8 @@ import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { ShoppingItemModel } from '../interfaces/shoppingList';
 import { ShoppingItem as ShoppingItemService } from '../service/shopping-item';
+import { Store } from '@ngrx/store';
+import { deleteShoppingItem, updateStatusShoppingItem } from './store/shopping-item.actions';
 
 
 
@@ -23,14 +25,17 @@ export class ShoppingItem {
   @Output() toggleOpenCardItemDialog =new EventEmitter<string>();
 
   shoppingItemService = inject(ShoppingItemService)
+  store = inject(Store);
 
   status = 'high-piority';
 
   toggleBuyItem(){
     let itemId = this.shoppingItemDetails.itemId ?? '';
     let status:string = this.shoppingItemDetails.status === 'active' ? 'archived' : 'active';
+
+    this.store.dispatch(updateStatusShoppingItem({shoppingItemId: itemId, status}));
     
-    this.shoppingItemService.updateStatusofShoppingItemService(itemId, status).subscribe(
+    /*this.shoppingItemService.updateStatusofShoppingItemService(itemId, status).subscribe(
       {
         next: (res)=>{
           this.shoppingItemUpdated.emit(res);
@@ -39,19 +44,20 @@ export class ShoppingItem {
           console.error('Failed to update Shopping Item', err);
         }
       }
-    );
+    );*/
   }
 
   toggleDeleteItem(){
     let itemId = this.shoppingItemDetails.itemId ?? '';
-    this.shoppingItemService.deleteShoppingItem(itemId).subscribe({
+    this.store.dispatch(deleteShoppingItem({shoppingItemId: itemId}));
+    /*this.shoppingItemService.deleteShoppingItem(itemId).subscribe({
       next: (res)=>{
           this.loadshoppingItems.emit(true);
         },
         error: (err) =>{
           console.error('Failed to Delete Shopping Item', err);
         }
-    })
+    })*/
   }
 
   toggleOpenItemDialog(){

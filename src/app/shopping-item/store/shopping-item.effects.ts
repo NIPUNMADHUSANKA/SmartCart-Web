@@ -14,8 +14,8 @@ export class ShoppingItemEffects {
     loadShoppingItems$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadShoppingItems),
-            mergeMap(({ categoryId }) =>
-                this.shoppingItemService.getAllShoppingItem(categoryId).pipe(
+            mergeMap(({  }) =>
+                this.shoppingItemService.getAllCategory().pipe(
                     map((ShoppingItems: ShoppingItemModel[]) => loadShoppingItemsSuccess({ shoppingItems: ShoppingItems, message: 'Shopping Items Loaded Successfully' })),
                     catchError((error) => {
                         return of(

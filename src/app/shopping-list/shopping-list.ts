@@ -8,6 +8,9 @@ import { ShoppingListItemForm } from '../shopping-list-item-form/shopping-list-i
 import { CategoryModel, ShoppingItemModel } from '../interfaces/shoppingList';
 import { DataService } from '../service/data-service';
 import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
+import { Store } from '@ngrx/store';
+import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
+import { map } from 'rxjs';
 
 
 @Component({
@@ -19,6 +22,8 @@ import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
 export class ShoppingList implements OnChanges {
   readonly panelOpenState = signal(true);
 
+  store = inject(Store);
+
   protected createShoppingItem = signal<boolean>(false);
   shoppingItemService = inject(shoppingItemService)
   shoppingItemsDetails: ShoppingItemModel[] = [];
@@ -28,7 +33,7 @@ export class ShoppingList implements OnChanges {
   @Output() updateCategoryDialog = new EventEmitter<string>();
   @Output() deleteShoppingList = new EventEmitter<string>();
 
-  constructor(private dataService: DataService){}
+  constructor(private dataService: DataService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['categoryDetails']?.currentValue) {
@@ -45,19 +50,25 @@ export class ShoppingList implements OnChanges {
     this.updateCategoryDialog.emit(this.categoryDetails.categoryId);
   }
 
-  deleteCategory(){
+  deleteCategory() {
     this.deleteShoppingList.emit(this.categoryDetails.categoryId);
   }
 
-  loadShoppingItem(){
-    this.shoppingItemService.getAllShoppingItem(this.categoryDetails.categoryId??'').subscribe({
+  loadShoppingItem() {
+    this.store.select(selectShoppingItems).pipe(
+      map(items => items.filter(item => item.categoryId === this.categoryDetails.categoryId))
+    ).subscribe((items) => {
+      this.shoppingItemsDetails = items;
+    });
+
+    /*this.shoppingItemService.getAllShoppingItem(this.categoryDetails.categoryId??'').subscribe({
       next: (res) =>{
         this.shoppingItemsDetails = res;
       },
       error: (err) =>{
         console.error('Failed to get Shopping Items', err);
       }
-    })
+    })*/
 
   }
 
@@ -69,19 +80,19 @@ export class ShoppingList implements OnChanges {
     }
   }
 
-  onloadShoppingItems(load: boolean){
-    if(load){
+  onloadShoppingItems(load: boolean) {
+    if (load) {
       this.loadShoppingItem();
     }
   }
 
-  toggleOpenCardItemDialog(itemId:string){
+  toggleOpenCardItemDialog(itemId: string) {
     const index = this.shoppingItemsDetails.findIndex(item => item.itemId === itemId);
     this.shoppingItemDetails = this.shoppingItemsDetails[index];
     this.createShoppingItem.set(true);
   }
 
-  toggleOpenCreateItemDialog(toggle:boolean){
+  toggleOpenCreateItemDialog(toggle: boolean) {
     this.createShoppingItem.set(toggle);
   }
 

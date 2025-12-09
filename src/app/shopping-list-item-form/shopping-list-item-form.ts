@@ -5,6 +5,8 @@ import { Unit } from '../interfaces/shoppingItemList';
 import { DataService } from '../service/data-service';
 import { ShoppingItem } from '../service/shopping-item';
 import { ShoppingItemModel } from '../interfaces/shoppingList';
+import { Store } from '@ngrx/store';
+import { createShoppingItem, updateShoppingItem } from '../shopping-item/store/shopping-item.actions';
 
 @Component({
   selector: 'app-shopping-list-item-form',
@@ -14,6 +16,7 @@ import { ShoppingItemModel } from '../interfaces/shoppingList';
 })
 export class ShoppingListItemForm implements OnInit, OnChanges {
 
+  store = inject(Store);
   unit = Unit;
   units = Object.values(this.unit);
 
@@ -72,7 +75,8 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
       const payload = this.shoppingItem.getRawValue() as ShoppingItemModel;
       if (this.isUpdate()) {
         const itemId = this.shoppingItemDetails?.itemId ?? '';
-        this.shoppingItemService.updateShoppingItem(itemId, payload).subscribe({
+        this.store.dispatch(updateShoppingItem({ shoppingItemId: itemId, shoppingItem: payload }));
+        /*this.shoppingItemService.updateShoppingItem(itemId, payload).subscribe({
           next: (res) => {
             alert("Shopping Item updated successfully!");
             this.loadShoppingItem.emit(true);
@@ -80,10 +84,11 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
           error: (err) => {
             console.error('Failed to update Shopping Item', err);
           },
-        });
+        });*/
       }
       else {
-        this.shoppingItemService.saveShoppingItem(payload).subscribe({
+        this.store.dispatch(createShoppingItem({ shoppingItem: payload }));
+        /*this.shoppingItemService.saveShoppingItem(payload).subscribe({
           next: (res) => {
             alert("Shopping Item saved successfully!");
             this.clearShoppingList();
@@ -92,7 +97,7 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
           error: (err) => {
             console.error('Failed to save Shopping Item', err);
           }
-        })
+        })*/
       }
     }
   }

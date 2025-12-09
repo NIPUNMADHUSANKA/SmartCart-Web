@@ -17,8 +17,7 @@ export const createShoppingItemFailure = createAction(
 )
 
 export const loadShoppingItems = createAction(
-    '[Shopping Item] Load Shopping Items',
-    props<{categoryId: string}>()
+    '[Shopping Item] Load Shopping Items'
 );
 
 export const loadShoppingItemsSuccess = createAction(
