@@ -11,6 +11,8 @@ import { AuthReducer} from './auth/store/auth.reducer';
 import { CategoryReducer } from './shopping-list/store/category.reducer';
 import { AuthEffects } from './auth/store/auth.effects';
 import { CategoryEffects } from './shopping-list/store/category.effects';
+import { shoppingItemReducer } from './shopping-item/store/shopping-item.reducer';
+import { ShoppingItemEffects } from './shopping-item/store/shopping-item.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,8 +21,8 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
-    provideStore({auth:AuthReducer, categories: CategoryReducer}),
-    provideEffects([AuthEffects, CategoryEffects]),
+    provideStore({auth:AuthReducer, categories: CategoryReducer, shoppingItems: shoppingItemReducer}),
+    provideEffects([AuthEffects, CategoryEffects, ShoppingItemEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

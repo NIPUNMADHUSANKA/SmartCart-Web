@@ -8,17 +8,17 @@ export const selectCategories = createSelector(
     state => state.categories
 )
 
-export const selectLoading = createSelector(
+export const selectCategoriesLoading = createSelector(
     selectCategoryState,
     state=> state.loading
 )
 
-export const selectAuthError = createSelector(
+export const selectCategoriesError = createSelector(
     selectCategoryState,
     state=> state.error
 )
 
-export const selectAuthMessage = createSelector(
+export const selectCategoriesMessage = createSelector(
     selectCategoryState,
     state=> state.message
 )
