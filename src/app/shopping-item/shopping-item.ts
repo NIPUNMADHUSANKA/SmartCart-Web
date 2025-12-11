@@ -20,8 +20,6 @@ import { deleteShoppingItem, updateStatusShoppingItem } from './store/shopping-i
 export class ShoppingItem {
 
   @Input() shoppingItemDetails!: ShoppingItemModel;
-  @Output() shoppingItemUpdated = new EventEmitter<ShoppingItemModel>();
-  @Output() loadshoppingItems = new EventEmitter<boolean>(false);
   @Output() toggleOpenCardItemDialog =new EventEmitter<string>();
 
   shoppingItemService = inject(ShoppingItemService)

@@ -1,4 +1,4 @@
-import { Component, Input, Output, signal, EventEmitter, inject, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, signal, EventEmitter, inject, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
 import { ShoppingItem } from '../shopping-item/shopping-item';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,7 +10,7 @@ import { DataService } from '../service/data-service';
 import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
-import { map } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 
 
 @Component({
@@ -19,15 +19,16 @@ import { map } from 'rxjs';
   templateUrl: './shopping-list.html',
   styleUrl: './shopping-list.scss',
 })
-export class ShoppingList implements OnChanges {
+export class ShoppingList implements OnChanges, OnDestroy {
   readonly panelOpenState = signal(true);
 
   store = inject(Store);
+  destroy$ = new Subject<void>();
 
   protected createShoppingItem = signal<boolean>(false);
   shoppingItemService = inject(shoppingItemService)
   shoppingItemsDetails: ShoppingItemModel[] = [];
-  shoppingItemDetails!: ShoppingItemModel;
+  shoppingItemDetails!: ShoppingItemModel | null;
 
   @Input() categoryDetails!: CategoryModel;
   @Output() updateCategoryDialog = new EventEmitter<string>();
@@ -39,6 +40,11 @@ export class ShoppingList implements OnChanges {
     if (changes['categoryDetails']?.currentValue) {
       this.loadShoppingItem();
     }
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   openCreateItemDialog() {
@@ -56,7 +62,8 @@ export class ShoppingList implements OnChanges {
 
   loadShoppingItem() {
     this.store.select(selectShoppingItems).pipe(
-      map(items => items.filter(item => item.categoryId === this.categoryDetails.categoryId))
+      map(items => items.filter(item => item.categoryId === this.categoryDetails.categoryId)),
+      takeUntil(this.destroy$)
     ).subscribe((items) => {
       this.shoppingItemsDetails = items;
     });
@@ -72,13 +79,6 @@ export class ShoppingList implements OnChanges {
 
   }
 
-  onShoppingItemUpdated(updatedItem: ShoppingItemModel) {
-    const index = this.shoppingItemsDetails.findIndex(item => item.itemId === updatedItem.itemId);
-    if (index !== -1) {
-      this.shoppingItemsDetails[index] = updatedItem;
-      this.shoppingItemsDetails = [...this.shoppingItemsDetails];
-    }
-  }
 
   onloadShoppingItems(load: boolean) {
     if (load) {
@@ -93,6 +93,7 @@ export class ShoppingList implements OnChanges {
   }
 
   toggleOpenCreateItemDialog(toggle: boolean) {
+    this.shoppingItemDetails = null;
     this.createShoppingItem.set(toggle);
   }
 

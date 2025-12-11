@@ -13,6 +13,9 @@ import { AuthEffects } from './auth/store/auth.effects';
 import { CategoryEffects } from './shopping-list/store/category.effects';
 import { shoppingItemReducer } from './shopping-item/store/shopping-item.reducer';
 import { ShoppingItemEffects } from './shopping-item/store/shopping-item.effects';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideToastr } from 'ngx-toastr'; // Import the Toastr provider
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +23,12 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes), 
+    provideAnimations(),
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-bottom-right',
+      preventDuplicates: true,
+    }),
     provideClientHydration(withEventReplay()),
     provideStore({auth:AuthReducer, categories: CategoryReducer, shoppingItems: shoppingItemReducer}),
     provideEffects([AuthEffects, CategoryEffects, ShoppingItemEffects]),

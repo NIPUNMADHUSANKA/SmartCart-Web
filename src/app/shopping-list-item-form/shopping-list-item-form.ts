@@ -21,8 +21,7 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
   units = Object.values(this.unit);
 
   @Input() shoppingItemDetails!: ShoppingItemModel | null;
-  @Output() toggleOpenCreateItemDialog = new EventEmitter<boolean>();
-  @Output() loadShoppingItem = new EventEmitter<boolean>(false);
+  @Output() toggleOpenCreateItemDialog = new EventEmitter<boolean>(true);
 
   fb = inject(NonNullableFormBuilder);
   dataService = inject(DataService);
@@ -79,7 +78,6 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
         /*this.shoppingItemService.updateShoppingItem(itemId, payload).subscribe({
           next: (res) => {
             alert("Shopping Item updated successfully!");
-            this.loadShoppingItem.emit(true);
           },
           error: (err) => {
             console.error('Failed to update Shopping Item', err);
@@ -88,11 +86,11 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
       }
       else {
         this.store.dispatch(createShoppingItem({ shoppingItem: payload }));
+        this.clearShoppingList();
         /*this.shoppingItemService.saveShoppingItem(payload).subscribe({
           next: (res) => {
             alert("Shopping Item saved successfully!");
             this.clearShoppingList();
-            this.loadShoppingItem.emit(true);
           },
           error: (err) => {
             console.error('Failed to save Shopping Item', err);

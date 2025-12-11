@@ -1,27 +1,36 @@
 import { inject, Injectable } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { ShoppingItem } from "../../service/shopping-item";
-import { createShoppingItem, createShoppingItemFailure, createShoppingItemSuccess, deleteShoppingItem, deleteShoppingItemFailure, deleteShoppingItemSuccess, loadShoppingItems, loadShoppingItemsFailure, loadShoppingItemsSuccess, updateShoppingItem, updateShoppingItemFailure, updateShoppingItemSuccess, updateStatusShoppingItem, updateStatusShoppingItemSuccess } from "./shopping-item.actions";
-import { catchError, map, mergeMap, of } from "rxjs";
+import { createShoppingItem, createShoppingItemFailure, createShoppingItemSuccess, deleteShoppingItem, deleteShoppingItemFailure, deleteShoppingItemSuccess, loadShoppingItems, loadShoppingItemsFailure, loadShoppingItemsSuccess, updateShoppingItem, updateShoppingItemFailure, updateShoppingItemSuccess, updateStatusShoppingItem, updateStatusShoppingItemFailure, updateStatusShoppingItemSuccess } from "./shopping-item.actions";
+import { catchError, map, mergeMap, of, tap } from "rxjs";
 import { ShoppingItemModel } from "../../interfaces/shoppingList";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable()
 export class ShoppingItemEffects {
 
     private actions$ = inject(Actions);
     private shoppingItemService = inject(ShoppingItem);
+    private toastServie = inject(ToastrService);
 
     loadShoppingItems$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loadShoppingItems),
-            mergeMap(({  }) =>
+            mergeMap(() =>
                 this.shoppingItemService.getAllCategory().pipe(
-                    map((ShoppingItems: ShoppingItemModel[]) => loadShoppingItemsSuccess({ shoppingItems: ShoppingItems, message: 'Shopping Items Loaded Successfully' })),
-                    catchError((error) => {
-                        return of(
-                            loadShoppingItemsFailure({ error: error?.error?.message || 'Failed to Load Shopping Items' })
+                    map((shoppingItems: ShoppingItemModel[]) =>
+                        loadShoppingItemsSuccess({
+                            shoppingItems,
+                            message: 'Shopping Items Loaded Successfully',
+                        })
+                    ),
+                    catchError((error) =>
+                        of(
+                            loadShoppingItemsFailure({
+                                error: this.getErrorMessage(error, 'Failed to Load Shopping Items'),
+                            })
                         )
-                    })
+                    )
                 )
             )
         )
@@ -36,11 +45,13 @@ export class ShoppingItemEffects {
                         createShoppingItemSuccess({
                             shoppingItem: res,
                             message: 'Shopping Item Created Successfully'
-                        })),
-
+                        })
+                    ),
                     catchError((error) =>
                         of(
-                            createShoppingItemFailure({ error: error?.error?.message || 'Failed to Create Shopping Item' })
+                            createShoppingItemFailure({
+                                error: this.getErrorMessage(error, 'Failed to Create Shopping Item'),
+                            })
                         )
                     )
                 )
@@ -57,10 +68,13 @@ export class ShoppingItemEffects {
                         updateShoppingItemSuccess({
                             shoppingItem: res,
                             message: 'Shopping Item Updated Successfully'
-                        })),
+                        })
+                    ),
                     catchError((error) => {
                         return of(
-                            updateShoppingItemFailure({ error: error?.error?.message || 'Failed to Update Shopping Item' })
+                            updateShoppingItemFailure({
+                                error: this.getErrorMessage(error, 'Failed to Update Shopping Item'),
+                            })
                         )
                     })
                 )
@@ -73,10 +87,15 @@ export class ShoppingItemEffects {
             ofType(deleteShoppingItem),
             mergeMap(({ shoppingItemId }) =>
                 this.shoppingItemService.deleteShoppingItem(shoppingItemId).pipe(
-                    map(() => deleteShoppingItemSuccess({ shoppingItemId, message: 'Shopping Item Deleted Successfully' })),
+                    map(() => deleteShoppingItemSuccess({
+                        shoppingItemId,
+                        message: 'Shopping Item Deleted Successfully'
+                    })),
                     catchError((error) =>
                         of(
-                            deleteShoppingItemFailure({ error: error?.error?.message || 'Failed to Delete Shopping Item' })
+                            deleteShoppingItemFailure({
+                                error: this.getErrorMessage(error, 'Failed to Delete Shopping Item'),
+                            })
                         )
                     )
                 )
@@ -92,7 +111,9 @@ export class ShoppingItemEffects {
                     map((res: ShoppingItemModel) => updateStatusShoppingItemSuccess({ shoppingItem: res, message: 'Shopping Item Status Updated Successfully' })),
                     catchError((error) =>
                         of(
-                            updateShoppingItemFailure({ error: error?.error?.message || 'Failed to Update Shopping Item Status' })
+                            updateStatusShoppingItemFailure({
+                                error: this.getErrorMessage(error, 'Failed to Update Shopping Item Status'),
+                            })
                         )
                     )
                 )
@@ -100,5 +121,28 @@ export class ShoppingItemEffects {
         )
     );
 
+    successToast$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(loadShoppingItemsSuccess, createShoppingItemSuccess, updateShoppingItemSuccess, deleteShoppingItemSuccess, updateStatusShoppingItemSuccess),
+            tap(({ message }) => {
+                this.toastServie.success(message);
+            })
+        ),
+        { dispatch: false }
+    );
+
+    failedToast$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(loadShoppingItemsFailure, createShoppingItemFailure, updateShoppingItemFailure, deleteShoppingItemFailure, updateStatusShoppingItemFailure),
+            tap(({error}) => this.toastServie.error(error))
+        ),
+        { dispatch: false}
+    );
+
+
+    private getErrorMessage(error: unknown, defaultMessage: string): string {
+        const message = (error as { error?: { message?: string } })?.error?.message;
+        return typeof message === 'string' && message.trim().length ? message : defaultMessage;
+    }
 
 }

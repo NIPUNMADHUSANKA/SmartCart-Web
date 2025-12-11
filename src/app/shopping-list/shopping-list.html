@@ -34,8 +34,7 @@
 
         <div class="shopping-item-row">
             @for (item of shoppingItemsDetails; track $index) {
-            <app-shopping-item [shoppingItemDetails]="item" (shoppingItemUpdated)="onShoppingItemUpdated($event)"
-                (loadshoppingItems)="onloadShoppingItems($event)"
+            <app-shopping-item [shoppingItemDetails]="item"
                 (toggleOpenCardItemDialog)="toggleOpenCardItemDialog($event)">
             </app-shopping-item>
             }
@@ -57,8 +56,7 @@
     <div class="modal-layer">
         <div class="modal-window">
             <app-shopping-list-item-form [shoppingItemDetails]="shoppingItemDetails"
-                (toggleOpenCreateItemDialog)="toggleOpenCreateItemDialog($event)"
-                (loadShoppingItem)="onloadShoppingItems($event)"></app-shopping-list-item-form>
+                (toggleOpenCreateItemDialog)="toggleOpenCreateItemDialog($event)"></app-shopping-list-item-form>
         </div>
     </div>
 </ng-container>

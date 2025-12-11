@@ -6,12 +6,14 @@ import { catchError, map, of, switchMap, tap } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 import { AuthTokenResponse } from "../../interfaces/userProfile";
 import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 
 
 @Injectable()
 export class AuthEffects {
     private actions$ = inject(Actions);
     private authService = inject(AuthService);
+    private toastServie = inject(ToastrService);
 
     constructor(@Inject(PLATFORM_ID) private platformId: Object, private router: Router) { }
 
@@ -30,7 +32,8 @@ export class AuthEffects {
                     }),
                     catchError((error) =>
                         of(
-                            loginFailure({ error: error?.error?.message || 'Login Failed' })
+                            loginFailure({ error: this.getErrorMessage(error, 'Login Failed') })
+                            
                         )
                     )
                 )
@@ -63,7 +66,7 @@ export class AuthEffects {
                     catchError((error) =>
                         of(
                             initAuthFromStorageFailure({
-                                error: error?.error?.message || 'Login Failed'
+                                error: this.getErrorMessage(error, 'Login Failed')
                             })
                         )
                     )
@@ -86,7 +89,7 @@ export class AuthEffects {
                     catchError((error) =>
                         of(
                             registerFailure({
-                                error: error?.error?.message || 'Register Failed'
+                                error: this.getErrorMessage(error, 'Register Failed')
                             })
                         )
                     )
@@ -95,5 +98,28 @@ export class AuthEffects {
         )
     );
 
+    successToast$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(loginSuccess, registerSuccess),
+            tap(({ message }) => {
+                this.toastServie.success(message);
+            })
+        ),
+        { dispatch: false }
+    );
+
+    failedToast$ = createEffect(() => 
+        this.actions$.pipe(
+            ofType(loginFailure, registerFailure),
+            tap(({error}) => this.toastServie.error(error))
+        ),
+        { dispatch: false}
+    );
+
+
+    private getErrorMessage(error: unknown, defaultMessage: string): string {
+        const message = (error as { error?: { message?: string } })?.error?.message;
+        return typeof message === 'string' && message.trim().length ? message : defaultMessage;
+    };
 
 }
