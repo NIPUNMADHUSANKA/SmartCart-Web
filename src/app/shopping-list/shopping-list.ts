@@ -10,7 +10,7 @@ import { DataService } from '../service/data-service';
 import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
-import { map, Subject, takeUntil } from 'rxjs';
+import { map, Subscription } from 'rxjs';
 
 
 @Component({
@@ -23,12 +23,12 @@ export class ShoppingList implements OnChanges, OnDestroy {
   readonly panelOpenState = signal(true);
 
   store = inject(Store);
-  destroy$ = new Subject<void>();
 
   protected createShoppingItem = signal<boolean>(false);
   shoppingItemService = inject(shoppingItemService)
   shoppingItemsDetails: ShoppingItemModel[] = [];
   shoppingItemDetails!: ShoppingItemModel | null;
+  private shoppingItemsSub?: Subscription;
 
   @Input() categoryDetails!: CategoryModel;
   @Output() updateCategoryDialog = new EventEmitter<string>();
@@ -43,8 +43,7 @@ export class ShoppingList implements OnChanges, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this.shoppingItemsSub?.unsubscribe();
   }
 
   openCreateItemDialog() {
@@ -61,9 +60,10 @@ export class ShoppingList implements OnChanges, OnDestroy {
   }
 
   loadShoppingItem() {
-    this.store.select(selectShoppingItems).pipe(
-      map(items => items.filter(item => item.categoryId === this.categoryDetails.categoryId)),
-      takeUntil(this.destroy$)
+    this.shoppingItemsSub?.unsubscribe();
+
+    this.shoppingItemsSub = this.store.select(selectShoppingItems).pipe(
+      map(items => items.filter(item => item.categoryId === this.categoryDetails.categoryId))
     ).subscribe((items) => {
       this.shoppingItemsDetails = items;
     });
@@ -77,13 +77,6 @@ export class ShoppingList implements OnChanges, OnDestroy {
       }
     })*/
 
-  }
-
-
-  onloadShoppingItems(load: boolean) {
-    if (load) {
-      this.loadShoppingItem();
-    }
   }
 
   toggleOpenCardItemDialog(itemId: string) {
