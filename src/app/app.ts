@@ -7,10 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { Header } from './header/header';
 import { Store } from '@ngrx/store';
 import { initAuthFromStorage } from './auth/store/auth.actions';
+import { Loader } from './shared/components/loader/loader';
+import { selectGlobalLoading } from './shared/components/loader/ui.selectors';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MatButtonModule, MatInputModule, MatCardModule, MatFormFieldModule, Header],
+  imports: [RouterOutlet, MatButtonModule, MatInputModule, MatCardModule, MatFormFieldModule, Header, Loader, CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
@@ -24,5 +27,6 @@ export class App implements OnInit {
     this.store.dispatch(initAuthFromStorage());
   }
 
+  loading$ = this.store.select(selectGlobalLoading);
 
 }

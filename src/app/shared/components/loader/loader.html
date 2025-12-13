@@ -1,0 +1,12 @@
+<div class="loader" [class.overlay]="overlay" role="status" aria-live="polite">
+  <div
+    class="spinner"
+    [style.width.px]="size"
+    [style.height.px]="size"
+    aria-hidden="true"
+  ></div>
+
+  <p class="message" *ngIf="message">{{ message }}</p>
+
+  <span class="sr-only">Loading</span>
+</div>

@@ -1,2 +1,5 @@
 <app-header></app-header>
+
+<app-loader *ngIf="loading$ | async" message="Loading..." />
+
 <router-outlet />
