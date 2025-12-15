@@ -5,6 +5,9 @@ import { CategoryService } from '../service/category-service';
 import { CategoryModel } from '../interfaces/shoppingList';
 import { Store } from '@ngrx/store';
 import { createCategory, updateCategory } from '../shopping-list/store/category.actions';
+import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
+import { map, take } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-shopping-list-form',
@@ -19,6 +22,7 @@ export class ShoppingListForm implements OnInit, OnChanges {
 
   store = inject(Store);
   fb = inject(NonNullableFormBuilder);
+  private toastService = inject(ToastrService);
 
   @Input() categoryData!: CategoryModel | null;
   @Output() toggleCategoryDialog = new EventEmitter<boolean>(true);
@@ -66,7 +70,7 @@ export class ShoppingListForm implements OnInit, OnChanges {
       const payload = this.shoppingCart.getRawValue() as CategoryModel;
       if (this.isUpdate()) {
         const categoryId = this.categoryData?.categoryId ?? '';
-        this.store.dispatch(updateCategory({ categoryId, category: payload}));
+        this.store.dispatch(updateCategory({ categoryId, category: payload }));
         //this.toggleCreateListDialog();
         //this.clearList();
         /*this.categoryService.updateCategory(categoryId, payload).subscribe({
@@ -95,8 +99,23 @@ export class ShoppingListForm implements OnInit, OnChanges {
   }
 
   setStatus(status: string) {
-    this.shoppingCart.patchValue({ status: status });
-    this.shoppingCart.get('status')?.markAsTouched();
+    const categoryId = this.categoryData?.categoryId;
+    if (!categoryId) return;
+
+    this.store.select(selectShoppingItems).pipe(
+      take(1),
+      map(items =>
+        items.some(item => item.categoryId === categoryId && item.status === 'active')
+      )
+    ).subscribe((hasActiveItems) => {
+      if (hasActiveItems && status === 'completed') {
+        this.toastService.error("You can’t complete this category until all its items are completed.");
+        return;
+      }
+
+      this.shoppingCart.patchValue({ status });
+      this.shoppingCart.get('status')?.markAsTouched();
+    });
   }
 
   setPriority(priority: string) {

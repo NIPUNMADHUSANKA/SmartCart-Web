@@ -10,7 +10,9 @@ import { DataService } from '../service/data-service';
 import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
-import { map, Subscription } from 'rxjs';
+import { map, Observable, Subscription, take } from 'rxjs';
+import { selectCategories } from './store/category.selectors';
+import { ToastrService } from 'ngx-toastr';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class ShoppingList implements OnChanges, OnDestroy {
   readonly panelOpenState = signal(true);
 
   store = inject(Store);
+  private toastService = inject(ToastrService);
 
   protected createShoppingItem = signal<boolean>(false);
   shoppingItemService = inject(shoppingItemService)
@@ -33,11 +36,23 @@ export class ShoppingList implements OnChanges, OnDestroy {
   @Input() categoryDetails!: CategoryModel;
   @Output() updateCategoryDialog = new EventEmitter<string>();
   @Output() deleteShoppingList = new EventEmitter<string>();
+  enableAddItem$?: Observable<boolean>;
+  enableDeleteCategory$?: Observable<boolean>;
 
   constructor(private dataService: DataService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['categoryDetails']?.currentValue) {
+      this.enableAddItem$ = this.store.select(selectCategories).pipe(
+        map(categories =>
+          categories.some(c => c.categoryId === this.categoryDetails.categoryId && c.status === 'active')
+        )
+      );
+      this.enableDeleteCategory$ = this.store.select(selectShoppingItems).pipe(
+        map(items =>
+          items.some(item => item.categoryId === this.categoryDetails.categoryId)
+        )
+      );
       this.loadShoppingItem();
     }
   }
@@ -47,8 +62,14 @@ export class ShoppingList implements OnChanges, OnDestroy {
   }
 
   openCreateItemDialog() {
-    this.dataService.openShoppingList.set(this.categoryDetails.categoryId)
-    this.createShoppingItem.set(!this.createShoppingItem());
+    this.enableAddItem$?.pipe(take(1)).subscribe((canAdd) => {
+      if (canAdd) {
+        this.dataService.openShoppingList.set(this.categoryDetails.categoryId)
+        this.createShoppingItem.set(true);
+      } else {
+        this.toastService.error("You’ve completed this category. Reopen it to add more items.")
+      }
+    });
   }
 
   openupdateCategoryDialog() {
@@ -56,7 +77,14 @@ export class ShoppingList implements OnChanges, OnDestroy {
   }
 
   deleteCategory() {
-    this.deleteShoppingList.emit(this.categoryDetails.categoryId);
+    this.enableDeleteCategory$?.pipe(take(1)).subscribe((hasItems) => {
+      if (hasItems) {
+        this.toastService.error("You can’t delete this category while it has items. Remove them first.")
+      }
+      else {
+        this.deleteShoppingList.emit(this.categoryDetails.categoryId);
+      }
+    })
   }
 
   loadShoppingItem() {
