@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { shoppingItemState } from "./shopping-item.reducer";
+import { selectCategories } from "../../shopping-list/store/category.selectors";
 
 export const selectShoppingItemState = createFeatureSelector<shoppingItemState>('shoppingItems');
 
@@ -22,3 +23,19 @@ export const selectShoppingItemsMessage = createSelector(
     selectShoppingItemState,
     state => state.message
 )
+
+export const selectItemsByCategory = (categoryId: string) =>
+    createSelector(
+        selectCategories,
+        selectShoppingItems,
+        (categories, items) => {
+            const category = categories.find(c => c.categoryId === categoryId && c.status === 'active');
+            if (!category) return null;
+
+            const categoryItems = items.filter(i => i.categoryId === categoryId);
+            return {
+                category,
+                items: categoryItems
+            };
+        }
+    );

@@ -1,4 +1,4 @@
-import { CommonModule, NgClass, TitleCasePipe} from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, input} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
@@ -7,6 +7,9 @@ import { ShoppingItemModel } from '../interfaces/shoppingList';
 import { ShoppingItem as ShoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { deleteShoppingItem, updateStatusShoppingItem } from './store/shopping-item.actions';
+import { selectItemsByCategory } from './store/shopping-item.selectors';
+import { map, of, take } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 
 
@@ -24,14 +27,36 @@ export class ShoppingItem {
 
   shoppingItemService = inject(ShoppingItemService)
   store = inject(Store);
+  private toastService = inject(ToastrService);
 
   status = 'high-piority';
 
-  toggleBuyItem(){
-    let itemId = this.shoppingItemDetails.itemId ?? '';
-    let status:string = this.shoppingItemDetails.status === 'active' ? 'archived' : 'active';
+  isCategoryActive() {
+    const categoryId = this.shoppingItemDetails.categoryId;
+    if(!categoryId){
+      return of(false);
+    }
 
-    this.store.dispatch(updateStatusShoppingItem({shoppingItemId: itemId, status}));
+    return this.store.select(selectItemsByCategory(categoryId)).pipe(
+      take(1),
+      map((result) => !!result?.category && result.category.status === 'active')
+    );
+  }
+
+  toggleBuyItem(){
+    this.isCategoryActive().subscribe(
+      (isActive) => {
+        if(isActive){
+          let itemId = this.shoppingItemDetails.itemId ?? '';
+          let status:string = this.shoppingItemDetails.status === 'active' ? 'archived' : 'active';
+          this.store.dispatch(updateStatusShoppingItem({shoppingItemId: itemId, status}));
+        }
+        else{
+          this.toastService.error("This category is currently closed. You can reopen it to manage items again.");
+        }
+      }
+    )
+    
     
     /*this.shoppingItemService.updateStatusofShoppingItemService(itemId, status).subscribe(
       {
@@ -46,8 +71,17 @@ export class ShoppingItem {
   }
 
   toggleDeleteItem(){
-    let itemId = this.shoppingItemDetails.itemId ?? '';
-    this.store.dispatch(deleteShoppingItem({shoppingItemId: itemId}));
+    this.isCategoryActive().subscribe(
+      (isActive) => {
+        if(isActive){
+          let itemId = this.shoppingItemDetails.itemId ?? '';
+          this.store.dispatch(deleteShoppingItem({shoppingItemId: itemId}));
+        }
+        else{
+          this.toastService.error("This category is currently closed. You can reopen it to manage items again.");
+        }
+      }
+    )
     /*this.shoppingItemService.deleteShoppingItem(itemId).subscribe({
       next: (res)=>{
           this.loadshoppingItems.emit(true);
@@ -59,7 +93,16 @@ export class ShoppingItem {
   }
 
   toggleOpenItemDialog(){
-    this.toggleOpenCardItemDialog.emit(this.shoppingItemDetails.itemId ?? '');
+    this.isCategoryActive().subscribe(
+      (isActive) => {
+        if(isActive){
+          this.toggleOpenCardItemDialog.emit(this.shoppingItemDetails.itemId ?? '');
+        }
+        else{
+          this.toastService.error("This category is currently closed. You can reopen it to manage items again.");
+        }
+      }
+    )
   }
 
 }
