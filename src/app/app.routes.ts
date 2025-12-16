@@ -6,7 +6,8 @@ export const routes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        loadComponent: () => import('./home/home').then((m) => m.Home)
+        loadComponent: () => import('./home/home').then((m) => m.Home),
+        canActivate: [AuthGuard]
     },
     {
         path: 'shopping-list',

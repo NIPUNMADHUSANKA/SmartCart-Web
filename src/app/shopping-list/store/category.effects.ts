@@ -109,7 +109,7 @@ export class CategoryEffects {
     successToasts$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(loadCategoriesSuccess, createCategorySuccess, updateCategorySuccess, deleteCategorySuccess),
+                ofType(createCategorySuccess, updateCategorySuccess, deleteCategorySuccess),
                 tap(({ message }) => this.toastService.success(message))
             ),
         { dispatch: false }
@@ -118,7 +118,7 @@ export class CategoryEffects {
     failureToasts$ = createEffect(
         () =>
             this.actions$.pipe(
-                ofType(loadCategoriesFailure, createCategoryFailure, updateCategoryFailure, deleteCategoryFailure),
+                ofType(createCategoryFailure, updateCategoryFailure, deleteCategoryFailure),
                 tap(({ error }) => this.toastService.error(error))
             ),
         { dispatch: false }

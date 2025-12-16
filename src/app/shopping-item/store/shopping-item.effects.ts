@@ -123,7 +123,7 @@ export class ShoppingItemEffects {
 
     successToast$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(loadShoppingItemsSuccess, createShoppingItemSuccess, updateShoppingItemSuccess, deleteShoppingItemSuccess, updateStatusShoppingItemSuccess),
+            ofType(createShoppingItemSuccess, updateShoppingItemSuccess, deleteShoppingItemSuccess, updateStatusShoppingItemSuccess),
             tap(({ message }) => {
                 this.toastServie.success(message);
             })
@@ -133,7 +133,7 @@ export class ShoppingItemEffects {
 
     failedToast$ = createEffect(() => 
         this.actions$.pipe(
-            ofType(loadShoppingItemsFailure, createShoppingItemFailure, updateShoppingItemFailure, deleteShoppingItemFailure, updateStatusShoppingItemFailure),
+            ofType(createShoppingItemFailure, updateShoppingItemFailure, deleteShoppingItemFailure, updateStatusShoppingItemFailure),
             tap(({error}) => this.toastServie.error(error))
         ),
         { dispatch: false}

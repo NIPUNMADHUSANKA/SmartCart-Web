@@ -24,6 +24,13 @@ export const selectShoppingItemsMessage = createSelector(
     state => state.message
 )
 
+export const selectShoppingItemsStats  = createSelector(
+    selectShoppingItems,
+    (items) =>{
+        return items.filter(i => i.status === 'active').length
+    }
+)
+
 export const selectItemsByCategory = (categoryId: string) =>
     createSelector(
         selectCategories,

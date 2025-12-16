@@ -39,7 +39,7 @@ export class ShoppingListPage implements OnInit {
     if (!isPlatformBrowser(this.platformId)) {
       return;
     }
-    this.loadCategories();
+   // this.loadCategories();
   }
 
   openCreateListDialog() {
@@ -79,9 +79,10 @@ export class ShoppingListPage implements OnInit {
     });*/
   }
 
+  /*
   loadCategories() {
     this.store.dispatch(loadCategories());
     this.store.dispatch(loadShoppingItems());
-  }
+  }*/
 
 }

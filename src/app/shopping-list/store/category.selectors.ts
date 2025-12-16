@@ -22,3 +22,18 @@ export const selectCategoriesMessage = createSelector(
     selectCategoryState,
     state=> state.message
 )
+
+
+export const selectCategoryStats  = createSelector(
+    selectCategories,
+    (category) => {
+        const total = category.length;
+        const open = category.filter(i => i.status === 'active').length;
+        const close = total - open;
+        return {
+            total,
+            open,
+            close
+        }
+    }
+)
