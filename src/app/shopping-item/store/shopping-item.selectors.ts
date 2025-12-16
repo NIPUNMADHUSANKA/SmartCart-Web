@@ -31,6 +31,27 @@ export const selectShoppingItemsStats  = createSelector(
     }
 )
 
+export const selectActiveCategoryInfo = createSelector(
+    selectCategories,
+    selectShoppingItems,
+    (cat, items) => {
+        const category = cat.find(c => c.status === 'active');
+        if (!category) return null;
+        const categoryItems = items.filter(i => i.categoryId === category.categoryId);
+        const totoaItems = categoryItems.length;
+        const openItems = categoryItems.filter(i => i.status === 'active').length;
+        const closeItems = totoaItems - openItems;
+
+        return {
+            category,
+            categoryItems,
+            totoaItems,
+            openItems,
+            closeItems
+        }
+    }
+)
+
 export const selectItemsByCategory = (categoryId: string) =>
     createSelector(
         selectCategories,

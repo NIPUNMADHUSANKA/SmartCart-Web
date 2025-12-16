@@ -6,6 +6,7 @@ import { loadShoppingItems } from '../shopping-item/store/shopping-item.actions'
 import { selectCategories, selectCategoryStats } from '../shopping-list/store/category.selectors';
 import { map } from 'rxjs';
 import { selectShoppingItemsStats } from '../shopping-item/store/shopping-item.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +26,8 @@ export class Home implements OnInit{
     this.store.dispatch(loadShoppingItems());    
   }
  
+  constructor(private router: Router){}
+
   allactiveCategory$ = this.store.select(selectCategories).pipe(map(c=>c.filter(i=>i.status ==='active')));
   allCompletedCategory$ = this.store.select(selectCategories).pipe(map(c=>c.filter(i=>i.status !='active')));
   categoryStats$ = this.store.select(selectCategoryStats);
@@ -33,5 +36,9 @@ export class Home implements OnInit{
   openCategories$ = this.categoryStats$.pipe(map(i=> i.open));
   completedCategories$ = this.categoryStats$.pipe(map(i=> i.close));
   totalItems$ = this.store.select(selectShoppingItemsStats);
+
+  continueButton(){
+    this.router.navigate(['/shopping-list']);
+  }
 
 }
