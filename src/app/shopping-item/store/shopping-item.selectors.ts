@@ -1,12 +1,19 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { CategoryState } from "../../shopping-list/store/category.reducer";
 import { shoppingItemState } from "./shopping-item.reducer";
-import { selectCategories } from "../../shopping-list/store/category.selectors";
 
 export const selectShoppingItemState = createFeatureSelector<shoppingItemState>('shoppingItems');
 
 export const selectShoppingItems = createSelector(
     selectShoppingItemState,
     state => state.shoppingItems
+);
+
+const selectCategoryState = createFeatureSelector<CategoryState>('categories');
+
+const selectCategoriesFromState = createSelector(
+    selectCategoryState,
+    state => state.categories
 );
 
 export const selectShoppingItemsLoading = createSelector(
@@ -32,7 +39,7 @@ export const selectShoppingItemsStats  = createSelector(
 )
 
 export const selectActiveCategoryInfo = createSelector(
-    selectCategories,
+    selectCategoriesFromState,
     selectShoppingItems,
     (cat, items) => {
         const category = cat.find(c => c.status === 'active');
@@ -54,7 +61,7 @@ export const selectActiveCategoryInfo = createSelector(
 
 export const selectItemsByCategory = (categoryId: string) =>
     createSelector(
-        selectCategories,
+        selectCategoriesFromState,
         selectShoppingItems,
         (categories, items) => {
             const category = categories.find(c => c.categoryId === categoryId && c.status === 'active');

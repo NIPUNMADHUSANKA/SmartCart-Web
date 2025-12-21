@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { CategoryState } from "./category.reducer";
+import { selectShoppingItems } from "../../shopping-item/store/shopping-item.selectors";
 
 export const selectCategoryState = createFeatureSelector<CategoryState>('categories');
 
@@ -10,21 +11,21 @@ export const selectCategories = createSelector(
 
 export const selectCategoriesLoading = createSelector(
     selectCategoryState,
-    state=> state.loading
+    state => state.loading
 )
 
 export const selectCategoriesError = createSelector(
     selectCategoryState,
-    state=> state.error
+    state => state.error
 )
 
 export const selectCategoriesMessage = createSelector(
     selectCategoryState,
-    state=> state.message
+    state => state.message
 )
 
 
-export const selectCategoryStats  = createSelector(
+export const selectCategoryStats = createSelector(
     selectCategories,
     (category) => {
         const total = category.length;
@@ -35,5 +36,26 @@ export const selectCategoryStats  = createSelector(
             open,
             close
         }
+    }
+)
+
+export const selectCategoryWithItems = createSelector(
+    selectCategories,
+    selectShoppingItems,
+    (categories, items) => {
+        return categories.map(category => {
+            const itemsData = items.filter(item => item.categoryId === category.categoryId);
+            const totalItems = itemsData.length;
+            const openItems = itemsData.filter(item => item.status != 'active').length;
+            const openPre = (openItems/totalItems)*100;
+
+            return {
+                ...category,
+                items: itemsData,
+                openItems,
+                totalItems,
+                openPre
+            }
+        })
     }
 )

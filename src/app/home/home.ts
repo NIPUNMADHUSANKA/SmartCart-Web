@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { loadCategories } from '../shopping-list/store/category.actions';
 import { loadShoppingItems } from '../shopping-item/store/shopping-item.actions';
-import { selectCategories, selectCategoryStats } from '../shopping-list/store/category.selectors';
+import { selectCategories, selectCategoryStats, selectCategoryWithItems } from '../shopping-list/store/category.selectors';
 import { map } from 'rxjs';
 import { selectShoppingItemsStats } from '../shopping-item/store/shopping-item.selectors';
 import { Router } from '@angular/router';
@@ -28,7 +28,7 @@ export class Home implements OnInit{
  
   constructor(private router: Router){}
 
-  allactiveCategory$ = this.store.select(selectCategories).pipe(map(c=>c.filter(i=>i.status ==='active')));
+  allactiveCategory$ = this.store.select(selectCategoryWithItems).pipe(map(c=>c.filter(i=>i.status ==='active')));
   allCompletedCategory$ = this.store.select(selectCategories).pipe(map(c=>c.filter(i=>i.status !='active')));
   categoryStats$ = this.store.select(selectCategoryStats);
 
