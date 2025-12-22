@@ -13,6 +13,7 @@ import { selectShoppingItems } from '../shopping-item/store/shopping-item.select
 import { map, Observable, Subscription, take } from 'rxjs';
 import { selectCategories } from './store/category.selectors';
 import { ToastrService } from 'ngx-toastr';
+import { updateCategory } from './store/category.actions';
 
 
 @Component({
@@ -116,6 +117,21 @@ export class ShoppingList implements OnChanges, OnDestroy {
   toggleOpenCreateItemDialog(toggle: boolean) {
     this.shoppingItemDetails = null;
     this.createShoppingItem.set(toggle);
+  }
+
+  toggleActiveCategory(){
+    const categoryId = this.categoryDetails.categoryId ?? '';
+    const payload: CategoryModel = {
+      categoryName: this.categoryDetails.categoryName,
+      description: this.categoryDetails.description,
+      status: 'active',
+      icon: this.categoryDetails.icon,
+      priority: this.categoryDetails.priority
+    };
+    this.store.dispatch(updateCategory({
+      categoryId,
+      category: payload
+    }));
   }
 
 }

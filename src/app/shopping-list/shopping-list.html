@@ -2,14 +2,10 @@
     <mat-expansion-panel-header class="sga-header" [ngClass]="{ 'is-open': panelOpenState() }">
         <mat-panel-title class="title-with-icon">
             <mat-icon fontIcon="{{categoryDetails.icon}}" aria-hidden="true"></mat-icon>
-            <span [ngClass]="{
-                'category-archived': categoryDetails.status != 'active'
-            }">{{ categoryDetails.categoryName  }}
+            <span>{{ categoryDetails.categoryName  }}
             </span>
         </mat-panel-title>
-        <mat-panel-description [ngClass]="{
-                'category-archived': categoryDetails.status != 'active'
-            }">
+        <mat-panel-description>
             {{categoryDetails.description|slice:0:100 | titlecase}}
             @if((categoryDetails.description?.length ?? 0) > 100){
             <span>...</span>
@@ -20,6 +16,7 @@
     <div class="sga-body">
         <section>
             <div class="add-shopping-item-button-row">
+            @if (categoryDetails.status === 'active') {
                 <button mat-raised-button class="add-shopping" (click)="openCreateItemDialog()">
                     Add Item
                 </button>
@@ -29,6 +26,12 @@
                 <button mat-raised-button class="delete-category" (click)="deleteCategory()">
                     Delete Category
                 </button>
+            }
+            @else {
+                <button mat-button (click)="toggleActiveCategory()" class="buy-item-btn">
+                    <span class="buy-item">Activate Category</span>
+                </button>
+            }
             </div>
         </section>
 

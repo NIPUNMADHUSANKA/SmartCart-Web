@@ -59,12 +59,12 @@ export const selectActiveCategoryInfo = createSelector(
     }
 )
 
-export const selectItemsByCategory = (categoryId: string) =>
+export const selectItemsByCategory = (categoryId: string, status: string) =>
     createSelector(
         selectCategoriesFromState,
         selectShoppingItems,
         (categories, items) => {
-            const category = categories.find(c => c.categoryId === categoryId && c.status === 'active');
+            const category = categories.find(c => c.categoryId === categoryId && c.status === status);
             if (!category) return null;
 
             const categoryItems = items.filter(i => i.categoryId === categoryId);

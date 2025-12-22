@@ -1,5 +1,5 @@
 import { CommonModule, NgClass } from '@angular/common';
-import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, input} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, Input, Output, input, OnInit} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +8,7 @@ import { ShoppingItem as ShoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { deleteShoppingItem, updateStatusShoppingItem } from './store/shopping-item.actions';
 import { selectItemsByCategory } from './store/shopping-item.selectors';
-import { map, of, take } from 'rxjs';
+import { filter, map, of, take } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -20,7 +20,7 @@ import { ToastrService } from 'ngx-toastr';
   templateUrl: './shopping-item.html',
   styleUrl: './shopping-item.scss',
 })
-export class ShoppingItem {
+export class ShoppingItem implements OnInit{
 
   @Input() shoppingItemDetails!: ShoppingItemModel;
   @Output() toggleOpenCardItemDialog =new EventEmitter<string>();
@@ -28,8 +28,18 @@ export class ShoppingItem {
   shoppingItemService = inject(ShoppingItemService)
   store = inject(Store);
   private toastService = inject(ToastrService);
+  categoryActivate:boolean = true;
 
   status = 'high-piority';
+
+  ngOnInit(): void {
+    this.store.select(selectItemsByCategory(this.shoppingItemDetails.categoryId ?? '', 'completed')).pipe(
+      take(1),
+      filter(item => !!item)
+    ).subscribe(item =>{
+      this.categoryActivate = !(item.category.status != 'active'); 
+    })
+  }
 
   isCategoryActive() {
     const categoryId = this.shoppingItemDetails.categoryId;
@@ -37,7 +47,7 @@ export class ShoppingItem {
       return of(false);
     }
 
-    return this.store.select(selectItemsByCategory(categoryId)).pipe(
+    return this.store.select(selectItemsByCategory(categoryId, 'active')).pipe(
       take(1),
       map((result) => !!result?.category && result.category.status === 'active')
     );

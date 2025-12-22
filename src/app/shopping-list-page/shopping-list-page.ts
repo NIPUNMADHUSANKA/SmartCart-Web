@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
+import { Component, inject, Inject, OnInit, PLATFORM_ID, signal } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { ShoppingList } from '../shopping-list/shopping-list';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -10,8 +10,7 @@ import { CategoryModel } from '../interfaces/shoppingList';
 import { Store } from '@ngrx/store';
 import { selectCategories } from '../shopping-list/store/category.selectors';
 import { deleteCategory, loadCategories } from '../shopping-list/store/category.actions';
-import { map, Observable, of, take } from 'rxjs';
-import { loadShoppingItems } from '../shopping-item/store/shopping-item.actions';
+import { filter, map, Observable, of, take } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-list-page',
@@ -27,7 +26,7 @@ export class ShoppingListPage implements OnInit {
 
   protected createShoppingList = signal<boolean>(false);
 
-  categories$: Observable<CategoryModel[]> = this.store.select(selectCategories);
+  categories$: Observable<CategoryModel[]> = this.store.select(selectCategories).pipe(map(c => c.filter(i => i.status === 'active')));
   category$: Observable<CategoryModel | null> = of(null);
 
   constructor(
