@@ -3,8 +3,21 @@
 
     <mat-accordion class="sga-accordion" multi>
 
-    @for (item of categories$ | async; track $index) {
-            <app-shopping-list [categoryDetails] = item/>
+    @if (categories$ | async; as categories) {
+        @if (categories.length > 0) {
+            <p class="muted muted-new">
+                Completed Categories: {{categories.length}}
+            </p>
+            @for (item of categories; track $index) {
+                <app-shopping-list [categoryDetails] = item/>
+            }
+        }
+        @else{
+            <p class="muted muted-state">No shopping history yet. Complete your first shopping list to see it here.</p>
+            <button class="btn btn--link btn--new" type="button" aria-label="Continue Groceries" (click)="continueButton()">
+                                Go to Shopping List
+            </button>
+        }
     }
     
     </mat-accordion>

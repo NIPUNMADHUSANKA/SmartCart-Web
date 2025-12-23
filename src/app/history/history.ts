@@ -7,6 +7,7 @@ import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { CategoryModel } from '../interfaces/shoppingList';
 import { selectCategories } from '../shopping-list/store/category.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-history',
@@ -18,7 +19,13 @@ export class History {
   readonly pageName = signal('Histoy');
   store = inject(Store);
 
-  categories$: Observable<CategoryModel[]> = this.store.select(selectCategories).pipe(map(c => c.filter(i => i.status != 'active')));
+  categories$: Observable<CategoryModel[]> = this.store.select(selectCategories).pipe(
+    map(c => c.filter(i => i.status != 'active' && i.updatedAt)
+    .sort((a,b)=> new Date(a.updatedAt!).getTime() - new Date(b.updatedAt!).getTime())));
 
+  constructor(private router: Router){}
+  continueButton(){
+    this.router.navigate(['/shopping-list']);
+  }
 
 }

@@ -47,7 +47,7 @@ export const selectCategoryWithItems = createSelector(
             const itemsData = items.filter(item => item.categoryId === category.categoryId);
             const totalItems = itemsData.length;
             const openItems = itemsData.filter(item => item.status != 'active').length;
-            const openPre = (openItems/totalItems)*100;
+            const openPre = ((openItems / totalItems) * 100) || 0;
 
             return {
                 ...category,
