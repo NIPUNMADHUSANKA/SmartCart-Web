@@ -37,10 +37,10 @@
           Bought
         }
     </button>
-    <button mat-button class="update-item" (click)="toggleOpenItemDialog()" *ngIf="categoryActivate">
+    <button mat-button class="update-item" (click)="toggleOpenItemDialog()" *ngIf="categoryActivate" [disabled]="shoppingItemDetails.status != 'active'">
       <mat-icon>edit</mat-icon> Edit
     </button>
-    <button mat-button class="delete-item" color="warn" (click)="toggleDeleteItem()" *ngIf="categoryActivate">
+    <button mat-button class="delete-item" color="warn" (click)="toggleDeleteItem()" *ngIf="categoryActivate" [disabled]="shoppingItemDetails.status != 'active'">
       <mat-icon>delete</mat-icon> Delete
     </button>
   </mat-card-actions>

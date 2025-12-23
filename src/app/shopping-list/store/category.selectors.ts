@@ -46,13 +46,13 @@ export const selectCategoryWithItems = createSelector(
         return categories.map(category => {
             const itemsData = items.filter(item => item.categoryId === category.categoryId);
             const totalItems = itemsData.length;
-            const openItems = itemsData.filter(item => item.status != 'active').length;
-            const openPre = ((openItems / totalItems) * 100) || 0;
+            const closeItems = itemsData.filter(item => item.status != 'active').length;
+            const openPre = ((closeItems / totalItems) * 100) || 0;
 
             return {
                 ...category,
                 items: itemsData,
-                openItems,
+                closeItems,
                 totalItems,
                 openPre
             }

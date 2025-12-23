@@ -11,10 +11,16 @@ import { ShoppingItem as shoppingItemService } from '../service/shopping-item';
 import { Store } from '@ngrx/store';
 import { selectShoppingItems } from '../shopping-item/store/shopping-item.selectors';
 import { map, Observable, Subscription, take } from 'rxjs';
-import { selectCategories } from './store/category.selectors';
+import { selectCategories, selectCategoryWithItems } from './store/category.selectors';
 import { ToastrService } from 'ngx-toastr';
 import { updateCategory } from './store/category.actions';
 
+type CategoryWithItems = CategoryModel & {
+  items: ShoppingItemModel[];
+  closeItems: number;
+  totalItems: number;
+  openPre: number;
+};
 
 @Component({
   selector: 'app-shopping-list',
@@ -39,6 +45,7 @@ export class ShoppingList implements OnChanges, OnDestroy {
   @Output() deleteShoppingList = new EventEmitter<string>();
   enableAddItem$?: Observable<boolean>;
   enableDeleteCategory$?: Observable<boolean>;
+  allCategory$?: Observable<CategoryWithItems | undefined>;
 
   constructor(private dataService: DataService) { }
 
@@ -53,6 +60,9 @@ export class ShoppingList implements OnChanges, OnDestroy {
         map(items =>
           items.some(item => item.categoryId === this.categoryDetails.categoryId)
         )
+      );
+      this.allCategory$ = this.store.select(selectCategoryWithItems).pipe(
+        map(categories => categories.find(c => c.categoryId === this.categoryDetails.categoryId))
       );
       this.loadShoppingItem();
     }

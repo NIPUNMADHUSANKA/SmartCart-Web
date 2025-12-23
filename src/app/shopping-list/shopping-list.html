@@ -32,10 +32,17 @@
                     <span class="buy-item">Reuse Shopping List</span>
                 </button>
             }
+            
+            @if (allCategory$ |async; as Category) {
+                <p class="muted muted-state muted-count muted-count-new shopping-list-date">{{Category.totalItems}} Items • {{Category.closeItems}} Bought</p>
+            }
             </div>
         </section>
 
         <div class="shopping-item-row">
+            @if (shoppingItemsDetails.length < 1) {
+                <p class="muted muted-state">No shopping items yet 🛒</p>
+            }
             @for (item of shoppingItemsDetails; track $index) {
             <app-shopping-item [shoppingItemDetails]="item"
                 (toggleOpenCardItemDialog)="toggleOpenCardItemDialog($event)">

@@ -171,3 +171,22 @@ app-shopping-item {
 .buy-item{
   color: #15803d;
 }
+
+.muted{
+  margin-top: 12px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.muted-state{
+  font-size: 15px;
+}
+
+.muted-count{
+  align-self: flex-end;
+}
+.muted-count-new {
+  float: right;
+  font-size:medium;
+  flex: auto;
+}
