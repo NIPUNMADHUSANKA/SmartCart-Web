@@ -4,13 +4,14 @@ import { Store } from '@ngrx/store';
 import { loadCategories } from '../shopping-list/store/category.actions';
 import { loadShoppingItems } from '../shopping-item/store/shopping-item.actions';
 import { selectCategories, selectCategoryStats, selectCategoryWithItems } from '../shopping-list/store/category.selectors';
-import { map } from 'rxjs';
+import { map, tap } from 'rxjs';
 import { selectShoppingItemsStats } from '../shopping-item/store/shopping-item.selectors';
 import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-home',
-  imports: [CommonModule],
+  imports: [CommonModule, MatIconModule],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })

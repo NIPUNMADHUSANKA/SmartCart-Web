@@ -10,6 +10,7 @@ import { initAuthFromStorage } from './auth/store/auth.actions';
 import { Loader } from './shared/components/loader/loader';
 import { selectGlobalLoading } from './shared/components/loader/ui.selectors';
 import { CommonModule } from '@angular/common';
+import { asapScheduler, observeOn } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ export class App implements OnInit {
     this.store.dispatch(initAuthFromStorage());
   }
 
-  loading$ = this.store.select(selectGlobalLoading);
+  // Defer loader emissions to the next microtask to avoid expression-changed errors during the initial CD cycle
+  loading$ = this.store.select(selectGlobalLoading).pipe(observeOn(asapScheduler));
 
 }

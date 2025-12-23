@@ -3,22 +3,23 @@
     <!-- Summary -->
     <section class="card">
         <h2 class="card__title">{{homePageTitle() | titlecase}}</h2>
+        <p class="muted">Overview of your current shopping activity</p>
         <div class="stats">
             <div class="stat">
                 <div class="stat__value">{{totalCategories$ | async}}</div>
-                <div class="stat__label">Total Categories</div>
+                <div class="stat__label"><mat-icon class="home-icon">folder</mat-icon>Total Categories</div>
             </div>
             <div class="stat">
                 <div class="stat__value">{{openCategories$ | async}}</div>
-                <div class="stat__label">Open Categories</div>
+                <div class="stat__label"><mat-icon class="home-icon">hourglass_empty</mat-icon>Open Categories</div>
             </div>
             <div class="stat">
                 <div class="stat__value">{{completedCategories$ | async }}</div>
-                <div class="stat__label">Completed Categories</div>
+                <div class="stat__label"><mat-icon class="home-icon">done</mat-icon>Completed Categories</div>
             </div>
             <div class="stat">
                 <div class="stat__value">{{totalItems$ | async}}</div>
-                <div class="stat__label">Pending Items</div>
+                <div class="stat__label"><mat-icon class="home-icon">shopping_bag</mat-icon>Pending Items</div>
             </div>
         </div>
     </section>
@@ -31,28 +32,39 @@
 
         <div class="list">
             <!-- Category Card -->
-            @for (item of allactiveCategory$ | async; track $index) {
-                <article class="category">
-                    <div class="category__main">
-                        <div class="category__top">
-                            <span class="pill pill--open">Open</span>
-                            <h3 class="category__title">{{item.categoryName}}</h3>
-                        </div>
+            @if (allactiveCategory$ | async; as categories) {
+                @if (categories.length > 0) {
+                    @for (item of categories; track item.categoryId) {
+                        <article class="category">
+                            <div class="category__main">
+                                <div class="category__top">
+                                    <span class="pill pill--open">Open</span>
+                                    <h3 class="category__title">{{item.categoryName}}</h3>
+                                </div>
 
-                        <div class="category__meta">
-                            <span class="category__progressText"> {{item.openItems}} / {{item.totalItems}} items completed</span>
-                        </div>
+                                <div class="category__meta">
+                                    <span class="category__progressText"> {{item.openItems}} / {{item.totalItems}} items completed</span>
+                                </div>
 
-                        <div class="progress" aria-label="Groceries progress">
-                            <div class="progress__bar"  [style.width.%]="item.openPre"></div>
-                        </div>
-                    </div>
+                                <div class="progress" aria-label="Groceries progress">
+                                    <div class="progress__bar"  [style.width.%]="item.openPre"></div>
+                                </div>
+                            </div>
 
-                    <button class="btn btn--link" type="button" aria-label="Continue Groceries" (click)="continueButton()">
-                        Continue →
+                            <button class="btn btn--link" type="button" aria-label="Continue Groceries" (click)="continueButton()">
+                                Continue →
+                            </button>
+                        </article>
+                    }
+                }
+                @else {
+                    <p class="muted muted-state">No active shopping lists. Start a new one.</p>
+                    <button class="btn btn--link btn--new" type="button" aria-label="Continue Groceries" (click)="continueButton()">
+                                Create Shopping List
                     </button>
-                </article>
+                }
             }
+            
         </div>
     </section>
 
