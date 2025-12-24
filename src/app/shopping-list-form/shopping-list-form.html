@@ -45,18 +45,28 @@
                     </div>
                 </div>
 
-                @if(false){
                 <!-- Icon -->
                 <div class="field">
                     <label for="icon">Icon</label>
                     <div class="input-with-icon">
-                        <span class="preview material-icons" id="iconPreview">shopping_cart</span>
-                        <input id="icon" type="text" placeholder="e.g., shopping_cart or 🛒" formControlName="icon" />
-                    </div>
-                    <small class="hint">Use a Material icon name or emoji.</small>
-                </div>
-                }
+                        <span class="preview material-icons" id="iconPreview">{{shoppingCart.get('icon')?.value}}</span>
+                        <input id="icon" type="text" placeholder="e.g., shopping_cart or 🛒" formControlName="icon"
+                            hidden />
 
+                    </div>
+                    <div class="icon-picker">
+                        <span *ngFor="let item of offlineItems" class="material-icons icon-option"
+                            [class.icon-option-selected]="shoppingCart.get('icon')?.value === item"
+                            (click)="selectIcon(item)">
+                            {{ item }}
+                        </span>
+                    </div>
+                    <small class="hint">Choose an icon.</small>
+
+                </div>
+
+
+                @if (false) {
                 <!-- Priority -->
                 <div class="field">
                     <label>Priority</label>
@@ -75,23 +85,24 @@
                             (click)="setPriority('high')">High</button>
                     </div>
                 </div>
+                }
 
             </div>
 
             <footer class="actions sticky-actions">
                 <button type="submit" class="btn btn-primary">
                     @if(isUpdate()){
-                        Update
+                    Update
                     }@else{
-                        Save
+                    Save
                     }
-                    
+
                 </button>
                 @if (!isUpdate()) {
                 <button type="button" class="btn btn-danger-outline" (click)="clearList()">
                     Clear
                 </button>
-            }
+                }
             </footer>
         </form>
     </section>

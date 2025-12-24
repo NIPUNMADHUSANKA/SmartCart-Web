@@ -32,6 +32,21 @@ export class ShoppingListForm implements OnInit, OnChanges {
   isSubmitted = false;
   isValid = signal(false);
 
+ offlineItems = [
+  'shopping_cart',          
+  'restaurant',             
+  'local_drink',            
+  'bakery_dining',          
+  'fastfood',               
+  'local_cafe',             
+  'cleaning_services',      
+  'bathroom',               
+  'pets',
+  'category'
+];
+
+
+
   shoppingCart = this.fb.group({
     categoryName: ['', [Validators.required, Validators.maxLength(30)]],
     description: ['', [Validators.maxLength(180)]],
@@ -121,6 +136,11 @@ export class ShoppingListForm implements OnInit, OnChanges {
   setPriority(priority: string) {
     this.shoppingCart.patchValue({ priority: priority });
     this.shoppingCart.get('priority')?.markAllAsTouched();
+  }
+
+  selectIcon(icon: string) {
+    this.shoppingCart.patchValue({icon});
+    this.shoppingCart.get('icon')?.markAllAsTouched();
   }
 
   clearList() {
