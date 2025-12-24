@@ -1,34 +1,46 @@
-<!-- header.component.html -->
 <header class="app-header">
   <div class="logo">
     🛒 SmartCart
   </div>
 
-  <nav class="nav-links">
-    <a routerLink="" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home 🏠</a>
-    <a routerLink="/shopping-list" routerLinkActive="active">Shopping List 📋</a>
-    <a routerLink="/cart" routerLinkActive="active">AI Suggestions 🤖</a>
-    <a routerLink="/history" routerLinkActive="active">History 📊</a>
-    <a routerLink="/profile" routerLinkActive="active">Profile 👤</a>
+  <!-- Hamburger (mobile only) -->
+  <button class="hamburger" (click)="toggleMenu()">
+    ☰
+  </button>
+
+  <nav class="nav-links" [class.open]="isMenuOpen">
+    <a routerLink=""
+       routerLinkActive="active"
+       [routerLinkActiveOptions]="{ exact: true }"
+       (click)="closeMenu()">Home 🏠</a>
+
+    <a routerLink="/shopping-list"
+       routerLinkActive="active"
+       (click)="closeMenu()">Shopping List 📋</a>
+
+    <a routerLink="/cart"
+       routerLinkActive="active"
+       (click)="closeMenu()">AI Suggestions 🤖</a>
+
+    <a routerLink="/history"
+       routerLinkActive="active"
+       (click)="closeMenu()">History 📊</a>
+
+    <a routerLink="/profile"
+       routerLinkActive="active"
+       (click)="closeMenu()">Profile 👤</a>
   </nav>
 
-  <div class="actions">
+  <div class="actions" [class.open]="isMenuOpen">
     <input type="text" placeholder="Search..." class="search-box" />
 
-   @if (!(isLogin$ | async)) {
-    <button class="login-btn" routerLink="/login">
-      Login
-    </button>
-    <button class="register-btn" routerLink="/register">
-      Register
-    </button>
+    @if (!(isLogin$ | async)) {
+      <button class="login-btn" routerLink="/login" (click)="closeMenu()">Login</button>
+      <button class="register-btn" routerLink="/register" (click)="closeMenu()">Register</button>
     }
 
     @if (isLogin$ | async) {
-    <button class="register-btn" (click)="logout()">
-      Logout
-    </button>
+      <button class="register-btn" (click)="logout()">Logout</button>
     }
-
   </div>
 </header>

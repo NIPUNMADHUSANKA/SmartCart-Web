@@ -16,8 +16,19 @@ export class Header {
   store = inject(Store);
   isLogin$ = this.store.select(selectIsAuthenticated);
 
+  isMenuOpen = false;
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
   logout() {
     this.store.dispatch(logout());
+    this.closeMenu();
   }
 
 }
