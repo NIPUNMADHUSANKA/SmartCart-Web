@@ -1,0 +1,30 @@
+<!-- Backdrop -->
+@if (showConfirm) {
+<div class="modal-backdrop">
+  <!-- Modal -->
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+    <div class="modal-header">
+      <h3 id="confirmTitle" class="modal-title">Confirm Delete</h3>
+      <button type="button" class="icon-btn" aria-label="Close" (click)="toggleCancel()">
+        ✕
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p class="modal-text">
+        Are you sure you want to delete this {{popupTitle}} ?
+      </p>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="toggleCancel()">
+        Cancel
+      </button>
+
+      <button type="button" class="btn btn-danger" (click)="toggleDelete()">
+        Delete
+      </button>
+    </div>
+  </div>
+</div>
+}

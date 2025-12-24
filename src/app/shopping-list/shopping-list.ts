@@ -14,6 +14,7 @@ import { map, Observable, Subscription, take } from 'rxjs';
 import { selectCategories, selectCategoryWithItems } from './store/category.selectors';
 import { ToastrService } from 'ngx-toastr';
 import { updateCategory } from './store/category.actions';
+import { ConfirmDestructive } from '../confirm-destructive/confirm-destructive';
 
 type CategoryWithItems = CategoryModel & {
   items: ShoppingItemModel[];
@@ -24,7 +25,7 @@ type CategoryWithItems = CategoryModel & {
 
 @Component({
   selector: 'app-shopping-list',
-  imports: [ShoppingItem, MatExpansionModule, MatIconModule, NgClass, MatButtonModule, ShoppingListItemForm, CommonModule],
+  imports: [ShoppingItem, MatExpansionModule, MatIconModule, NgClass, MatButtonModule, ShoppingListItemForm, CommonModule, ConfirmDestructive],
   templateUrl: './shopping-list.html',
   styleUrl: './shopping-list.scss',
 })
@@ -46,6 +47,9 @@ export class ShoppingList implements OnChanges, OnDestroy {
   enableAddItem$?: Observable<boolean>;
   enableDeleteCategory$?: Observable<boolean>;
   allCategory$?: Observable<CategoryWithItems | undefined>;
+
+  readonly deletePopup = `Shopping List`;
+  toggleDelete: boolean = false;
 
   constructor(private dataService: DataService) { }
 
@@ -93,7 +97,7 @@ export class ShoppingList implements OnChanges, OnDestroy {
         this.toastService.error("You can’t delete this category while it has items. Remove them first.")
       }
       else {
-        this.deleteShoppingList.emit(this.categoryDetails.categoryId);
+        this.toggleDelete = true;
       }
     })
   }
@@ -144,4 +148,10 @@ export class ShoppingList implements OnChanges, OnDestroy {
     }));
   }
 
+  deleteItem(data:boolean){
+    if(data){
+      this.deleteShoppingList.emit(this.categoryDetails.categoryId);
+    }
+    this.toggleDelete = false;
+  }
 }

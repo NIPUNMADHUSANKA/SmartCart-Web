@@ -10,12 +10,13 @@ import { deleteShoppingItem, updateStatusShoppingItem } from './store/shopping-i
 import { selectItemsByCategory } from './store/shopping-item.selectors';
 import { filter, map, of, take } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { ConfirmDestructive } from '../confirm-destructive/confirm-destructive';
 
 
 
 @Component({
   selector: 'app-shopping-item',
-  imports: [MatCardModule, MatButtonModule, NgClass, MatIconModule, CommonModule],
+  imports: [MatCardModule, MatButtonModule, NgClass, MatIconModule, CommonModule, ConfirmDestructive],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './shopping-item.html',
   styleUrl: './shopping-item.scss',
@@ -31,6 +32,8 @@ export class ShoppingItem implements OnInit{
   categoryActivate:boolean = true;
 
   status = 'high-piority';
+  readonly deletePopup = 'Shopping Item';
+  toggleDelete: boolean = false;
 
   ngOnInit(): void {
     this.store.select(selectItemsByCategory(this.shoppingItemDetails.categoryId ?? '', 'completed')).pipe(
@@ -84,8 +87,7 @@ export class ShoppingItem implements OnInit{
     this.isCategoryActive().subscribe(
       (isActive) => {
         if(isActive){
-          let itemId = this.shoppingItemDetails.itemId ?? '';
-          this.store.dispatch(deleteShoppingItem({shoppingItemId: itemId}));
+          this.toggleDelete = true;
         }
         else{
           this.toastService.error("This category is currently closed. You can reopen it to manage items again.");
@@ -115,4 +117,11 @@ export class ShoppingItem implements OnInit{
     )
   }
 
+  deleteItem(data: boolean){
+    if(data){
+      let itemId = this.shoppingItemDetails.itemId ?? '';
+      this.store.dispatch(deleteShoppingItem({shoppingItemId: itemId}));
+    }
+    this.toggleDelete = false;
+  }
 }
