@@ -60,7 +60,6 @@ export class AuthService {
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             if (!payload?.exp) return null;
-            console.log(payload.exp*1000);
             return payload.exp * 1000; 
         } catch (error) {
             return null;
