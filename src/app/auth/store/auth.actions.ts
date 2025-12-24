@@ -20,6 +20,12 @@ export const logout = createAction(
     '[Auth] Logout'
 );
 
+export const autoLogout = createAction(
+    '[Auth] Auto Logout',
+    props<{ reason: string}>()
+);
+
+
 export const initAuthFromStorage = createAction(
     '[Auth] Init From Storage'
 );

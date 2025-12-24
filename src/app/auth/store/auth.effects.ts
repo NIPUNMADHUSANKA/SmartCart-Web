@@ -1,8 +1,8 @@
 import { Inject, inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../../service/auth-service";
-import { initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
-import { catchError, map, of, switchMap, tap } from "rxjs";
+import { autoLogout, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
+import { catchError, EMPTY, map, of, switchMap, takeUntil, tap, timer } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 import { AuthTokenResponse } from "../../interfaces/userProfile";
 import { Router } from "@angular/router";
@@ -41,13 +41,34 @@ export class AuthEffects {
         )
     );
 
+    tokenExpiryAutoLogout$ = createEffect(() =>
+        this.actions$.pipe(
+        ofType(loginSuccess),
+        switchMap(({response, message }) => {
+            if (!response) return EMPTY;
+
+            const expMs = this.authService.getJwtExpMs(response.accessToken??'');
+            if (!expMs) return EMPTY;
+
+            const msUntilExp = expMs - Date.now();
+            if (msUntilExp <= 0) {
+            return of(autoLogout({ reason: 'TOKEN_EXPIRED' }));
+            }
+            return timer(msUntilExp).pipe(
+            map(() => autoLogout({ reason: 'TOKEN_EXPIRED' })),
+            takeUntil(this.actions$.pipe(ofType(logout)))
+            );
+        })
+        )
+    );
+  
     logout$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(logout),
+            ofType(autoLogout, logout),
             tap(() => {
-                if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
-                    localStorage.removeItem('token');
-                }
+                this.authService.logout()
+                this.router.navigate(['/login'])
+                window.location.reload();
             })
         ),
         { dispatch: false }
