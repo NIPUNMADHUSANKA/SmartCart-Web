@@ -1,8 +1,9 @@
 <div class="sga-container">
     <h2 class="sga-title">{{pageName()}}</h2>
 
-    <section>
+    <section>      
         <div class="add-shopping-button-row">
+            <app-search class="add-shopping-search" (queryChange)="onQueryChange($event)"></app-search>
             <button mat-raised-button class="add-shopping" (click)="openCreateListDialog()">
                 Create List
             </button>
@@ -11,14 +12,14 @@
 
     <mat-accordion class="sga-accordion" multi>
 
-        @if (categories$ |async; as categories) {
+        @if (filteredcategories$ |async; as categories) {
             @if (categories.length > 0) {
-                @for (item of categories$ | async; track $index) {
+                @for (item of filteredcategories$ | async; track $index) {
                     <app-shopping-list [categoryDetails] = item (updateCategoryDialog)="openUpdateListDialog($event)" (deleteShoppingList)="deleteCategory($event)"/>
                 }
             }
             @else {
-                <p class="muted muted-state">No shopping lists yet 🛒</p>
+                <p class="muted muted-state">No shopping lists found 🛒</p>
             }
         }       
 

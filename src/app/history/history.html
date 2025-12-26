@@ -3,11 +3,16 @@
 
     <mat-accordion class="sga-accordion" multi>
 
-    @if (categories$ | async; as categories) {
+        <div class="add-shopping-search-box">
+                <app-search class="add-shopping-search" (queryChange)="onQueryChange($event)"></app-search>
+                </div>
+
+    @if (filteredCategories$ | async; as categories) {
         @if (categories.length > 0) {
-            <p class="muted muted-new">
-                Completed Categories: {{categories.length}}
-            </p>
+                <p class="muted muted-new">
+                    Completed Categories: {{categories.length}}
+                </p>   
+            
             @for (item of categories; track $index) {
                 <app-shopping-list [categoryDetails] = item/>
             }

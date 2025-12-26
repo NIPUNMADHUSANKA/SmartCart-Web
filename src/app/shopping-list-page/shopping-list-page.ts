@@ -11,10 +11,11 @@ import { Store } from '@ngrx/store';
 import { selectCategories } from '../shopping-list/store/category.selectors';
 import { deleteCategory, loadCategories } from '../shopping-list/store/category.actions';
 import { filter, map, Observable, of, take } from 'rxjs';
+import { Search } from '../search/search';
 
 @Component({
   selector: 'app-shopping-list-page',
-  imports: [ShoppingList, MatExpansionModule, MatButtonModule, ShoppingListForm, CommonModule],
+  imports: [ShoppingList, MatExpansionModule, MatButtonModule, ShoppingListForm, CommonModule, Search],
   templateUrl: './shopping-list-page.html',
   styleUrl: './shopping-list-page.scss',
 })
@@ -24,9 +25,18 @@ export class ShoppingListPage implements OnInit {
 
   readonly pageName = signal('Shopping Lists')
 
+  items = [
+    { name: 'Apple' },
+    { name: 'Orange' },
+    { name: 'Milk' },
+    { name: 'Bread' },
+  ];
+  filteredItems = [...this.items];
+
   protected createShoppingList = signal<boolean>(false);
 
   categories$: Observable<CategoryModel[]> = this.store.select(selectCategories).pipe(map(c => c.filter(i => i.status === 'active')));
+  filteredcategories$ : Observable<CategoryModel[]> =  this.categories$;
   category$: Observable<CategoryModel | null> = of(null);
 
   constructor(
@@ -39,6 +49,13 @@ export class ShoppingListPage implements OnInit {
       return;
     }
    // this.loadCategories();
+  }
+
+  onQueryChange(query: string){
+    const q = query.trim().toLowerCase();
+    this.filteredcategories$ = !q ? this.categories$ : this.categories$.pipe(
+      map(cat => cat.filter(item => item.categoryName.toLowerCase().includes(q)))
+    );
   }
 
   openCreateListDialog() {

@@ -32,7 +32,7 @@
   </nav>
 
   <div class="actions" [class.open]="isMenuOpen">
-    <input type="text" placeholder="Search..." class="search-box" />
+    <input type="text" placeholder="Search..." class="search-box" hidden/>
 
     @if (!(isLogin$ | async)) {
       <button class="login-btn" routerLink="/login" (click)="closeMenu()">Login</button>

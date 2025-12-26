@@ -7,7 +7,7 @@
             </span>
         </mat-panel-title>
         <mat-panel-description>
-            {{categoryDetails.description|slice:0:100 | titlecase}}
+            {{categoryDetails.description|slice:0:80 | titlecase}}
             @if((categoryDetails.description?.length ?? 0) > 100){
             <span>...</span>
             }
