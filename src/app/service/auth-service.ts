@@ -14,8 +14,8 @@ export class AuthService {
 
     constructor(private http: HttpClient, @Inject(PLATFORM_ID) private platformId: Object) {
         this.isUserLoggedIn.set(isPlatformBrowser(this.platformId)
-            && typeof localStorage !== 'undefined'
-            && !!localStorage.getItem('token'));
+            && typeof sessionStorage !== 'undefined'
+            && !!sessionStorage.getItem('token'));
     }
 
     private getAuthHeaders(): HttpHeaders {
@@ -28,8 +28,8 @@ export class AuthService {
 
     getToken(): string | null {
         let token: string | null = null;
-        if (isPlatformBrowser(this.platformId) && typeof localStorage != 'undefined') {
-            token = localStorage.getItem('token');
+        if (isPlatformBrowser(this.platformId) && typeof sessionStorage != 'undefined') {
+            token = sessionStorage.getItem('token');
         }
         return token;
     }
@@ -51,8 +51,8 @@ export class AuthService {
     }
 
     logout(): void {
-        if (isPlatformBrowser(this.platformId) && typeof localStorage != 'undefined') {
-            localStorage.removeItem('token');
+        if (isPlatformBrowser(this.platformId) && typeof sessionStorage != 'undefined') {
+            sessionStorage.removeItem('token');
         }
     }
 

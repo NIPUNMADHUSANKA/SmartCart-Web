@@ -24,8 +24,8 @@ export class AuthEffects {
                 this.authService.loginUser(payload).pipe(
                     map((response) => {
                         const token = response?.accessToken;
-                        if (token && isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
-                            localStorage.setItem('token', token.toString());
+                        if (token && isPlatformBrowser(this.platformId) && typeof sessionStorage !== 'undefined') {
+                            sessionStorage.setItem('token', token.toString());
                         }
                         this.router.navigate(['']);
                         return loginSuccess({ response, message: 'Login Successful'});

@@ -15,8 +15,8 @@ export class ShoppingItem {
 
   private getAuthHeader(): HttpHeaders {
     let token: string | null = null;
-    if (isPlatformBrowser(this.platformId) && typeof localStorage !== 'undefined') {
-      token = localStorage.getItem('token');
+    if (isPlatformBrowser(this.platformId) && typeof sessionStorage !== 'undefined') {
+      token = sessionStorage.getItem('token');
     }
     if (token) {
       return new HttpHeaders({ 'Authorization': `Bearer ${token}` });
