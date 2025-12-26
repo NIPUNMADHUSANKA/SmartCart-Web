@@ -180,7 +180,7 @@ h2{
   border-radius: 12px;
   cursor: pointer;
   white-space: nowrap;
-  background-color: #22c55e !important; /* green */
+  background-color: #22c55e !important; 
   color: white !important;
   border-radius: 8px !important;
 }
@@ -190,7 +190,6 @@ h2{
   filter: brightness(0.98);
 }
 
-/* Optional progress bar (if you have it) */
 .progress{
   width: 100%;
   height: 10px;
@@ -203,7 +202,7 @@ h2{
 
 .progress__bar{
   height: 100%;
-  width: 40%; /* replace inline per category */
+  width: 40%;
   background: linear-gradient(90deg, #22c55e, #16a34a);
   border-radius: 999px;
 }

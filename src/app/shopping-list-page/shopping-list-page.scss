@@ -1,3 +1,13 @@
+.sga-accordion {
+  display: grid;
+  gap: 12px;
+}
+
+.sga-accordion > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .sga-container {
     max-width: 1200px;
     margin: 1.25rem auto;
@@ -9,7 +19,6 @@
     font-size: 1.50rem;
     font-weight: 550;
     color: #14532d;
-    /* deep green */
 }
 
 .sga-accordion {
@@ -17,21 +26,44 @@
     gap: 12px;
 }
 .add-shopping-button-row{
-    display: flex;
-    margin-bottom: 2%;
-    justify-content: right;
-    margin-top: -3%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0;
+  justify-content: flex-end;
+  flex-wrap: wrap;
 }
-
 .add-shopping {
-  background-color: #22c55e !important; /* green */
+  background-color: #22c55e !important; 
   color: white !important;
   border-radius: 8px !important;
 }
 
+/* let search shrink properly */
 .add-shopping-search{
-  margin-right: 1rem;
-  width: 20rem;
+  flex: 1 1 260px;
+  max-width: 300px;
+  margin-right: 0;
+}
+
+/* Mobile: stack */
+@media (max-width: 600px) {
+  .add-shopping-button-row{
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+  }
+
+  .add-shopping-search{
+    width: 100%;
+    max-width: 100%;
+    flex: 0px;
+
+  }
+
+  .add-shopping-button-row .add-shopping{
+    width: 100%;
+  }
 }
 
 /* ===== Overlay background ===== */
@@ -56,7 +88,6 @@
 }
 /* ===== Popup window ===== */
 .modal-window {
-  transform: translate(-50%, -50%);
   background: #ffffff;
   border-radius: 14px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
@@ -67,8 +98,9 @@
   display: flex;
   flex-direction: column;
   animation: popIn 0.25s ease forwards;
-  -webkit-overflow-scrolling: touch; /* iOS smooth scroll */
+  -webkit-overflow-scrolling: touch;
 }
+
 
 
 /* ===== Animations ===== */
