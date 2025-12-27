@@ -1,7 +1,7 @@
 import { Inject, inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../../service/auth-service";
-import { autoLogout, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
+import { autoLogout, deleteProfile, deleteProfileFailure, deleteProfileSuccess, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
 import { catchError, EMPTY, map, of, switchMap, takeUntil, tap, timer } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 import { AuthTokenResponse, userPayload } from "../../interfaces/userProfile";
@@ -28,12 +28,12 @@ export class AuthEffects {
                             sessionStorage.setItem('token', token.toString());
                         }
                         this.router.navigate(['']);
-                        return loginSuccess({ response, message: 'Login Successful'});
+                        return loginSuccess({ response, message: 'Login Successful' });
                     }),
                     catchError((error) =>
                         of(
                             loginFailure({ error: this.getErrorMessage(error, 'Login Failed') })
-                            
+
                         )
                     )
                 )
@@ -43,25 +43,25 @@ export class AuthEffects {
 
     tokenExpiryAutoLogout$ = createEffect(() =>
         this.actions$.pipe(
-        ofType(loginSuccess),
-        switchMap(({response, message }) => {
-            if (!response) return EMPTY;
+            ofType(loginSuccess),
+            switchMap(({ response, message }) => {
+                if (!response) return EMPTY;
 
-            const expMs = this.authService.getJwtExpMs(response.accessToken??'');
-            if (!expMs) return EMPTY;
+                const expMs = this.authService.getJwtExpMs(response.accessToken ?? '');
+                if (!expMs) return EMPTY;
 
-            const msUntilExp = expMs - Date.now();
-            if (msUntilExp <= 0) {
-            return of(autoLogout({ reason: 'TOKEN_EXPIRED' }));
-            }
-            return timer(msUntilExp).pipe(
-            map(() => autoLogout({ reason: 'TOKEN_EXPIRED' })),
-            takeUntil(this.actions$.pipe(ofType(logout)))
-            );
-        })
+                const msUntilExp = expMs - Date.now();
+                if (msUntilExp <= 0) {
+                    return of(autoLogout({ reason: 'TOKEN_EXPIRED' }));
+                }
+                return timer(msUntilExp).pipe(
+                    map(() => autoLogout({ reason: 'TOKEN_EXPIRED' })),
+                    takeUntil(this.actions$.pipe(ofType(logout)))
+                );
+            })
         )
     );
-  
+
     logout$ = createEffect(() =>
         this.actions$.pipe(
             ofType(autoLogout, logout),
@@ -81,8 +81,8 @@ export class AuthEffects {
                 this.authService.me().pipe(
                     map((res: AuthTokenResponse) => {
                         const token = this.authService.getToken();
-                        const response = { ...res, accessToken: token ?? null };                        
-                        return initAuthFromStorageSuccess({ response, message: 'Login Successful'});
+                        const response = { ...res, accessToken: token ?? null };
+                        return initAuthFromStorageSuccess({ response, message: 'Login Successful' });
                     }),
                     catchError((error) =>
                         of(
@@ -97,14 +97,13 @@ export class AuthEffects {
 
     );
 
-    loadUserInfo$ = createEffect(()=>
+    loadUserInfo$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(initAuthFromStorage),
-            switchMap(({}) =>
+            ofType(initAuthFromStorageSuccess, loginSuccess),
+            switchMap(() =>
                 this.authService.info().pipe(
-                    map((res: userPayload) =>{
-                        return loadUserInfo({payload: res});
-                    })
+                    map((res: userPayload) => loadUserInfo({ payload: res })),
+                    catchError(() => EMPTY)
                 )
             )
         )
@@ -116,15 +115,36 @@ export class AuthEffects {
             ofType(register),
             switchMap(({ payload }) =>
                 this.authService.saveUser(payload).pipe(
-                    map(() =>{
+                    map(() => {
                         this.router.navigate(['/login']);
-                        return registerSuccess({message: 'Register Successful'})
+                        return registerSuccess({ message: 'Register Successful' })
                     }
                     ),
                     catchError((error) =>
                         of(
                             registerFailure({
                                 error: this.getErrorMessage(error, 'Register Failed')
+                            })
+                        )
+                    )
+                )
+            )
+        )
+    );
+
+    deleteProfile$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(deleteProfile),
+            switchMap(() =>
+                this.authService.deleteUser().pipe(
+                    switchMap(() => [
+                        deleteProfileSuccess({ message: 'Profile Deleted Successfully' }),
+                        logout()
+                    ]),
+                    catchError((error) =>
+                        of(
+                            deleteProfileFailure({
+                                error: this.getErrorMessage(error, 'Failed to Delete Profile'),
                             })
                         )
                     )
@@ -143,12 +163,12 @@ export class AuthEffects {
         { dispatch: false }
     );
 
-    failedToast$ = createEffect(() => 
+    failedToast$ = createEffect(() =>
         this.actions$.pipe(
             ofType(loginFailure, registerFailure),
-            tap(({error}) => this.toastServie.error(error))
+            tap(({ error }) => this.toastServie.error(error))
         ),
-        { dispatch: false}
+        { dispatch: false }
     );
 
 

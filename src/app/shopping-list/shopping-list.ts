@@ -48,7 +48,7 @@ export class ShoppingList implements OnChanges, OnDestroy {
   enableDeleteCategory$?: Observable<boolean>;
   allCategory$?: Observable<CategoryWithItems | undefined>;
 
-  readonly deletePopup = `Shopping List`;
+  readonly deletePopup = `this Shopping List`;
   toggleDelete: boolean = false;
 
   constructor(private dataService: DataService) { }

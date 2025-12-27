@@ -32,7 +32,7 @@ export class ShoppingItem implements OnInit{
   categoryActivate:boolean = true;
 
   status = 'high-piority';
-  readonly deletePopup = 'Shopping Item';
+  readonly deletePopup = 'this Shopping Item';
   toggleDelete: boolean = false;
 
   ngOnInit(): void {

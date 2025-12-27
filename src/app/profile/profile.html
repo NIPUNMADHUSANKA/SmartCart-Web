@@ -1,3 +1,4 @@
+<app-confirm-destructive [popupTitle] = deletePopup [showConfirm] = toggleDelete  (deleteItem) = deleteItem($event)/>
 <div class="profile-page">
   <!-- Header -->
   <section class="profile-hero">
@@ -88,7 +89,7 @@
               <div class="action-title">Delete account</div>
               <div class="action-sub">Permanently remove your account.</div>
             </div>
-            <button class="btn btn--danger" type="button">Delete</button>
+            <button class="btn btn--danger" type="button" (click)="toggleDeleteProfile(user?.userId)">Delete</button>
           </div>
         </div>
       </div>

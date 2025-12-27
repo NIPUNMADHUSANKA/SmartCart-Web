@@ -59,3 +59,17 @@ export const registerFailure = createAction(
     '[Auth] Register Failure',
     props<{ error: string }>()
 );
+
+export const deleteProfile = createAction(
+    '[Auth] Delete Profile',
+)
+
+export const deleteProfileSuccess = createAction(
+     '[Auth] Delete Profile Success',
+     props<{message: string}>()
+)
+
+export const deleteProfileFailure = createAction(
+    '[Auth] Delete Profile Failure',
+    props<{ error: string }>()
+);

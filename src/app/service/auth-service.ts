@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Inject, Injectable, PLATFORM_ID, signal } from "@angular/core";
 import { LoginPayload, RegisterPayload, AuthTokenResponse } from "../interfaces/userProfile";
 import { Observable } from "rxjs";
-import { CREATE_USER, INFO, LOGIN_USER, ME } from "./path";
+import { CREATE_USER, INFO, LOGIN_USER, ME, REMOVE_USER } from "./path";
 import { isPlatformBrowser } from "@angular/common";
 
 @Injectable({
@@ -48,6 +48,10 @@ export class AuthService {
 
     saveUser(input: RegisterPayload): Observable<RegisterPayload> {
         return this.http.post<RegisterPayload>(CREATE_USER, input);
+    }
+
+    deleteUser(){
+        return this.http.delete(REMOVE_USER, {headers: this.getAuthHeaders()});
     }
 
     loginUser(input: LoginPayload): Observable<AuthTokenResponse> {

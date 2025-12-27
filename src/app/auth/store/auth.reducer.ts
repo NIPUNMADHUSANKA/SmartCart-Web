@@ -1,6 +1,6 @@
 import { createReducer, on } from "@ngrx/store";
 import { AuthUser, userPayload } from "../../interfaces/userProfile";
-import { initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
+import { deleteProfileFailure, deleteProfileSuccess, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
 
 export interface AuthState {
     user: AuthUser | null;
@@ -94,6 +94,16 @@ export const AuthReducer = createReducer(
     on(loadUserInfo, (state, {payload})=>({
         ...state,
         userInfo: payload
+    })),
+
+    on(deleteProfileSuccess, (state, {message}) =>({
+        ...state,
+        message
+    })),
+
+    on(deleteProfileFailure, (state, {error})=>({
+        ...state,
+        error
     }))
 
 
