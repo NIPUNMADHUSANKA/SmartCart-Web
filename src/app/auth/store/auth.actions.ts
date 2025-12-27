@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { AuthTokenResponse, LoginPayload, RegisterPayload } from "../../interfaces/userProfile";
+import { AuthTokenResponse, LoginPayload, RegisterPayload, userPayload } from "../../interfaces/userProfile";
 
 export const login = createAction(
     '[Auth] login',
@@ -14,6 +14,11 @@ export const loginSuccess = createAction(
 export const loginFailure = createAction(
     '[Auth] Login Failure',
     props<{ error: string }>()
+);
+
+export const loadUserInfo = createAction(
+    '[Auth] Load User Info',
+    props<{payload: userPayload}>()
 );
 
 export const logout = createAction(

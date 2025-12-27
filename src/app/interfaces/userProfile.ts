@@ -21,3 +21,13 @@ export interface AuthUser {
   userName?: string;
   userId?: string;
 }
+
+
+export interface userPayload {
+    userId?: string | '';
+    fullName?: string;
+    userName?: string;
+    email?: string;
+    createdAt?: string | '';   // ISO string (bound to datetime-local)
+    updatedAt?: string | '';  // ISO string (bound to datetime-local)
+}

@@ -1,0 +1,351 @@
+:host {
+  display: block;
+}
+
+/* ---------- Page ---------- */
+.profile-page {
+  padding: 18px;
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ---------- Hero / Header ---------- */
+.profile-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  padding: 18px;
+  border-radius: 16px;
+
+  background: linear-gradient(135deg, #dcfce7, #f0fdf4);
+  border: 1px solid #e6eaf0;
+  box-shadow: 0 10px 24px rgba(34, 197, 94, 0.10);
+
+  color: #0f172a;
+  margin-bottom: 16px;
+}
+
+.profile-hero__left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.hero-meta {
+  min-width: 0;
+}
+
+.hero-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: #0f172a;
+}
+
+.hero-subtitle {
+  margin: 4px 0 10px;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.profile-hero__right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ---------- Avatar ---------- */
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.06);
+}
+
+.avatar__initials {
+  font-weight: 800;
+  letter-spacing: 0.4px;
+  color: #0f172a;
+  font-size: 13px;
+}
+
+/* ---------- Chips ---------- */
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+
+  background: #f1f5f9;
+  border: 1px solid #e6eaf0;
+  color: #64748b;
+}
+
+.chip--ok {
+  background: #dcfce7;
+  border-color: rgba(34, 197, 94, 0.30);
+  color: #16a34a;
+  font-weight: 700;
+}
+
+/* ---------- Grid Layout ---------- */
+.profile-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  gap: 16px;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  background: #ffffff;
+  border: 1px solid #e6eaf0;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.06);
+  overflow: hidden;
+}
+
+.card__head {
+  padding: 16px 16px 10px;
+}
+
+.card__title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.card__desc {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.card__body {
+  padding: 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Divider */
+.divider {
+  height: 1px;
+  background: #eef2f7;
+  margin: 10px 0;
+}
+
+/* ---------- Form ---------- */
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.field input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 1px solid #e6eaf0;
+  background: #ffffff;
+  color: #0f172a;
+
+  font-size: 14px;
+  outline: none;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.field input::placeholder {
+  color: #94a3b8;
+}
+
+.field input:focus {
+  border-color: #22c55e;
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.22);
+}
+
+.hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* ---------- Meta blocks (UserId / Created / Updated) ---------- */
+.meta-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.meta {
+  border: 1px dashed #e6eaf0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 10px 12px;
+}
+
+.meta__label {
+  font-size: 12px;
+  font-weight: 800;
+  color: #64748b;
+}
+
+.meta__value {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+/* ---------- Action Rows (security / danger zone) ---------- */
+.action-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.action-title {
+  font-weight: 800;
+  font-size: 13.5px;
+  color: #0f172a;
+}
+
+.action-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  border: 0;
+  cursor: pointer;
+
+  border-radius: 12px;
+  padding: 10px 12px;
+
+  font-weight: 800;
+  font-size: 13px;
+
+  transition: transform 0.06s ease, background 0.15s ease, opacity 0.15s ease, border-color 0.15s ease;
+  user-select: none;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background: #22c55e;
+  color: #ffffff;
+}
+
+.btn--primary:hover {
+  background: #16a34a;
+}
+
+.btn--ghost {
+  background: transparent;
+  color: #0f172a;
+  border: 1px solid #e6eaf0;
+}
+
+.btn--ghost:hover {
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.btn--soft {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: 1px solid #e6eaf0;
+}
+
+.btn--soft:hover {
+  background: #eaf0f7;
+}
+
+.btn--danger {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+.btn--danger:hover {
+  opacity: 0.92;
+}
+
+/* ---------- Danger Card ---------- */
+.card--danger {
+  background: #fff1f2;
+  border-color: rgba(239, 68, 68, 0.28);
+}
+
+.card--danger .card__desc {
+  color: #991b1b;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-hero {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .profile-hero__right {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-page {
+    padding: 12px;
+  }
+
+  .profile-hero {
+    padding: 14px;
+  }
+
+  .btn {
+    padding: 10px 10px;
+  }
+}
+
+
+input[readonly] {
+  cursor: not-allowed;
+  background-color: #f8fafc;
+}

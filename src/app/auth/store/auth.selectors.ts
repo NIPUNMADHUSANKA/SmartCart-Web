@@ -32,3 +32,8 @@ export const selectAuthMessage = createSelector(
     selectAuthState,
     state=> state.message
 )
+
+export const selectUserInfo = createSelector(
+    selectAuthState,
+    state => state.userInfo
+)

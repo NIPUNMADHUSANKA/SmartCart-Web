@@ -1,0 +1,97 @@
+<div class="profile-page">
+  <!-- Header -->
+  <section class="profile-hero">
+    <div class="profile-hero__left">
+
+      <div class="hero-meta">
+        <h1 class="hero-title">My Profile</h1>
+        <p class="hero-subtitle">Manage your account details</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="profile-grid">
+    <!-- Main -->
+    <div class="card">
+      <div class="card__head">
+        <h2 class="card__title">Account details</h2>
+      </div>
+
+      <div class="card__body">
+        <form class="form">
+          @let user = userInfo$ | async;
+
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" type="text" [value]="user?.fullName ?? ''" readonly />
+          </div>
+
+          <div class="field">
+            <label for="userName">Username</label>
+            <input id="userName" type="text" [value]="user?.userName ?? ''" readonly/>
+          </div>
+
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" [value]="user?.email ?? ''" readonly />
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Read-only metadata -->
+          <div class="meta-grid">
+            <div class="meta">
+              <div class="meta__label">User ID</div>
+              <div class="meta__value">{{ user?.userId || 'N/A' }}</div>
+            </div>
+            <div class="meta">
+              <div class="meta__label">Created</div>
+              <div class="meta__value">{{ user?.createdAt | date: 'short'}}</div>
+            </div>
+            <div class="meta">
+              <div class="meta__label">Updated</div>
+              <div class="meta__value">{{ user?.updatedAt | date: 'short' }}</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Right -->
+    <div class="stack">
+      <div class="card">
+        <div class="card__head">
+          <h2 class="card__title">Security</h2>
+          <p class="card__desc">Update your password.</p>
+        </div>
+
+        <div class="card__body">
+          <div class="action-row">
+            <div>
+              <div class="action-title">Change password</div>
+              <div class="action-sub">We'll ask your current password first.</div>
+            </div>
+            <button class="btn btn--soft" type="button">Change</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card--danger">
+        <div class="card__head">
+          <h2 class="card__title">Danger zone</h2>
+          <p class="card__desc">This action cannot be undone.</p>
+        </div>
+
+        <div class="card__body">
+          <div class="action-row">
+            <div>
+              <div class="action-title">Delete account</div>
+              <div class="action-sub">Permanently remove your account.</div>
+            </div>
+            <button class="btn btn--danger" type="button">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

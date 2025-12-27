@@ -1,10 +1,10 @@
 import { Inject, inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../../service/auth-service";
-import { autoLogout, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
+import { autoLogout, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
 import { catchError, EMPTY, map, of, switchMap, takeUntil, tap, timer } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
-import { AuthTokenResponse } from "../../interfaces/userProfile";
+import { AuthTokenResponse, userPayload } from "../../interfaces/userProfile";
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 
@@ -96,6 +96,20 @@ export class AuthEffects {
         )
 
     );
+
+    loadUserInfo$ = createEffect(()=>
+        this.actions$.pipe(
+            ofType(initAuthFromStorage),
+            switchMap(({}) =>
+                this.authService.info().pipe(
+                    map((res: userPayload) =>{
+                        return loadUserInfo({payload: res});
+                    })
+                )
+            )
+        )
+    );
+
 
     register$ = createEffect(() =>
         this.actions$.pipe(
