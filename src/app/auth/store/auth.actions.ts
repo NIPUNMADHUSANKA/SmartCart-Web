@@ -73,3 +73,18 @@ export const deleteProfileFailure = createAction(
     '[Auth] Delete Profile Failure',
     props<{ error: string }>()
 );
+
+export const updatePassword = createAction(
+    '[Auth] Update Password',
+    props<{currentPassword:string, newPassword:string}>()
+)
+
+export const updatePasswordSuccess = createAction(
+     '[Auth] Update Password Success',
+     props<{message: string}>()
+)
+
+export const updatePasswordFailure = createAction(
+    '[Auth] Update Password Failure',
+    props<{ error: string }>()
+)

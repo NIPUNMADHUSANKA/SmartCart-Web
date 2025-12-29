@@ -54,6 +54,10 @@ export class AuthService {
         return this.http.delete(REMOVE_USER, {headers: this.getAuthHeaders()});
     }
 
+    updatePassword(current:string, newPassword: string){
+        return this.http.delete(REMOVE_USER, {headers: this.getAuthHeaders()});
+    }
+
     loginUser(input: LoginPayload): Observable<AuthTokenResponse> {
         return this.http.post<AuthTokenResponse>(LOGIN_USER, input);
     }

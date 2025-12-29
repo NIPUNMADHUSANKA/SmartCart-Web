@@ -1,7 +1,7 @@
 import { Inject, inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { AuthService } from "../../service/auth-service";
-import { autoLogout, deleteProfile, deleteProfileFailure, deleteProfileSuccess, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess } from "./auth.actions";
+import { autoLogout, deleteProfile, deleteProfileFailure, deleteProfileSuccess, initAuthFromStorage, initAuthFromStorageFailure, initAuthFromStorageSuccess, loadUserInfo, login, loginFailure, loginSuccess, logout, register, registerFailure, registerSuccess, updatePassword, updatePasswordFailure, updatePasswordSuccess } from "./auth.actions";
 import { catchError, EMPTY, map, of, switchMap, takeUntil, tap, timer } from "rxjs";
 import { isPlatformBrowser } from "@angular/common";
 import { AuthTokenResponse, userPayload } from "../../interfaces/userProfile";
@@ -153,9 +153,27 @@ export class AuthEffects {
         )
     );
 
+    updatePassword$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(updatePassword),
+            switchMap(({ currentPassword, newPassword }) =>
+                this.authService.updatePassword(currentPassword, newPassword).pipe(
+                    map(() => updatePasswordSuccess({ message: 'Password changed successfully' })),
+                    catchError((error) =>
+                        of(
+                            updatePasswordFailure({
+                                error: this.getErrorMessage(error, 'Failed to change password')
+                            })
+                        )
+                    )
+                )
+            )
+        )
+    );
+
     successToast$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(loginSuccess, registerSuccess),
+            ofType(loginSuccess, registerSuccess, updatePasswordSuccess),
             tap(({ message }) => {
                 this.toastServie.success(message);
             })
@@ -165,7 +183,7 @@ export class AuthEffects {
 
     failedToast$ = createEffect(() =>
         this.actions$.pipe(
-            ofType(loginFailure, registerFailure),
+            ofType(loginFailure, registerFailure, updatePasswordFailure),
             tap(({ error }) => this.toastServie.error(error))
         ),
         { dispatch: false }

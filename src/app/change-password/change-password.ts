@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { updatePassword } from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-change-password',
@@ -12,6 +14,7 @@ import { AbstractControl, NonNullableFormBuilder, ReactiveFormsModule, Validatio
 export class ChangePassword {
 
   fb = inject(NonNullableFormBuilder);
+  store = inject(Store);
   isSubmitted = false;
   @Input() showChangePassword!: boolean;
   @Output() closeChangePassword = new EventEmitter<boolean>();
@@ -62,7 +65,11 @@ export class ChangePassword {
 
   updatePassword(){
     this.isSubmitted = true;
-    console.log(this.resetPassword.value)
+    const currentPassword = this.resetPassword.get('currentPassword')?.value ?? '';
+    const newPassword = this.resetPassword.get('newPassword')?.value ?? '';
+    if(this.resetPassword.valid){
+      this.store.dispatch(updatePassword({currentPassword, newPassword}));
+    }
   }
 
 }
