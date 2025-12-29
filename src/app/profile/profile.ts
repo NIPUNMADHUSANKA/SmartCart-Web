@@ -4,10 +4,11 @@ import { selectUserInfo } from '../auth/store/auth.selectors';
 import { CommonModule } from '@angular/common';
 import { ConfirmDestructive } from '../confirm-destructive/confirm-destructive';
 import { deleteProfile } from '../auth/store/auth.actions';
+import { ChangePassword } from '../change-password/change-password';
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, ConfirmDestructive],
+  imports: [CommonModule, ConfirmDestructive, ChangePassword],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -23,6 +24,7 @@ export class Profile implements OnInit{
 
   readonly deletePopup = 'your profile';
   toggleDelete: boolean = false;
+  toggleChangePassword: boolean = false;
 
   deleteItem(data: boolean){
     if(data){
@@ -34,6 +36,14 @@ export class Profile implements OnInit{
   toggleDeleteProfile(user:string|undefined){
    this.userId = user;
    this.toggleDelete = true;
+  }
+
+  toggleChangePasswordfun(){
+    this.toggleChangePassword = true;
+  }
+
+  closeChangePassword(data: any){
+    this.toggleChangePassword = false;
   }
 
 }

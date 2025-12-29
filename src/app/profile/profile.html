@@ -1,3 +1,4 @@
+<app-change-password [showChangePassword] = toggleChangePassword (closeChangePassword) = closeChangePassword($event)/>
 <app-confirm-destructive [popupTitle] = deletePopup [showConfirm] = toggleDelete  (deleteItem) = deleteItem($event)/>
 <div class="profile-page">
   <!-- Header -->
@@ -72,7 +73,7 @@
               <div class="action-title">Change password</div>
               <div class="action-sub">We'll ask your current password first.</div>
             </div>
-            <button class="btn btn--soft" type="button">Change</button>
+            <button class="btn btn--soft" type="button" (click)="toggleChangePasswordfun()">Change</button>
           </div>
         </div>
       </div>
