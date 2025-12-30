@@ -20,3 +20,4 @@ export const LOGIN_USER = `${host}/api/smart-cart/auth/login`;
 export const ME = `${host}/api/smart-cart/auth/me`;
 export const INFO = `${host}/api/smart-cart/auth/info`;
 export const REMOVE_USER = `${host}/api/smart-cart/auth/remove`;
+export const RESET_PASSWORD = `${host}/api/smart-cart/auth/resetPassword`;

@@ -63,12 +63,13 @@ export class ChangePassword {
     this.closeChangePassword.emit(false);
   }
 
-  updatePassword(){
+  updatePassword() {
     this.isSubmitted = true;
     const currentPassword = this.resetPassword.get('currentPassword')?.value ?? '';
     const newPassword = this.resetPassword.get('newPassword')?.value ?? '';
-    if(this.resetPassword.valid){
-      this.store.dispatch(updatePassword({currentPassword, newPassword}));
+    if (this.resetPassword.valid) {
+      this.store.dispatch(updatePassword({ currentPassword, newPassword }));
+      this.clearForm();
     }
   }
 
