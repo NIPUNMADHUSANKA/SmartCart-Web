@@ -158,7 +158,10 @@ export class AuthEffects {
             ofType(updatePassword),
             switchMap(({ currentPassword, newPassword }) =>
                 this.authService.updatePassword(currentPassword, newPassword).pipe(
-                    map(() => updatePasswordSuccess({ message: 'Password changed successfully' })),
+                    map(() => {
+                        logout()
+                        return updatePasswordSuccess({ message: 'Password changed successfully' })
+                    }),
                     catchError((error) =>
                         of(
                             updatePasswordFailure({
