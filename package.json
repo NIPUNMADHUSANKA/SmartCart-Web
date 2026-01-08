@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "postbuild": "node -e \"require('fs').copyFileSync('dist/SmartCart-Web/browser/index.csr.html','dist/SmartCart-Web/browser/index.html')\"",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:SmartCart-Web": "node dist/SmartCart-Web/server/server.mjs"
