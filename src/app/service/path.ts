@@ -1,4 +1,4 @@
-const host = 'http://localhost:3000'
+const host = 'https://smart-cart-app-taupe.vercel.app'
 
 export const SAVE_CATEGORY = `${host}/api/smart-cart/category`;
 export const GET_ALL_CATEGORY = `${host}/api/smart-cart/category`;
