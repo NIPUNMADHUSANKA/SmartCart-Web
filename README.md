@@ -11,21 +11,44 @@ A modern, responsive grocery shopping assistant built with Angular and NgRx. Sma
 - Responsive UI for mobile and desktop
 
 ## Screenshots
-<img width="1905" height="1073" alt="image" src="https://github.com/user-attachments/assets/c0c29123-f126-43f3-8f9c-be773b9c8ab6" />
+## Screenshots
 
-<img width="1912" height="1087" alt="image" src="https://github.com/user-attachments/assets/1adb33ad-4ed1-41f9-b584-2165e70f15e4" />
+### Authentication (Login / Register)
+<p>
+  <img src="https://github.com/user-attachments/assets/c0c29123-f126-43f3-8f9c-be773b9c8ab6" />
+</p>
+<p>
+  <img width="1912" height="1087" alt="image" src="https://github.com/user-attachments/assets/1adb33ad-4ed1-41f9-b584-2165e70f15e4" />
+</p>
 
-<img width="1913" height="1081" alt="image" src="https://github.com/user-attachments/assets/63bad16c-4350-44ae-b327-4b12bbeecf4a" />
+### Home Dashboard
+<p>
+  <img src="https://github.com/user-attachments/assets/63bad16c-4350-44ae-b327-4b12bbeecf4a" />
+</p>
 
-<img width="1911" height="1022" alt="image" src="https://github.com/user-attachments/assets/eaaf8e87-8a51-470f-9632-de97653ad570" />
+### Shopping List Management
+<p>
+  <img src="https://github.com/user-attachments/assets/eaaf8e87-8a51-470f-9632-de97653ad570" />
+</p>
 
-<img width="1912" height="1021" alt="image" src="https://github.com/user-attachments/assets/b431707f-df71-4028-ba13-0b1607783841" />
+### Add / Edit Items
+<p>
+  <img src="https://github.com/user-attachments/assets/17081f91-a947-4016-bc0a-6b980640d4d9" />
+</p>
+<p>
+  <img width="1902" height="997" alt="image" src="https://github.com/user-attachments/assets/887491e4-7d1a-4391-ac9d-a0627fc43420" />
+</p>
 
-<img width="1910" height="1071" alt="image" src="https://github.com/user-attachments/assets/3c4bfa3e-e4f6-4594-bca3-374b11275c96" />
+### History
+<p>
+  <img width="1908" height="1022" alt="image" src="https://github.com/user-attachments/assets/d5706143-d43b-4102-a981-e1ce7301eeb5" />
+</p>
 
-<img width="1876" height="952" alt="image" src="https://github.com/user-attachments/assets/17081f91-a947-4016-bc0a-6b980640d4d9" />
+### My Profile
+<p>
+  <img width="1912" height="1027" alt="image" src="https://github.com/user-attachments/assets/4cac5c18-4617-4ded-abb7-cd9acc431fec" />
+</p>
 
-<img width="1891" height="992" alt="image" src="https://github.com/user-attachments/assets/59d6df1a-44e4-4bd1-8b34-5749048f689e" />
 
 
 ## Tech Stack
