@@ -1,59 +1,73 @@
-# SmartCartWeb
+# SmartCart Web
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+A modern, responsive grocery shopping assistant built with Angular and NgRx. SmartCart enables users to manage categories and shopping lists through a clean, mobile-first interface. NgRx is used to ensure predictable state management and scalability as application features and complexity grow.
 
-## Development server
+## Features
+- Auth flow (register, login, profile, change password) with route guards
+- Category and item management
+- Shopping list builder with item forms
+- Search and history views
+- Global state management with NgRx
+- Responsive UI for mobile and desktop
 
-To start a local development server, run:
+## Tech Stack
+- Angular 20 (standalone components)
+- TypeScript
+- NgRx (store, effects, devtools)
+- RxJS
+- Angular Material
+- SCSS
 
-```bash
-ng serve
+## Architecture Decisions
+- Standalone components used to reduce module complexity
+- Feature-based folder structure for scalability
+- NgRx for predictable state management and debugging
+- Angular SSR enabled for improved performance and SEO
+
+## Project Structure
+```
+src/
+  app/
+    auth/                 Guards + auth store
+    change-password/      Change password feature
+    header/               App header
+    history/              Shopping history
+    home/                 Home dashboard
+    interfaces/           Shared TypeScript interfaces
+    login/                Login page
+    profile/              Profile page
+    register/             Registration page
+    search/               Search UI
+    service/              API services and endpoints
+    shared/               Shared components (loader)
+    shopping-item/        Item feature + NgRx store
+    shopping-list/        Category feature + NgRx store
+    shopping-list-form/   Create/edit shopping list
+    shopping-list-item-form/ Add/edit shopping list items
+    shopping-list-page/   Shopping list page wrapper
+    utils/                Utility helpers
+  main.ts                 Client bootstrap
+  main.server.ts        Server bootstrap
+server.ts               Express SSR server
+  styles.scss             Global styles
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+## Setup and Run Locally
 ```bash
-ng generate component component-name
+npm install
+npm start
 ```
+App runs at http://localhost:4200.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Useful Scripts
+- `npm start` - Run dev server
+- `npm run build` - Production build
+- `npm run serve:ssr:SmartCart-Web` - Serve the SSR build
+- `npm run watch` - Build in watch mode
+- `npm test` - Run unit tests
 
-```bash
-ng generate --help
-```
+## API Configuration
+API endpoints are defined in `src/app/service/path.ts`. Update the base host there if you need to point to a different backend.
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Deployment Notes
+`npm run build` outputs to `dist/SmartCart-Web/browser`. The `postbuild` script copies `index.csr.html` to `index.html` for static hosting (for example, Vercel).
