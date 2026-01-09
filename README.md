@@ -12,11 +12,21 @@ A modern, responsive grocery shopping assistant built with Angular and NgRx. Sma
 
 ## Screenshots
 <img width="1905" height="1073" alt="image" src="https://github.com/user-attachments/assets/c0c29123-f126-43f3-8f9c-be773b9c8ab6" />
+
 <img width="1912" height="1087" alt="image" src="https://github.com/user-attachments/assets/1adb33ad-4ed1-41f9-b584-2165e70f15e4" />
+
 <img width="1913" height="1081" alt="image" src="https://github.com/user-attachments/assets/63bad16c-4350-44ae-b327-4b12bbeecf4a" />
+
 <img width="1911" height="1022" alt="image" src="https://github.com/user-attachments/assets/eaaf8e87-8a51-470f-9632-de97653ad570" />
+
 <img width="1912" height="1021" alt="image" src="https://github.com/user-attachments/assets/b431707f-df71-4028-ba13-0b1607783841" />
+
 <img width="1910" height="1071" alt="image" src="https://github.com/user-attachments/assets/3c4bfa3e-e4f6-4594-bca3-374b11275c96" />
+
+<img width="1876" height="952" alt="image" src="https://github.com/user-attachments/assets/17081f91-a947-4016-bc0a-6b980640d4d9" />
+
+<img width="1891" height="992" alt="image" src="https://github.com/user-attachments/assets/59d6df1a-44e4-4bd1-8b34-5749048f689e" />
+
 
 ## Tech Stack
 - Angular 20 (standalone components)
