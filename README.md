@@ -11,7 +11,6 @@ A modern, responsive grocery shopping assistant built with Angular and NgRx. Sma
 - Responsive UI for mobile and desktop
 
 ## Screenshots
-## Screenshots
 
 ### Authentication (Login / Register)
 <p>
