@@ -1,0 +1,340 @@
+.sga-container {
+  max-width: 1200px;
+  margin: 1.25rem auto;
+  padding: 0 1rem;
+}
+
+.sga-title {
+  margin: 3rem 0 2rem 0;
+  font-size: 1.50rem;
+  font-weight: 550;
+  color: #14532d;
+}
+
+.sga-description {
+  margin: 1rem 0 1rem 0;
+  color: #6b7c70;
+}
+
+.sga-accordion {
+  display: grid;
+  gap: 12px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e7efe9;
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 1px 0 rgba(16, 24, 40, 0.02);
+  margin-bottom: 18px;
+}
+
+.card-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #0f2f1f;
+}
+
+.hint {
+  color: #8b817a;
+  font-size: 13px;
+}
+
+.prompt-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+}
+
+.textarea {
+  width: 100%;
+  border: 1px solid #dfe8e2;
+  border-radius: 12px;
+  padding: 12px 12px;
+  outline: none;
+  resize: vertical;
+}
+
+.textarea:focus {
+  border-color: #2fb257;
+  box-shadow: 0 0 0 3px rgba(47, 178, 87, 0.12);
+}
+
+.prompt-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+.btn {
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: #22c55e;
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: #16a34a;
+}
+
+.btn-outline {
+  background: #ffffff;
+  border-color: #dfe8e2;
+  color: #134e2c;
+}
+
+.confirm-bar {
+  position: sticky;
+  bottom: 12px;
+  background: #ffffff;
+  border: 1px solid #e7efe9;
+  border-radius: 14px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 10px 20px rgba(16, 24, 40, 0.06);
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 18px;
+}
+
+.category-item {
+  text-align: left;
+  width: 100%;
+  background: #fbfdfc;
+  border: 1px solid #e7efe9;
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.category-item.active {
+  border-color: #2fb257;
+  box-shadow: 0 0 0 3px rgba(47, 178, 87, 0.12);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat-title {
+  font-weight: 700;
+  color: #0f2f1f;
+}
+
+.meta {
+  color: #7a8b80;
+  font-size: 13px;
+}
+
+.small {
+  color: #7a8b80;
+  font-size: 12px;
+}
+
+.status {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+}
+
+.status.open {
+  background: #eafff1;
+  color: #1f6b3a;
+  border-color: #bff0d1;
+}
+
+
+.bar {
+  margin-top: 10px;
+  height: 8px;
+  background: #eef3ef;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  height: 100%;
+  background: #22c55e;
+  border-radius: 999px;
+}
+
+.actions {
+  margin-top: 10px;
+}
+
+.icon-btn {
+  border: 1px solid #e7efe9;
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 6px 8px;
+  cursor: pointer;
+}
+
+.editor-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.editor-head h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #0f2f1f;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: 1fr 110px 42px;
+  gap: 10px;
+  align-items: center;
+}
+
+.input {
+  border: 1px solid #dfe8e2;
+  border-radius: 10px;
+  padding: 10px 10px;
+  outline: none;
+}
+
+.input:focus {
+  border-color: #2fb257;
+  box-shadow: 0 0 0 3px rgba(47, 178, 87, 0.12);
+}
+
+.qty {
+  text-align: center;
+}
+
+.editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* ✅ Mobile + Small tablets */
+@media (max-width: 900px) {
+  .sga-container {
+    padding: 16px;
+  }
+
+  /* Prompt section becomes 1 column */
+  .prompt-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .prompt-actions {
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .prompt-actions .btn {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  /* Main content becomes 1 column */
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+
+  /* Item row becomes stacked for small screens */
+  .item-row {
+    grid-template-columns: 1fr;
+  }
+
+  .qty {
+    text-align: left;
+  }
+
+  /* Category cards a bit tighter */
+  .category-item {
+    padding: 10px;
+  }
+
+  /* Sticky confirm bar wraps and buttons become easier to tap */
+  .confirm-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    bottom: 10px;
+  }
+
+  .confirm-actions {
+    width: 100%;
+  }
+
+  .confirm-actions .btn {
+    flex: 1;
+  }
+}
+
+/* ✅ Extra small phones */
+@media (max-width: 480px) {
+  .sga-title {
+    font-size: 22px;
+  }
+
+  .card {
+    padding: 14px;
+  }
+
+  .chips {
+    gap: 6px;
+  }
+
+  .chip {
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+
+  .btn {
+    padding: 10px 10px;
+  }
+}

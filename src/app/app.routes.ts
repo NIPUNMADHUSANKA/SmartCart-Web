@@ -35,6 +35,11 @@ export const routes: Routes = [
         canActivate: [NoAuthGuard]
     },
     {
+        path: 'ai-suggestions',
+        loadComponent: () => import('./ai-suggestion/ai-suggestion').then((m)=>m.AiSuggestion),
+        canActivate: [AuthGuard]
+    },
+    {
         path: "**",
         loadComponent: () => import('./home/home').then((m) => m.Home)
     }

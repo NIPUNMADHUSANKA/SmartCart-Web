@@ -1,0 +1,107 @@
+<div class="sga-container">
+  <h2 class="sga-title">{{pageName()}}</h2>
+  <p class="sga-description">Describe what you want. We’ll generate a shopping list you can edit and confirm.</p>
+
+  <mat-accordion class="sga-accordion" multi>
+
+    <!-- Prompt Card -->
+    <div class="card">
+      <div class="card-header">
+        <h2>Prompt</h2>
+        <span class="hint">Example: “Pasta dinner for 3 people + dessert”</span>
+      </div>
+
+      <div class="prompt-grid">
+        <div>
+          <textarea class="textarea" rows="5" placeholder="Type your request here..."></textarea>
+        </div>
+
+        <div class="prompt-actions">
+          <button class="btn btn-outline">Clear</button>
+          <button class="btn btn-primary">Generate</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Generated Result -->
+    <div class="grid-2">
+      <!-- Categories -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Generated Categories</h2>
+          <span class="pill">AI</span>
+        </div>
+
+        <div class="category-list">
+
+          <!-- Category item -->
+          <button class="category-item active">
+            <div class="row">
+              <div class="left">
+                <span class="status open">Open</span>
+                <span class="cat-title">Vegetables</span>
+              </div>
+              <span class="meta">6 items</span>
+            </div>
+
+            <div class="bar">
+              <div class="bar-fill" style="width: 55%;"></div>
+            </div>
+
+            <div class="row actions">
+              <span class="small">Edit & confirm items</span>
+              <span class="icons">
+                <button class="icon-btn" title="Remove">✖</button>
+              </span>
+            </div>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Editor -->
+      <div class="card">
+        <div class="card-header">
+          <h2>Edit Items</h2>
+          <span class="hint">Make changes before confirming.</span>
+        </div>
+
+        <div class="editor">
+          <div class="editor-head">
+            <h3>Vegetables</h3>
+            <button class="btn btn-outline btn-sm">+ Add item</button>
+          </div>
+
+          <div class="items">
+            <div class="item-row">
+              <input type="text" class="input" value="Tomatoes" />
+              <input type="text" class="input qty" value="500g" />
+              <button class="icon-btn" title="Delete">🗑</button>
+            </div>
+
+          </div>
+
+          <div class="editor-actions">
+            <button class="btn btn-outline">Regenerate</button>
+            <button class="btn btn-primary">Confirm Category</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Sticky Confirm Bar -->
+    <div class="confirm-bar">
+      <div class="summary">
+        <strong>Total:</strong> 18 items · 5 categories
+      </div>
+      <div class="confirm-actions">
+        <button class="btn btn-outline">Regenerate</button>
+        <button class="btn btn-primary">Confirm & Save</button>
+      </div>
+    </div>
+
+  </mat-accordion>
+
+</div>
