@@ -39,7 +39,7 @@
                     </div>
                 </div>
 
-                @if (isUpdate()) {
+                @if (isUpdate() && !addAIShoppingList) {
                 <!-- Status -->
                 <div class="field">
                     <label>Status <span class="req">*</span></label>
@@ -55,6 +55,7 @@
                 }
 
                 <!-- Description -->
+                 @if(!addAIShoppingList){
                 <div class="field">
                     <label for="description">Note</label>
                     <textarea id="description" rows="3" maxlength="180" placeholder="Optional details..."
@@ -65,6 +66,7 @@
                                 id="descCount">{{shoppingItem.get('description')?.value?.length}}</span>/180</small>
                     </div>
                 </div>
+                }
 
                 @if (false) {
                 <!-- Priority -->

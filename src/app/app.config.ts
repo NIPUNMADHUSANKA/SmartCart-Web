@@ -15,6 +15,8 @@ import { shoppingItemReducer } from './shopping-item/store/shopping-item.reducer
 import { ShoppingItemEffects } from './shopping-item/store/shopping-item.effects';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr'; // Import the Toastr provider
+import { aiShoppingListReducer } from './ai-suggestion/store/ai-suggestion.reducer';
+import { AiSuggestionEffects } from './ai-suggestion/store/ai-suggestion.effects';
 
 
 export const appConfig: ApplicationConfig = {
@@ -30,8 +32,8 @@ export const appConfig: ApplicationConfig = {
       preventDuplicates: true,
     }),
     provideClientHydration(withEventReplay()),
-    provideStore({auth:AuthReducer, categories: CategoryReducer, shoppingItems: shoppingItemReducer}),
-    provideEffects([AuthEffects, CategoryEffects, ShoppingItemEffects]),
+    provideStore({auth:AuthReducer, categories: CategoryReducer, shoppingItems: shoppingItemReducer, aiShoppingList: aiShoppingListReducer}),
+    provideEffects([AuthEffects, CategoryEffects, ShoppingItemEffects, AiSuggestionEffects]),
     provideStoreDevtools({
       maxAge: 25, // Retains last 25 states
       logOnly: !isDevMode(), // Restrict extension to log-only mode

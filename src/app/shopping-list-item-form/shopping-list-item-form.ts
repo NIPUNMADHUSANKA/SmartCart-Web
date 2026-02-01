@@ -1,12 +1,30 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, signal, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  signal,
+  SimpleChanges,
+} from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Unit } from '../interfaces/shoppingItemList';
 import { DataService } from '../service/data-service';
 import { ShoppingItem } from '../service/shopping-item';
 import { ShoppingItemModel } from '../interfaces/shoppingList';
 import { Store } from '@ngrx/store';
-import { createShoppingItem, updateShoppingItem } from '../shopping-item/store/shopping-item.actions';
+import {
+  createShoppingItem,
+  updateShoppingItem,
+} from '../shopping-item/store/shopping-item.actions';
+import {
+  addAIShoppingItem,
+  updateAIShoppingItem,
+} from '../ai-suggestion/store/ai-suggestion.actions';
+import { AIItem } from '../interfaces/aiSuggestion';
 
 @Component({
   selector: 'app-shopping-list-item-form',
@@ -15,17 +33,17 @@ import { createShoppingItem, updateShoppingItem } from '../shopping-item/store/s
   styleUrl: './shopping-list-item-form.scss',
 })
 export class ShoppingListItemForm implements OnInit, OnChanges {
-
   store = inject(Store);
   unit = Unit;
   units = Object.values(this.unit);
 
   @Input() shoppingItemDetails!: ShoppingItemModel | null;
+  @Input() addAIShoppingList: boolean = false;
   @Output() toggleOpenCreateItemDialog = new EventEmitter<boolean>(true);
 
   fb = inject(NonNullableFormBuilder);
   dataService = inject(DataService);
-  shoppingItemService = inject(ShoppingItem)
+  shoppingItemService = inject(ShoppingItem);
 
   // State signals
   isSubmitted = false;
@@ -40,7 +58,7 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
     status: ['active'],
     categoryId: [this.dataService.openShoppingList(), [Validators.required]],
     priority: ['normal'],
-  })
+  });
 
   ngOnInit(): void {
     this.applyShoppingItemData();
@@ -59,11 +77,11 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
         itemName: this.shoppingItemDetails.itemName ?? '',
         description: this.shoppingItemDetails.description ?? '',
         quantity: this.shoppingItemDetails.quantity ?? 0,
-        unit: this.shoppingItemDetails.unit ?? 'kg',
+        unit: this.dataService.normalizeUnit(this.shoppingItemDetails.unit ?? 'kg'),
         status: this.shoppingItemDetails.status ?? 'active',
         categoryId: this.shoppingItemDetails.categoryId,
         priority: this.shoppingItemDetails.priority ?? 'normal',
-      })
+      });
     }
   }
 
@@ -74,7 +92,20 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
       const payload = this.shoppingItem.getRawValue() as ShoppingItemModel;
       if (this.isUpdate()) {
         const itemId = this.shoppingItemDetails?.itemId ?? '';
-        this.store.dispatch(updateShoppingItem({ shoppingItemId: itemId, shoppingItem: payload }));
+        if (this.addAIShoppingList) {
+          const AIItem: AIItem = {
+            id: itemId,
+            itemName: payload.itemName ?? '',
+            quantity: Number(payload.quantity) ?? 0,
+            unit: this.dataService.normalizeUnit(payload.unit ?? ''),
+            categoryId: payload.categoryId ?? '',
+          };
+          this.store.dispatch(updateAIShoppingItem({ shoppingItem: AIItem }));
+        } else {
+          this.store.dispatch(
+            updateShoppingItem({ shoppingItemId: itemId, shoppingItem: payload }),
+          );
+        }
         /*this.shoppingItemService.updateShoppingItem(itemId, payload).subscribe({
           next: (res) => {
             alert("Shopping Item updated successfully!");
@@ -83,9 +114,19 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
             console.error('Failed to update Shopping Item', err);
           },
         });*/
-      }
-      else {
-        this.store.dispatch(createShoppingItem({ shoppingItem: payload }));
+      } else {
+        if (this.addAIShoppingList) {
+          const AIItem: AIItem = {
+            id: crypto.randomUUID(),
+            itemName: payload.itemName ?? '',
+            quantity: Number(payload.quantity) ?? 0,
+            unit: this.dataService.normalizeUnit(payload.unit ?? ''),
+            categoryId: payload.categoryId ?? '',
+          };
+          this.store.dispatch(addAIShoppingItem({ shoppingItem: AIItem }));
+        } else {
+          this.store.dispatch(createShoppingItem({ shoppingItem: payload }));
+        }
         this.clearShoppingList();
         /*this.shoppingItemService.saveShoppingItem(payload).subscribe({
           next: (res) => {
@@ -124,12 +165,11 @@ export class ShoppingListItemForm implements OnInit, OnChanges {
       unit: 'kg',
       status: 'active',
       categoryId: this.dataService.openShoppingList(),
-      priority: 'normal'
-    })
+      priority: 'normal',
+    });
   }
 
   toggleOpenItemDialog() {
     this.toggleOpenCreateItemDialog.emit(false);
   }
-
 }
