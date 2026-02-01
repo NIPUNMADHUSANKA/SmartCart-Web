@@ -48,7 +48,10 @@ A modern, responsive grocery shopping assistant built with Angular and NgRx. Sma
   <img width="1912" height="1027" alt="image" src="https://github.com/user-attachments/assets/4cac5c18-4617-4ded-abb7-cd9acc431fec" />
 </p>
 
-
+### AI Suggestions
+<p>
+  <img width="1913" height="1087" alt="image" src="https://github.com/user-attachments/assets/30b24800-2a30-4ffa-9f7b-b1642fb6b74f" />  
+</p>
 
 ## Tech Stack
 - Angular 20 (standalone components)
