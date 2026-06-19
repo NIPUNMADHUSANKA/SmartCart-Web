@@ -141,8 +141,31 @@ export class ShoppingItemEffects {
 
 
     private getErrorMessage(error: unknown, defaultMessage: string): string {
-        const message = (error as { error?: { message?: string } })?.error?.message;
-        return typeof message === 'string' && message.trim().length ? message : defaultMessage;
+        if (!error) return defaultMessage;
+
+        if (typeof error === 'string' && error.trim()) return error;
+
+        const anyErr = error as any;
+
+        const details = anyErr?.details;
+        if (typeof details === 'string' && details.trim()) return details;
+
+        const errString = anyErr?.error;
+        if (typeof errString === 'string' && errString.trim()) return errString;
+
+        const nestedErrString = anyErr?.error?.error;
+        if (typeof nestedErrString === 'string' && nestedErrString.trim()) return nestedErrString;
+
+        const errMsg = anyErr?.error?.message;
+        if (typeof errMsg === 'string' && errMsg.trim()) return errMsg;
+
+        const topMessage = anyErr?.message;
+        if (typeof topMessage === 'string' && topMessage.trim()) return topMessage;
+
+        const statusText = anyErr?.statusText;
+        if (typeof statusText === 'string' && statusText.trim()) return statusText;
+
+        return defaultMessage;
     }
 
 }

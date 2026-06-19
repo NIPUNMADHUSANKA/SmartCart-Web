@@ -15,6 +15,8 @@ export interface LoginPayload {
 
 export interface AuthTokenResponse extends AuthUser{
     accessToken?: string | null;
+    refreshToken?: string | null;
+
 }
 
 export interface AuthUser {
