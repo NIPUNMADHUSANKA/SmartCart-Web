@@ -1,4 +1,4 @@
-const host = 'https://smart-cart-app-taupe.vercel.app'
+const host = 'https://smart-cart-app-dbja.vercel.app'
 
 export const SAVE_CATEGORY = `${host}/api/smart-cart/category`;
 export const GET_ALL_CATEGORY = `${host}/api/smart-cart/category`;
